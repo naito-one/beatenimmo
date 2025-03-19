@@ -1,5 +1,11 @@
 <script setup lang="ts">
-const runtimeConfig = useRuntimeConfig()
+const config = useSiteConfig()
+defineOgImageComponent('NuxtSeo', {
+  title: config.name,
+  description: config.description,
+  theme: '#274770ff',
+})
+
 const colors = [
   '#f87171',
   '#fb923c',

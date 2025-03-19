@@ -1,9 +1,10 @@
 import tailwindcss from '@tailwindcss/vite'
+import { defineLocalBusiness } from 'nuxt-schema-org/schema'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   // https://nuxt.com/modules
-  modules: ['@nuxthub/core', '@nuxt/ui'],
+  modules: ['@nuxthub/core', '@nuxt/ui', '@nuxtjs/i18n', '@nuxtjs/seo'],
 
   // https://devtools.nuxt.com
   devtools: { enabled: true },
@@ -13,13 +14,6 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 
-  // Env variables - https://nuxt.com/docs/getting-started/configuration#environment-variables-and-private-tokens
-  runtimeConfig: {
-    public: {
-      // Can be overridden by NUXT_PUBLIC_HELLO_TEXT environment variable
-      helloText: 'Hello from the Edge 👋',
-    },
-  },
   // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
   future: { compatibilityVersion: 4 },
   compatibilityDate: '2025-03-01',
@@ -28,5 +22,72 @@ export default defineNuxtConfig({
   hub: {
     blob: true,
     database: true,
+  },
+
+  app: {
+    head: {
+      link: [
+        {
+          rel: 'apple-touch-icon',
+          sizes: '180x180',
+          href: '/apple-touch-icon.png',
+        },
+        {
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '32x32',
+          href: '/favicon-32x32.png',
+        },
+        {
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '16x16',
+          href: '/favicon-16x16.png',
+        },
+        { rel: 'manifest', href: '/site.webmanifest' },
+      ],
+    },
+  },
+
+  schemaOrg: {
+    identity: defineLocalBusiness({
+      '@type': 'RealEstateAgent', // Choose from https://schema.org/LocalBusiness#subtypes
+
+      logo: '/img/logo.svg',
+      telephone: '+41 78 703 00 33',
+      email: 'info@beatenimmo.ch',
+      areaServed: 'Berner Oberland',
+      sameAs: [
+        'https://www.instagram.com/beatenimmo.ch',
+        'https://www.facebook.com/beatenimmo.ch',
+      ],
+
+      // Location (Required)
+      address: {
+        streetAddress: 'Schmockenstrasse 49',
+        addressLocality: 'Beatenberg',
+        addressRegion: 'BE',
+        postalCode: '3803',
+        addressCountry: 'CH',
+      },
+    }),
+  },
+
+  i18n: {
+    baseUrl: 'https://beatenimmo.ch',
+    strategy: 'prefix_except_default',
+    defaultLocale: 'en',
+    locales: [
+      {
+        code: 'en',
+        language: 'en-US',
+        file: 'en.ts',
+      },
+      {
+        code: 'de',
+        language: 'de-CH',
+        file: 'de.ts',
+      },
+    ],
   },
 })

@@ -9,9 +9,23 @@ export default defineNuxtConfig({
   // https://devtools.nuxt.com
   devtools: { enabled: true },
 
-  css: ['./assets/css/main.css'],
+  css: ['~/assets/css/main.css'],
   vite: {
     plugins: [tailwindcss()],
+  },
+
+  colorMode: {
+    preference: 'light',
+  },
+
+  hooks: {
+    'pages:extend'(pages) {
+      pages.push({
+        name: 'rent',
+        path: '/rent',
+        file: '~/pages/index.vue',
+      })
+    },
   },
 
   // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4

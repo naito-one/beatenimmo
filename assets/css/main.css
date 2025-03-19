@@ -1,2 +1,13 @@
 @import 'tailwindcss' theme(static);
+
+@theme {
+  --color-bi-blue-100: #B3C5D6;
+  --color-bi-blue-200: #4E79AF;
+  --color-bi-blue-300: #274770;
+
+  --font-sans: 'Raleway', sans-serif;
+  --font-numbers: 'Fira Sans', sans-serif;
+}
+
+
 @import '@nuxt/ui';

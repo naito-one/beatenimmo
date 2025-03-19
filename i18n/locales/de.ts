@@ -3,5 +3,18 @@ export default {
     name: 'BeatenIMMO',
     description: 'Ihr Immobilienpartner in Beatenberg',
   },
-  test: 'Ich bin ein test',
+  pages: {
+    buy: {
+      title: 'Kaufen',
+    },
+    rent: {
+      title: 'Mieten',
+    },
+    about: {
+      title: 'Über',
+    },
+    contact: {
+      title: 'Kontact',
+    },
+  },
 }

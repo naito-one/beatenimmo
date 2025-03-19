@@ -1,13 +1,17 @@
+import tailwindcss from '@tailwindcss/vite'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   // https://nuxt.com/modules
-  modules: [
-    '@nuxthub/core',
-    '@nuxt/eslint',
-  ],
+  modules: ['@nuxthub/core', '@nuxt/ui'],
 
   // https://devtools.nuxt.com
   devtools: { enabled: true },
+
+  css: ['./assets/css/main.css'],
+  vite: {
+    plugins: [tailwindcss()],
+  },
 
   // Env variables - https://nuxt.com/docs/getting-started/configuration#environment-variables-and-private-tokens
   runtimeConfig: {
@@ -21,5 +25,8 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-03-01',
 
   // https://hub.nuxt.com/docs/getting-started/installation#options
-  hub: {},
+  hub: {
+    blob: true,
+    database: true,
+  },
 })

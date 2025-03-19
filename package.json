@@ -8,19 +8,19 @@
     "generate": "nuxt generate",
     "preview": "npx nuxthub preview",
     "deploy": "npx nuxthub deploy",
-    "postinstall": "nuxt prepare",
-    "lint": "eslint ."
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@nuxt/eslint": "^1.2.0",
+    "@nuxt/ui": "^3.0.0",
     "@nuxthub/core": "^0.8.18",
+    "@tailwindcss/vite": "^4.0.14",
     "nuxt": "^3.16.0",
+    "tailwindcss": "^4.0.14",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
-    "@nuxt/eslint-config": "^1.2.0",
-    "eslint": "^9.22.0",
+    "prettier": "=3.5.3",
     "typescript": "^5.8.2",
     "vue-tsc": "^2.2.8",
     "wrangler": "^4.0.0"

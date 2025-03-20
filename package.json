@@ -8,7 +8,8 @@
     "generate": "nuxt generate",
     "preview": "npx nuxthub preview",
     "deploy": "npx nuxthub deploy",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
     "@nuxt/ui": "^3.0.0",
@@ -16,7 +17,9 @@
     "@nuxtjs/i18n": "9.3.2",
     "@nuxtjs/seo": "^3.0.1",
     "@tailwindcss/vite": "^4.0.14",
+    "drizzle-orm": "^0.40.1",
     "nuxt": "^3.16.0",
+    "nuxt-auth-utils": "0.5.17",
     "tailwindcss": "^4.0.14",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
@@ -24,6 +27,7 @@
   "devDependencies": {
     "@iconify-json/circle-flags": "^1.2.6",
     "@iconify-json/material-symbols": "^1.2.16",
+    "drizzle-kit": "^0.30.5",
     "prettier": "=3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "typescript": "^5.8.2",

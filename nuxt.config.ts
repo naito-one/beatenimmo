@@ -4,7 +4,13 @@ import { defineLocalBusiness } from 'nuxt-schema-org/schema'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   // https://nuxt.com/modules
-  modules: ['@nuxthub/core', '@nuxt/ui', '@nuxtjs/i18n', '@nuxtjs/seo'],
+  modules: [
+    '@nuxthub/core',
+    '@nuxt/ui',
+    '@nuxtjs/i18n',
+    '@nuxtjs/seo',
+    'nuxt-auth-utils',
+  ],
 
   // https://devtools.nuxt.com
   devtools: { enabled: true },
@@ -25,6 +31,12 @@ export default defineNuxtConfig({
         path: '/rent',
         file: '~/pages/index.vue',
       })
+    },
+  },
+
+  nitro: {
+    experimental: {
+      tasks: true,
     },
   },
 

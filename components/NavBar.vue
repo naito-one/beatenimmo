@@ -6,40 +6,40 @@
       class="text-bi-blue-100 flex h-full w-full items-center px-5 font-medium"
     >
       <li class="flex h-full grow">
-        <NuxtLink
+        <NuxtLinkLocale
           exact-active-class="text-white"
-          :to="$localePath('/')"
+          to="/"
           class="flex grow items-center justify-center gap-2 px-3"
           ><UIcon name="i-material-symbols-gite" />
           <span class="leading-none">{{ $t('pages.buy.title') }}</span>
-        </NuxtLink>
+        </NuxtLinkLocale>
       </li>
       <li class="flex h-full grow">
-        <NuxtLink
+        <NuxtLinkLocale
           exact-active-class="text-white"
-          :to="$localePath('/rent')"
+          to="/rent"
           class="flex grow items-center justify-center gap-2 px-3"
           ><UIcon name="i-material-symbols-key" />
           <span class="leading-none">{{ $t('pages.rent.title') }}</span>
-        </NuxtLink>
+        </NuxtLinkLocale>
       </li>
       <li class="flex h-full grow">
-        <NuxtLink
+        <NuxtLinkLocale
           exact-active-class="text-white"
-          :to="$localePath('/about')"
+          to="/about"
           class="flex grow items-center justify-center gap-2 px-3"
           ><UIcon name="i-material-symbols-face" />
           <span class="leading-none">{{ $t('pages.about.title') }}</span>
-        </NuxtLink>
+        </NuxtLinkLocale>
       </li>
       <li class="flex h-full grow">
-        <NuxtLink
+        <NuxtLinkLocale
           exact-active-class="text-white"
-          :to="$localePath('/contact')"
+          to="/contact"
           class="flex grow items-center justify-center gap-2 px-3"
           ><UIcon name="i-material-symbols-real-estate-agent" />
           <span class="leading-none">{{ $t('pages.contact.title') }}</span>
-        </NuxtLink>
+        </NuxtLinkLocale>
       </li>
     </ul>
   </nav>

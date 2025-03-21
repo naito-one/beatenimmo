@@ -75,7 +75,9 @@ onMounted(() => {
   <article class="flex flex-col gap-4">
     <!-- title -->
     <h2 v-if="postWriteup" class="font-bold">{{ postWriteup.title }}</h2>
-    <USkeleton v-else class="h-4 w-[250px] bg-gray-300" />
+    <USkeleton v-else class="h-4 w-[250px] bg-zinc-300" />
+
+    <span v-if="post && !post.visible">Post is invisible to normal users</span>
 
     <!-- always show first element before key points-->
     <template v-if="firstContent">
@@ -90,13 +92,13 @@ onMounted(() => {
     <!-- skeleton for a media -->
     <USkeleton
       v-if="!postMedias"
-      class="h-0 w-full rounded-xl bg-gray-300 pb-[100%]"
+      class="h-0 w-full rounded-xl bg-zinc-300 pb-[100%]"
     />
 
     <!-- key points -->
     <div
       v-if="post && postWriteup"
-      class="font-numbers relative rounded-xl border border-gray-200 bg-white p-4 pt-3 shadow"
+      class="font-numbers relative rounded-xl border border-zinc-200 bg-white p-4 pt-3 shadow"
     >
       <!-- vail start -->
       <div
@@ -109,14 +111,14 @@ onMounted(() => {
       <!-- horizontal scroller -->
       <div
         ref="scroller"
-        class="flex overflow-x-auto border-b border-gray-200 pb-2"
+        class="flex overflow-x-auto border-b border-zinc-200 pb-2"
       >
         <span ref="vail-start-trigger" class="w-px shrink-0"></span>
         <!--<UTooltip :text="$t('tooltips.postWriteup.price')">-->
         <div
           tabindex="0"
           :title="$t('tooltips.postWriteup.price')"
-          class="flex h-8 shrink-0 items-center gap-1 border-r border-gray-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
+          class="flex h-8 shrink-0 items-center gap-1 border-r border-zinc-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
         >
           <UIcon name="i-material-symbols-payments" />{{ postWriteup.price }}
         </div>
@@ -124,7 +126,7 @@ onMounted(() => {
           tabindex="0"
           :title="$t('tooltips.post.numRooms')"
           v-if="post.numRooms"
-          class="flex h-8 shrink-0 items-center gap-1 border-r border-gray-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
+          class="flex h-8 shrink-0 items-center gap-1 border-r border-zinc-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
         >
           <UIcon name="i-material-symbols-meeting-room" />{{ post.numRooms }}
         </div>
@@ -132,7 +134,7 @@ onMounted(() => {
           tabindex="0"
           :title="$t('tooltips.post.numFloors')"
           v-if="post.numFloors"
-          class="flex h-8 shrink-0 items-center gap-1 border-r border-gray-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
+          class="flex h-8 shrink-0 items-center gap-1 border-r border-zinc-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
         >
           <UIcon name="i-material-symbols-floor" />{{ post.numFloors }}
         </div>
@@ -140,7 +142,7 @@ onMounted(() => {
           tabindex="0"
           :title="$t('tooltips.post.terrainArea')"
           v-if="post.terrainArea"
-          class="flex h-8 shrink-0 items-center gap-1 border-r border-gray-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
+          class="flex h-8 shrink-0 items-center gap-1 border-r border-zinc-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
         >
           <UIcon name="i-material-symbols-outdoor-garden" />{{
             post.terrainArea
@@ -151,7 +153,7 @@ onMounted(() => {
           tabindex="0"
           :title="$t('tooltips.post.livingArea')"
           v-if="post.livingArea"
-          class="flex h-8 shrink-0 items-center gap-1 border-r border-gray-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
+          class="flex h-8 shrink-0 items-center gap-1 border-r border-zinc-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
         >
           <UIcon name="i-material-symbols-gite" />{{ post.livingArea }} m²
         </div>
@@ -159,9 +161,9 @@ onMounted(() => {
           tabindex="0"
           :title="$t('tooltips.post.livingVolume')"
           v-if="post.livingVolume"
-          class="flex h-8 shrink-0 items-center gap-1 border-r border-gray-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
+          class="flex h-8 shrink-0 items-center gap-1 border-r border-zinc-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
         >
-          <UIcon name="i-material-symbols-view-in-ar" />{{ post.livingVolume }}
+          <UIcon name="i-material-symbols-deployed-code" />{{ post.livingVolume }}
           m³
         </div>
         <span ref="vail-end-trigger" class="w-px shrink-0"></span>
@@ -171,7 +173,7 @@ onMounted(() => {
         tabindex="0"
         :title="$t('tooltips.postWriteup.address')"
         v-if="postWriteup.address"
-        class="relative flex items-center gap-1 border-b border-gray-200 py-4 last:border-none last:pb-0"
+        class="relative flex items-center gap-1 border-b border-zinc-200 py-4 last:border-none last:pb-0"
       >
         <UIcon name="i-material-symbols-location-on" />{{ postWriteup.address }}
       </div>
@@ -179,14 +181,14 @@ onMounted(() => {
         tabindex="0"
         :title="$t('tooltips.postWriteup.crushes')"
         v-if="postWriteup.crushes && postWriteup.crushes.length"
-        class="relative flex items-center gap-1 border-b border-gray-200 py-4 last:border-none last:pb-0"
+        class="relative flex items-center gap-1 border-b border-zinc-200 py-4 last:border-none last:pb-0"
       >
         <UIcon name="i-material-symbols-favorite" />{{
           postWriteup.crushes.join(', ')
         }}
       </div>
     </div>
-    <USkeleton v-else class="h-0 w-full rounded-xl bg-gray-300 pb-56" />
+    <USkeleton v-else class="h-0 w-full rounded-xl bg-zinc-300 pb-56" />
 
     <!-- show the rest of the elements -->
     <template v-if="restOfContent.length" v-for="c in restOfContent">
@@ -201,7 +203,7 @@ onMounted(() => {
     <!-- skeleton for a text -->
     <USkeleton
       v-if="!postTexts"
-      class="h-0 w-full rounded-xl bg-gray-300 pb-[120%]"
+      class="h-0 w-full rounded-xl bg-zinc-300 pb-[120%]"
     />
   </article>
 </template>

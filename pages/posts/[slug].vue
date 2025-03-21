@@ -1,30 +1,56 @@
 <script setup lang="ts">
 import superjson from 'superjson'
-import type { Post } from '~/server/utils/drizzle'
+
 const { slug } = useRoute().params
 const { locale } = useI18n()
 
-const { data: p } = await useAsyncData('post', async () => {
-  const post = superjson.parse(await $fetch(`/api/posts/${slug}`) as unknown as string) as Post
-  if (post) {
-    const postWriteup = await $fetch(
-      `/api/posts/${post.id}/postWriteup?locale=${locale.value}`,
+const { data: p } = await usePost(slug, locale.value)
+const allPosts: Ref<Post[]> = ref([])
+const currentPostIndex = ref(-1)
+
+// TODO: redirect to 404 or index if p is nullish
+if (!p.value) {
+  navigateTo(localePath('/404'))
+} else {
+  const type = p.value.post.type
+  const sorting: Sorting = 'top'
+
+  // once on the client, load every other post
+  onMounted(async () => {
+    allPosts.value = superjson.parse(
+      (await $fetch(
+        `/api/posts?type=${type}&sorting=${sorting}`,
+      )) as unknown as string,
+    ) as Post[]
+    currentPostIndex.value = allPosts.value.findIndex(
+      (x) => x.id === p.value?.post.id,
     )
-    if (postWriteup) {
-      const [postMedias, postTexts] = await Promise.all([$fetch(
-        `/api/postWriteups/${postWriteup.id}/postMedias`,
-      ),$fetch(
-        `/api/postWriteups/${postWriteup.id}/postTexts`,
-      )])
-      if (postMedias && postTexts) {
-        return { post, postWriteup, postMedias, postTexts }
-      }
-    }
-  }
-})
+  })
+}
 </script>
 <template>
   <div class="p-4">
-    <Post :post="p?.post" :post-writeup="p?.postWriteup" :post-medias="p?.postMedias" :post-texts="p?.postTexts"></Post>
+    <Post
+      :post="p?.post"
+      :post-writeup="p?.postWriteup"
+      :post-medias="p?.postMedias"
+      :post-texts="p?.postTexts"
+    ></Post>
   </div>
+
+  <!-- list -->
+  <nav
+    v-if="allPosts.length"
+    class="fixed bottom-14 left-0 w-full bg-gradient-to-b from-transparent to-zinc-100/80 py-4"
+  >
+    <ul class="flex items-center justify-center gap-1">
+      <li v-for="post in allPosts" :key="post.id">
+        <NuxtLinkLocale
+          :to="`/posts/${post.slug}`"
+          class="block size-2 rounded-full bg-zinc-800"
+          exact-active-class="size-4 mx-1"
+        ></NuxtLinkLocale>
+      </li>
+    </ul>
+  </nav>
 </template>

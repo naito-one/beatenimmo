@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import superjson from 'superjson'
 // This page's only purpose is to load all posts based on the relevant mode and redirect to the appropriate post
 
 /*
@@ -10,9 +11,30 @@ defineOgImageComponent('NuxtSeo', {
 })
   */
 
+const localePath = useLocalePath()
 const route = useRoute()
-const mode = computed(() =>
-  route.name?.toString().startsWith('rent') ? 'Rent' : 'Buy',
+const type = computed(() =>
+  route.name?.toString().startsWith('rent') ? 'rent' : 'buy',
 )
+
+// TODO: get sorting from query param
+const sorting: Sorting = 'top'
+
+const { data: post } = await useFetch(
+  `/api/posts?type=${type.value}&sorting=${sorting}&limit=1`,
+  {
+    transform(res) {
+      return superjson.parse(res as unknown as string) as Post[]
+    },
+  },
+)
+
+if (post?.value?.[0]) {
+  await navigateTo(
+    localePath(`/posts/${post.value[0].slug}?sorting=${sorting}`),
+  )
+} else {
+  // TODO: handle case when there are no posts
+  console.log('There are no posts of type', type.value)
+}
 </script>
-<template>Mode: {{ mode }}</template>

@@ -1,13 +1,29 @@
 @import 'tailwindcss' theme(static);
 
 @theme {
-  --color-bi-blue-100: #B3C5D6;
-  --color-bi-blue-200: #4E79AF;
+  --color-bi-blue-100: #b3c5d6;
+  --color-bi-blue-200: #4e79af;
   --color-bi-blue-300: #274770;
 
   --font-sans: 'Raleway', sans-serif;
   --font-numbers: 'Fira Sans', sans-serif;
 }
 
-
 @import '@nuxt/ui';
+
+/* Making elements with titles work for touchscreen, keyboard, and mouse
+  apply relative position to the element the tooltip should align with
+
+  https://bitsofco.de/making-abbr-work-for-touchscreen-keyboard-mouse/
+  https://www.geeksforgeeks.org/how-to-detect-touch-screen-device-using-css/ */
+@media (pointer: coarse) {
+  *[title]::after {
+    @apply pointer-events-none absolute -top-6 left-1/2 z-20 rounded-xl bg-gray-900/80 px-4 py-2 text-sm whitespace-nowrap text-white opacity-0 shadow transition-all;
+    content: attr(title);
+    transform: translate(-50%, -25%);
+  }
+  *[title]:focus::after {
+    @apply pointer-events-auto opacity-100;
+    transform: translate(-50%, 0);
+  }
+}

@@ -8,6 +8,20 @@
       "when": 1742432303612,
       "tag": "0000_swift_rogue",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1742586170780,
+      "tag": "0001_parched_william_stryker",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1742592349130,
+      "tag": "0002_moaning_gorilla_man",
+      "breakpoints": true
     }
   ]
 }

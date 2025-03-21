@@ -1,3 +1,5 @@
+import superjson from 'superjson'
+
 export default eventHandler(async (event) => {
   const { slug } = getRouterParams(event)
   const posts = await useDrizzle()
@@ -13,5 +15,5 @@ export default eventHandler(async (event) => {
     })
   }
 
-  return posts[0]
+  return superjson.stringify(posts[0]) as unknown as (typeof posts)[0]
 })

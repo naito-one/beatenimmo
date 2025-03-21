@@ -17,4 +17,19 @@ export default {
       title: 'Kontact',
     },
   },
+  tooltips: {
+    post: {
+      numRooms: 'Anzahl der Zimmer',
+      numFloors: 'Anzahl der Stockwerke',
+      terrainArea: 'Fläche des Geländes in Quadratmetern',
+      livingArea: 'Wohnbereich in Quadratmetern',
+      livingVolume: 'Wohnvolumen in Kubikmetern',
+    },
+    postWriteup: {
+      price: 'Preis',
+      address: 'Adresse',
+      crushes: 'Herausragende Merkmale',
+    },
+  },
+  defaultAlt: 'Ein Bild des Objekts',
 }

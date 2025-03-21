@@ -41,6 +41,9 @@ importers:
       vue-router:
         specifier: ^4.5.0
         version: 4.5.0(vue@3.5.13(typescript@5.8.2))
+      vue-window-size:
+        specifier: ^2.0.0
+        version: 2.0.0(vue@3.5.13(typescript@5.8.2))
     devDependencies:
       '@iconify-json/circle-flags':
         specifier: ^1.2.6
@@ -5088,6 +5091,11 @@ packages:
     hasBin: true
     peerDependencies:
       typescript: '>=5.0.0'
+
+  vue-window-size@2.0.0:
+    resolution: {integrity: sha512-Bx3O7gC71wWSfoY7XMHY4+sP1YKmXGaWkMtpSLy8JlItr1VVp5US65KPIyOSyZMZD1gcr0abaFuiQy+zL45q8A==}
+    peerDependencies:
+      vue: ^3.0 || ^2.7
 
   vue@3.5.13:
     resolution: {integrity: sha512-wmeiSMxkZCSc+PM2w2VRsOYAZC8GdipNFRTsLSfodVqI9mbejKeXEGr8SckuLnrQPGe3oJN5c3K0vpoU9q/wCQ==}
@@ -10609,6 +10617,10 @@ snapshots:
       '@volar/typescript': 2.4.12
       '@vue/language-core': 2.2.8(typescript@5.8.2)
       typescript: 5.8.2
+
+  vue-window-size@2.0.0(vue@3.5.13(typescript@5.8.2)):
+    dependencies:
+      vue: 3.5.13(typescript@5.8.2)
 
   vue@3.5.13(typescript@5.8.2):
     dependencies:

@@ -13,6 +13,7 @@ export const posts = table('posts', {
   livingArea: t.int(),
   livingVolume: t.int(),
   createdAt: t.int({ mode: 'timestamp' }).notNull(),
+  order: t.int().notNull(),
 })
 
 export const postWriteups = table('postWriteups', {
@@ -37,4 +38,16 @@ export const postMedias = table('postMedias', {
     .notNull(),
   pathname: t.text().notNull(),
   description: t.text(),
+  order: t.int().notNull(),
+})
+
+export const postTexts = table('postTexts', {
+  id: t.int().primaryKey({ autoIncrement: true }),
+  postWriteupId: t
+    .int()
+    .references(() => postWriteups.id, { onDelete: 'cascade' })
+    .notNull(),
+  title: t.text().notNull(),
+  content: t.text().notNull(),
+  order: t.int().notNull(),
 })

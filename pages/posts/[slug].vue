@@ -1,29 +1,30 @@
 <script setup lang="ts">
+import superjson from 'superjson'
+import type { Post } from '~/server/utils/drizzle'
 const { slug } = useRoute().params
 const { locale } = useI18n()
 
-const { data: post } = await useAsyncData('post', async () => {
-  const post = await $fetch(`/api/posts/${slug}`)
+const { data: p } = await useAsyncData('post', async () => {
+  const post = superjson.parse(await $fetch(`/api/posts/${slug}`) as unknown as string) as Post
   if (post) {
-    const postWriting = await $fetch(
+    const postWriteup = await $fetch(
       `/api/posts/${post.id}/postWriteup?locale=${locale.value}`,
     )
-    if (postWriting) {
-      const postMedias = await $fetch(
-        `/api/postWriteups/${postWriting.id}/postMedias`,
-      )
-      if (postMedias) {
-        return { post, postWriting, postMedias }
+    if (postWriteup) {
+      const [postMedias, postTexts] = await Promise.all([$fetch(
+        `/api/postWriteups/${postWriteup.id}/postMedias`,
+      ),$fetch(
+        `/api/postWriteups/${postWriteup.id}/postTexts`,
+      )])
+      if (postMedias && postTexts) {
+        return { post, postWriteup, postMedias, postTexts }
       }
     }
   }
 })
 </script>
 <template>
-  I am the post
-  {{ slug }}
-  <div v-if="!post">No Post</div>
-  <div v-else>
-    {{ post }}
+  <div class="p-4">
+    <Post :post="p?.post" :post-writeup="p?.postWriteup" :post-medias="p?.postMedias" :post-texts="p?.postTexts"></Post>
   </div>
 </template>

@@ -12,3 +12,4 @@ export function useDrizzle() {
 export type Post = typeof schema.posts.$inferSelect
 export type PostWriteup = typeof schema.postWriteups.$inferSelect
 export type PostMedia = typeof schema.postMedias.$inferSelect
+export type PostText = typeof schema.postTexts.$inferSelect

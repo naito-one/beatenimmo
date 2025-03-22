@@ -6,6 +6,7 @@ const bodySchema = z.object({
 })
 
 export default defineEventHandler(async (event) => {
+  const body = await readBody(event)
   const { email, password } = await readValidatedBody(event, bodySchema.parse)
 
   if (email === 'admin@admin.com' && password === 'iamtheadmin') {
@@ -20,7 +21,7 @@ export default defineEventHandler(async (event) => {
       return {}
     } catch (e) {
       console.error(e)
-      return { didntwork: String(e) }
+      return { didntwork: [String(e), e], data: { email, password }, body }
     }
   }
   throw createError({

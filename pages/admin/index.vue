@@ -9,9 +9,7 @@ const localePath = useLocalePath()
 
 const { data: posts } = useAsyncData('posts', async () => {
   try {
-    console.log('running async data')
     const res = await $fetch('/api/posts')
-    console.log(res)
     return res
   } catch (e) {
     console.error(e)
@@ -23,6 +21,10 @@ async function logout() {
   await clearSession()
   await navigateTo(localePath('/admin/login'))
 }
+
+async function clearAndSeed() {
+  await $fetch('/api/seed')
+}
 </script>
 
 <template>
@@ -30,8 +32,10 @@ async function logout() {
     <h1>Welcome {{ user?.name }}</h1>
     <button @click="logout">Logout</button>
 
+    <UButton @click="clearAndSeed()">Clear & Seed DB</UButton>
+
     <ul>
-      <li v-for="p in posts" :key="p.id">{{ p }}</li>
+      <li v-for="p in posts" :key="p.id">{{ p.slug }}</li>
     </ul>
   </div>
 </template>

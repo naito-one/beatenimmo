@@ -9,14 +9,19 @@ export default defineEventHandler(async (event) => {
   const { email, password } = await readValidatedBody(event, bodySchema.parse)
 
   if (email === 'admin@admin.com' && password === 'iamtheadmin') {
-    // set the user session in the cookie
-    // this server util is auto-imported by the auth-utils module
-    await setUserSession(event, {
-      user: {
-        name: 'John Doe',
-      },
-    })
-    return {}
+    try {
+      // set the user session in the cookie
+      // this server util is auto-imported by the auth-utils module
+      await setUserSession(event, {
+        user: {
+          name: 'John Doe',
+        },
+      })
+      return {}
+    } catch (e) {
+      console.error(e)
+      throw e
+    }
   }
   throw createError({
     statusCode: 401,

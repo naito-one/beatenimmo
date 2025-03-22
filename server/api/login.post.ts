@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
       return {}
     } catch (e) {
       console.error(e)
-      throw e
+      return { didntwork: String(e) }
     }
   }
   throw createError({

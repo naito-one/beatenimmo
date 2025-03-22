@@ -7,13 +7,14 @@ const { locale } = useI18n()
 const { data: p } = await usePost(slug, locale.value)
 const allPosts: Ref<Post[]> = ref([])
 const currentPostIndex = ref(-1)
+// TODO: sorting from query
+const sorting: Ref<Sorting> = ref('top')
 
 // TODO: redirect to 404 or index if p is nullish
 if (!p.value) {
   navigateTo(localePath('/404'))
 } else {
   const type = p.value.post.type
-  const sorting: Sorting = 'top'
 
   // once on the client, load every other post
   onMounted(async () => {
@@ -29,6 +30,7 @@ if (!p.value) {
 }
 </script>
 <template>
+  <Sorting :value="sorting" @change="sorting = $event"></Sorting>
   <div class="p-4">
     <Post
       :post="p?.post"
@@ -41,16 +43,19 @@ if (!p.value) {
   <!-- list -->
   <nav
     v-if="allPosts.length"
-    class="fixed bottom-14 left-0 w-full bg-gradient-to-b from-transparent to-zinc-100/80 py-4"
+    class="fixed bottom-14 left-0 flex w-full items-center justify-center gap-4 bg-gradient-to-b from-transparent to-zinc-100/80 py-4"
   >
     <ul class="flex items-center justify-center gap-1">
       <li v-for="post in allPosts" :key="post.id">
         <NuxtLinkLocale
           :to="`/posts/${post.slug}`"
-          class="block size-2 rounded-full bg-zinc-800"
-          exact-active-class="size-4 mx-1"
+          class="block size-2 rounded-full bg-zinc-800 transition-transform hover:scale-150"
+          exact-active-class="size-4 mx-1 hover:scale-none"
         ></NuxtLinkLocale>
       </li>
     </ul>
+    <span class="font-numbers text-sm font-semibold text-gray-800"
+      >{{ currentPostIndex + 1 }}/{{ allPosts.length }}</span
+    >
   </nav>
 </template>

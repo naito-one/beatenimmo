@@ -74,7 +74,9 @@ onMounted(() => {
 <template>
   <article class="flex flex-col gap-4">
     <!-- title -->
-    <h2 v-if="postWriteup" class="font-bold">{{ postWriteup.title }}</h2>
+    <h2 v-if="postWriteup" class="leading-none font-bold">
+      {{ postWriteup.title }}
+    </h2>
     <USkeleton v-else class="h-4 w-[250px] bg-zinc-300" />
 
     <span v-if="post && !post.visible">Post is invisible to normal users</span>
@@ -98,7 +100,7 @@ onMounted(() => {
     <!-- key points -->
     <div
       v-if="post && postWriteup"
-      class="font-numbers relative rounded-xl border border-zinc-200 bg-white p-4 pt-3 shadow"
+      class="font-numbers relative rounded-xl border border-zinc-200 bg-white p-4 pt-3 leading-none shadow"
     >
       <!-- vail start -->
       <div
@@ -163,7 +165,9 @@ onMounted(() => {
           v-if="post.livingVolume"
           class="flex h-8 shrink-0 items-center gap-1 border-r border-zinc-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
         >
-          <UIcon name="i-material-symbols-deployed-code" />{{ post.livingVolume }}
+          <UIcon name="i-material-symbols-deployed-code" />{{
+            post.livingVolume
+          }}
           m³
         </div>
         <span ref="vail-end-trigger" class="w-px shrink-0"></span>

@@ -32,4 +32,9 @@ export default {
     },
   },
   defaultAlt: 'A picture of the property',
+  sorting: {
+    latest: 'Latest',
+    top: 'Top',
+    cheapest: 'Cheapest',
+  },
 }

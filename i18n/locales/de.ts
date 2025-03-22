@@ -32,4 +32,9 @@ export default {
     },
   },
   defaultAlt: 'Ein Bild des Objekts',
+  sorting: {
+    latest: 'Neueste',
+    top: 'Beste',
+    cheapest: 'Günstigste',
+  },
 }

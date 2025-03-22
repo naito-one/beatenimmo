@@ -1,9 +1,9 @@
 <template>
   <nav
-    class="from-bi-blue-300 to-bi-blue-200 fixed bottom-0 left-0 h-14 w-full bg-linear-to-r from-10% to-[300%] z-20"
+    class="from-bi-blue-300 to-bi-blue-200 fixed bottom-0 left-0 z-20 h-14 w-full bg-linear-to-r from-10% to-[300%] select-none"
   >
     <ul
-      class="text-bi-blue-100 flex h-full w-full items-center px-5 font-medium"
+      class="text-bi-blue-100 flex h-full w-full items-center px-5 font-semibold"
     >
       <li class="flex h-full grow">
         <NuxtLinkLocale

@@ -2,11 +2,13 @@
 
 @theme {
   --color-bi-blue-100: #b3c5d6;
-  --color-bi-blue-200: #4e79af;
+  --color-bi-blue-200: #719CC5;
   --color-bi-blue-300: #274770;
 
   --font-sans: 'Raleway', sans-serif;
   --font-numbers: 'Fira Sans', sans-serif;
+
+  --radius-3xl: 1.25rem;
 }
 
 @import '@nuxt/ui';

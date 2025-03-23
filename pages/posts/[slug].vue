@@ -3,6 +3,7 @@ import superjson from 'superjson'
 
 const { slug } = useRoute().params
 const { locale } = useI18n()
+const localePath = useLocalePath()
 
 const { data: p } = await usePost(slug, locale.value)
 const allPosts: Ref<Post[]> = ref([])
@@ -43,13 +44,13 @@ if (!p.value) {
   <!-- list -->
   <nav
     v-if="allPosts.length"
-    class="fixed bottom-14 left-0 flex w-full items-center justify-center gap-4 bg-gradient-to-b from-transparent to-zinc-100/80 py-4"
+    class="fixed bottom-14 left-0 flex w-full items-center justify-center gap-4 bg-gradient-to-b from-transparent to-neutral-100/80 py-4"
   >
     <ul class="flex items-center justify-center gap-1">
       <li v-for="post in allPosts" :key="post.id">
         <NuxtLinkLocale
           :to="`/posts/${post.slug}`"
-          class="block size-2 rounded-full bg-zinc-800 transition-transform hover:scale-150"
+          class="block size-2 rounded-full bg-neutral-800 transition-transform hover:scale-150"
           exact-active-class="size-4 mx-1 hover:scale-none"
         ></NuxtLinkLocale>
       </li>

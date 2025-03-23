@@ -12,7 +12,11 @@ async function logout() {
   await navigateTo(localePath('/admin/login'))
 }
 
-async function clearAndSeed() {
+async function clear() {
+  await $fetch('/api/clear')
+}
+
+async function seed() {
   await $fetch('/api/seed')
 }
 </script>
@@ -20,8 +24,8 @@ async function clearAndSeed() {
 <template>
   <div>
     <h1>Welcome {{ user?.name }}</h1>
-    <button @click="logout">Logout</button>
-
-    <UButton @click="clearAndSeed()">Clear & Seed DB</UButton>
+    <UButton @click="logout">Logout</UButton>
+    <UButton @click="clear()">Clear DB</UButton>
+    <UButton @click="seed()"> Seed DB</UButton>
   </div>
 </template>

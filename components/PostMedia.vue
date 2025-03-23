@@ -9,7 +9,7 @@ defineProps<{
 <template>
   <!-- TODO: handle videos and get content from R2 -->
   <div
-    class="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow"
+    class="overflow-hidden rounded-xl border border-neutral-200 bg-white shadow"
   >
     <p v-if="media.description" class="p-4 font-bold">
       {{ media.description }}

@@ -24,6 +24,7 @@ export default defineNuxtConfig({
     preference: 'light',
   },
 
+  /*
   hooks: {
     'pages:extend'(pages) {
       pages.push({
@@ -33,6 +34,7 @@ export default defineNuxtConfig({
       })
     },
   },
+  */
 
   nitro: {
     experimental: {

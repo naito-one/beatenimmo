@@ -14,6 +14,7 @@
           <span class="leading-none">{{ $t('pages.buy.title') }}</span>
         </NuxtLinkLocale>
       </li>
+      <!--
       <li class="flex h-full grow">
         <NuxtLinkLocale
           exact-active-class="text-white"
@@ -23,6 +24,7 @@
           <span class="leading-none">{{ $t('pages.rent.title') }}</span>
         </NuxtLinkLocale>
       </li>
+      -->
       <li class="flex h-full grow">
         <NuxtLinkLocale
           exact-active-class="text-white"

@@ -2,7 +2,7 @@
 const config = useSiteConfig()
 </script>
 <template>
-  <main class="flex min-h-[100vh] flex-col bg-zinc-100 pb-24">
+  <main class="flex min-h-[100vh] flex-col bg-neutral-100 pb-24">
     <LanguageSelector></LanguageSelector>
     <img
       src="/img/logo.svg"

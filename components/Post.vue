@@ -24,6 +24,8 @@ const showVailStart = ref(false)
 const showVailEnd = ref(true)
 const scrollMargin = 4 - 32
 const canScroll = ref(true)
+const hasSwiped = ref(false)
+const hasTapped = ref(false)
 
 const orderedContent: Ref<
   (
@@ -77,7 +79,7 @@ onMounted(() => {
     <h2 v-if="postWriteup" class="leading-none font-bold">
       {{ postWriteup.title }}
     </h2>
-    <USkeleton v-else class="h-4 w-[250px] bg-zinc-300" />
+    <USkeleton v-else class="h-4 w-[250px] bg-neutral-300" />
 
     <span v-if="post && !post.visible">Post is invisible to normal users</span>
 
@@ -94,13 +96,14 @@ onMounted(() => {
     <!-- skeleton for a media -->
     <USkeleton
       v-if="!postMedias"
-      class="h-0 w-full rounded-xl bg-zinc-300 pb-[100%]"
+      class="h-0 w-full rounded-xl bg-neutral-300 pb-[100%]"
     />
 
     <!-- key points -->
     <div
       v-if="post && postWriteup"
-      class="font-numbers relative rounded-xl border border-zinc-200 bg-white p-4 pt-3 leading-none shadow"
+      @click="hasTapped = true"
+      class="font-numbers relative rounded-xl border border-neutral-200 bg-white p-4 pt-3 leading-none shadow"
     >
       <!-- vail start -->
       <div
@@ -110,17 +113,20 @@ onMounted(() => {
       <div
         :class="`${showVailEnd && canScroll ? 'opacity-100' : 'opacity-0'} pointer-events-none absolute top-0 right-0 z-10 h-10 w-16 rounded-tr-xl bg-gradient-to-r from-transparent to-white transition-opacity duration-75`"
       ></div>
+      <!-- swipe gesture hint -->
+      <UIcon name="i-mdi-gesture-swipe" class="absolute pointer-events-none top-0 right-4 z-10 h-12 text-2xl animate-[swipe_2s_ease-out_infinite] text-neutral-700/80" v-if="showVailEnd && canScroll && !hasSwiped" />
+      <div></div>
       <!-- horizontal scroller -->
       <div
         ref="scroller"
-        class="flex overflow-x-auto border-b border-zinc-200 pb-2"
+        @scroll="hasSwiped = true"
+        class="flex overflow-x-auto border-b border-neutral-200 pb-2"
       >
         <span ref="vail-start-trigger" class="w-px shrink-0"></span>
-        <!--<UTooltip :text="$t('tooltips.postWriteup.price')">-->
         <div
           tabindex="0"
           :title="$t('tooltips.postWriteup.price')"
-          class="flex h-8 shrink-0 items-center gap-1 border-r border-zinc-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
+          class="flex h-8 shrink-0 items-center gap-1 border-r border-neutral-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
         >
           <UIcon name="i-material-symbols-payments" />{{ postWriteup.price }}
         </div>
@@ -128,7 +134,7 @@ onMounted(() => {
           tabindex="0"
           :title="$t('tooltips.post.numRooms')"
           v-if="post.numRooms"
-          class="flex h-8 shrink-0 items-center gap-1 border-r border-zinc-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
+          class="flex h-8 shrink-0 items-center gap-1 border-r border-neutral-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
         >
           <UIcon name="i-material-symbols-meeting-room" />{{ post.numRooms }}
         </div>
@@ -136,7 +142,7 @@ onMounted(() => {
           tabindex="0"
           :title="$t('tooltips.post.numFloors')"
           v-if="post.numFloors"
-          class="flex h-8 shrink-0 items-center gap-1 border-r border-zinc-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
+          class="flex h-8 shrink-0 items-center gap-1 border-r border-neutral-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
         >
           <UIcon name="i-material-symbols-floor" />{{ post.numFloors }}
         </div>
@@ -144,7 +150,7 @@ onMounted(() => {
           tabindex="0"
           :title="$t('tooltips.post.terrainArea')"
           v-if="post.terrainArea"
-          class="flex h-8 shrink-0 items-center gap-1 border-r border-zinc-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
+          class="flex h-8 shrink-0 items-center gap-1 border-r border-neutral-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
         >
           <UIcon name="i-material-symbols-outdoor-garden" />{{
             post.terrainArea
@@ -155,7 +161,7 @@ onMounted(() => {
           tabindex="0"
           :title="$t('tooltips.post.livingArea')"
           v-if="post.livingArea"
-          class="flex h-8 shrink-0 items-center gap-1 border-r border-zinc-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
+          class="flex h-8 shrink-0 items-center gap-1 border-r border-neutral-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
         >
           <UIcon name="i-material-symbols-gite" />{{ post.livingArea }} m²
         </div>
@@ -163,7 +169,7 @@ onMounted(() => {
           tabindex="0"
           :title="$t('tooltips.post.livingVolume')"
           v-if="post.livingVolume"
-          class="flex h-8 shrink-0 items-center gap-1 border-r border-zinc-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
+          class="flex h-8 shrink-0 items-center gap-1 border-r border-neutral-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
         >
           <UIcon name="i-material-symbols-deployed-code" />{{
             post.livingVolume
@@ -173,11 +179,13 @@ onMounted(() => {
         <span ref="vail-end-trigger" class="w-px shrink-0"></span>
       </div>
 
+      <!-- tap gesture hint -->
+      <UIcon name="i-mdi-gesture-tap" class="absolute pointer-events-none top-[4.5rem] left-10  z-10 opacity-90 text-3xl animate-bounce text-neutral-700/80" v-if="!hasTapped" />
       <div
         tabindex="0"
         :title="$t('tooltips.postWriteup.address')"
         v-if="postWriteup.address"
-        class="relative flex items-center gap-1 border-b border-zinc-200 py-4 last:border-none last:pb-0"
+        class="relative flex items-center gap-1 border-b border-neutral-200 py-4 last:border-none last:pb-0"
       >
         <UIcon name="i-material-symbols-location-on" />{{ postWriteup.address }}
       </div>
@@ -185,14 +193,14 @@ onMounted(() => {
         tabindex="0"
         :title="$t('tooltips.postWriteup.crushes')"
         v-if="postWriteup.crushes && postWriteup.crushes.length"
-        class="relative flex items-center gap-1 border-b border-zinc-200 py-4 last:border-none last:pb-0"
+        class="relative flex items-center gap-1 border-b border-neutral-200 py-4 last:border-none last:pb-0"
       >
         <UIcon name="i-material-symbols-favorite" />{{
           postWriteup.crushes.join(', ')
         }}
       </div>
     </div>
-    <USkeleton v-else class="h-0 w-full rounded-xl bg-zinc-300 pb-56" />
+    <USkeleton v-else class="h-0 w-full rounded-xl bg-neutral-300 pb-56" />
 
     <!-- show the rest of the elements -->
     <template v-if="restOfContent.length" v-for="c in restOfContent">
@@ -207,7 +215,7 @@ onMounted(() => {
     <!-- skeleton for a text -->
     <USkeleton
       v-if="!postTexts"
-      class="h-0 w-full rounded-xl bg-zinc-300 pb-[120%]"
+      class="h-0 w-full rounded-xl bg-neutral-300 pb-[120%]"
     />
   </article>
 </template>

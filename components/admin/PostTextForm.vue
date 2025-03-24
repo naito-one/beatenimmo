@@ -2,20 +2,40 @@
 import * as z from 'zod'
 import { createInsertSchema } from 'drizzle-zod'
 import { tables } from '../../server/utils/drizzle'
+import _debounce from 'lodash/debounce'
 
 const { postText } = defineProps<{
   postText?: PostText
 }>()
-defineEmits<{ (e: 'change', post: Partial<Schema>): void }>()
+const emit = defineEmits<{ (e: 'change', post: Schema): void }>()
 
-const schema = createInsertSchema(tables.postTexts)
+const schema = createInsertSchema(tables.postTexts, {
+  title: (schema) => schema.trim().min(1),
+  content: (schema) => schema.trim().min(1),
+})
 
 type Schema = z.output<typeof schema>
 
 const state = reactive<Partial<Schema>>({
+  postWriteupId: postText?.postWriteupId,
   title: postText?.title,
   content: postText?.content,
+  order: postText?.order,
 })
+
+const form = useTemplateRef('form')
+
+const submit = _debounce(async () => {
+  setTimeout(async () => {
+    if (!form.value) {
+      return
+    }
+    const valid = await form.value.validate({ silent: true, transform: true })
+    if (valid) {
+      emit('change', valid)
+    }
+  })
+}, 100)
 </script>
 
 <template>
@@ -24,7 +44,6 @@ const state = reactive<Partial<Schema>>({
     :schema="schema"
     :state="state"
     class="flex w-full flex-col gap-4"
-    @change="$emit('change', state)"
   >
     <!-- title -->
     <UFormField
@@ -32,7 +51,12 @@ const state = reactive<Partial<Schema>>({
       name="title"
       :required="true"
     >
-      <UInput type="text" v-model="state.title" :ui="{ root: 'flex' }" />
+      <UInput
+        type="text"
+        v-model="state.title"
+        :ui="{ root: 'flex' }"
+        @input="submit()"
+      />
     </UFormField>
     <!-- content -->
     <UFormField
@@ -46,6 +70,7 @@ const state = reactive<Partial<Schema>>({
         :maxrows="20"
         autoresize
         :ui="{ root: 'flex' }"
+        @input="submit()"
       />
     </UFormField>
   </UForm>

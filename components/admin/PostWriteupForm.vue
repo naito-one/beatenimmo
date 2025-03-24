@@ -2,17 +2,25 @@
 import * as z from 'zod'
 import { createInsertSchema } from 'drizzle-zod'
 import { tables } from '../../server/utils/drizzle'
+import _debounce from 'lodash/debounce'
 
 const { postWriteup } = defineProps<{
   postWriteup?: PostWriteup
 }>()
 const emit = defineEmits<{ (e: 'change', post: Partial<Schema>): void }>()
 
-const schema = createInsertSchema(tables.postWriteups)
+const schema = createInsertSchema(tables.postWriteups,{
+  title: (schema) => schema.trim().min(1),
+  description: (schema) => schema.trim().min(1),
+  price: (schema) => schema.trim().min(1),
+  address: (schema) => schema.trim(),
+})
 
 type Schema = z.output<typeof schema>
 
-const state = reactive<Partial<Schema>>({
+const state = reactive<Partial<Schema> & { crushes: string[]}>({
+  postId: postWriteup?.postId,
+  locale: postWriteup?.locale,
   title: postWriteup?.title,
   description: postWriteup?.description,
   price: postWriteup?.price,
@@ -20,28 +28,32 @@ const state = reactive<Partial<Schema>>({
   crushes: postWriteup?.crushes || [],
 })
 
-const crushesWorkaround = ref(state.crushes?.join(',') || '')
-
-function onChange() {
-  state.crushes = crushesWorkaround.value
-    .split(',')
-    .map((x) => x.trim())
-    .filter((x) => x)
-  emit('change', state)
-}
-
-/*
 const crushSearch = ref('')
-
 const crushItems: Ref<string[]> = ref([...(state.crushes || [])])
 
 function onCreate(item: string) {
-  crushItems.value.push(item)
-
-  state.crushes.push(item)
+  const v = item.trim()
+  // ignore empty strings
+  if (v) {
+    crushItems.value.push(v)
+    state.crushes.push(v)
+  }
   crushSearch.value = ''
 }
-  */
+
+const form = useTemplateRef('form')
+
+const submit = _debounce(async () => {
+  setTimeout(async () => {
+    if (!form.value) {
+      return
+    }
+    const valid = await form.value.validate({ silent: true, transform: true })
+    if (valid) {
+      emit('change', valid)
+    }
+  })
+}, 100)
 </script>
 
 <template>
@@ -50,7 +62,6 @@ function onCreate(item: string) {
     :schema="schema"
     :state="state"
     class="flex w-full flex-col gap-4"
-    @change="onChange()"
   >
     <!-- title -->
     <UFormField
@@ -58,7 +69,7 @@ function onCreate(item: string) {
       name="title"
       :required="true"
     >
-      <UInput type="text" v-model="state.title" :ui="{ root: 'flex' }" />
+      <UInput type="text" v-model="state.title" :ui="{ root: 'flex' }" @input="submit()" />
     </UFormField>
     <!-- description -->
     <UFormField
@@ -67,7 +78,7 @@ function onCreate(item: string) {
       name="description"
       :required="true"
     >
-      <UInput type="text" v-model="state.description" :ui="{ root: 'flex' }" />
+      <UInput type="text" v-model="state.description" :ui="{ root: 'flex' }" @input="submit()" />
     </UFormField>
     <!-- price -->
     <UFormField
@@ -75,35 +86,26 @@ function onCreate(item: string) {
       name="price"
       :required="true"
     >
-      <UInput type="text" v-model="state.price" :ui="{ root: 'flex' }" />
+      <UInput type="text" v-model="state.price" :ui="{ root: 'flex' }" @input="submit()" />
     </UFormField>
     <!-- address -->
     <UFormField :label="$t('tooltips.postWriteup.address')" name="address">
-      <UInput type="text" v-model="state.address" :ui="{ root: 'flex' }" />
+      <UInput type="text" v-model="state.address" :ui="{ root: 'flex' }" @input="submit()" />
     </UFormField>
     <UFormField
       :label="$t('tooltips.postWriteup.crushes')"
-      description="Use a comma separated list of values"
       name="crushes"
     >
-      <UInput
-        type="text"
-        v-model="crushesWorkaround"
-        placeholder="First,Second one,A third"
-        :ui="{ root: 'flex' }"
-      />
-      <!--
       <USelectMenu
         multiple
         v-model="state.crushes"
-        @update:model-value="onUpdate()"
         :items="crushItems"
         v-model:search-term="crushSearch"
         @create="onCreate"
         create-item="always"
         class="w-full"
+        @update:model-value="submit()"
     />
-  --></UFormField
-    >
+    </UFormField>
   </UForm>
 </template>

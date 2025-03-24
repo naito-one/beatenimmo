@@ -107,7 +107,7 @@ function onc(item: any, event: any) {
     <div class="flex h-0 grow justify-center gap-16">
       <!-- editor-->
       <div
-        class="overflow-y-auto rounded-3xl border border-neutral-200 bg-white p-4 shadow"
+        class="overflow-y-auto rounded-3xl border border-neutral-200 bg-white p-4"
       >
         <UTabs
           :items="tabItems"

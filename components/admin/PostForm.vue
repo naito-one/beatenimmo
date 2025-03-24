@@ -2,122 +2,150 @@
 import * as z from 'zod'
 import { createInsertSchema } from 'drizzle-zod'
 import { tables } from '../../server/utils/drizzle'
+import _debounce from 'lodash/debounce'
 
 const { post } = defineProps<{
   post?: Post
 }>()
-defineEmits<{ (e: 'change', post: Schema): void }>()
+const emit = defineEmits<{ (e: 'change', post: Partial<Schema>): void }>()
 
-const schema = createInsertSchema(tables.posts)
+const schema = createInsertSchema(tables.posts, {
+  slug: (schema) =>
+    schema
+      .trim()
+      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/g, {
+        message:
+          'Slug must contain only lower case letters, numbers and hyphens, and cannot start or end with a hyphen',
+      })
+      .min(1),
+})
 
 type Schema = z.output<typeof schema>
 
-const fields: FormFields<Post>[] = [
-  {
-    accessor: 'slug',
-    label: 'tooltips.post.slug',
-    type: 'text',
-    required: true,
-  },
-  {
-    accessor: 'type',
-    label: 'tooltips.post.type',
-    type: 'select',
-    required: true,
-    items: ['buy', 'rent'],
-  },
-  {
-    accessor: 'visible',
-    label: 'tooltips.post.visible',
-    type: 'checkbox',
-  },
-  {
-    accessor: 'relativeValue',
-    label: 'tooltips.post.relativeValue',
-    type: 'number',
-    min: 0,
-    step: 0.01,
-    required: true,
-  },
-  {
-    accessor: 'numRooms',
-    label: 'tooltips.post.numRooms',
-    type: 'number',
-    min: 0,
-    step: 0.5,
-  },
-  {
-    accessor: 'numFloors',
-    label: 'tooltips.post.numFloors',
-    type: 'number',
-    min: 0,
-    step: 0.5,
-  },
-  {
-    accessor: 'terrainArea',
-    label: 'tooltips.post.terrainArea',
-    type: 'number',
-    min: 0,
-    step: 1,
-  },
-  {
-    accessor: 'livingArea',
-    label: 'tooltips.post.livingArea',
-    type: 'number',
-    min: 0,
-    step: 1,
-  },
-  {
-    accessor: 'livingVolume',
-    label: 'tooltips.post.livingVolume',
-    type: 'number',
-    min: 0,
-    step: 1,
-  },
-]
+const state = reactive<Partial<Schema>>({
+  slug: post?.slug,
+  type: post?.type,
+  visible: post?.visible,
+  relativeValue: post?.relativeValue,
+  numRooms: post?.numRooms,
+  numFloors: post?.numFloors,
+  terrainArea: post?.terrainArea,
+  livingArea: post?.livingArea,
+  livingVolume: post?.livingVolume,
+  createdAt: post?.createdAt,
+  order: post?.order,
+})
+const form = useTemplateRef('form')
 
-const s = {} as any
-fields.forEach((f) => (s[f.accessor] = post?.[f.accessor]))
-const state = reactive<Schema>(s)
+const submit = _debounce(async () => {
+  setTimeout(async () => {
+    if (!form.value) {
+      return
+    }
+    const valid = await form.value.validate({ silent: true, transform: true })
+    if (valid) {
+      emit('change', valid)
+    }
+  })
+}, 100)
 </script>
 
 <template>
   <UForm
+    ref="form"
     :schema="schema"
     :state="state"
     class="flex w-full flex-col gap-4"
-    @change="$emit('change', state)"
   >
-    <UFormField
-      v-for="f in fields"
-      :label="$t(f.label)"
-      :name="f.accessor"
-      :required="f.required"
-    >
-      <USwitch
-        v-if="f.type === 'checkbox'"
-        v-model="state[f.accessor] as any"
-        :ui="{ root: 'flex' }"
-      />
-      <UInputNumber
-        v-else-if="f.type === 'number'"
-        v-model="state[f.accessor] as any"
-        :min="f.min"
-        :max="f.max"
-        :step="f.step"
-        :ui="{ root: 'flex' }"
-      />
-      <USelect
-        v-else-if="f.type === 'select'"
-        v-model="state[f.accessor] as any"
-        :items="f.items"
-        :ui="{ base: 'w-full' }"
-      />
+    <!-- slug -->
+    <UFormField :label="$t('tooltips.post.slug')" name="slug" :required="true">
       <UInput
-        v-else
-        :type="f.type"
-        v-model="state[f.accessor] as any"
+        type="text"
+        v-model="state.slug"
         :ui="{ root: 'flex' }"
+        @input="submit()"
+        disabled
+      />
+    </UFormField>
+    <!-- type -->
+    <UFormField :label="$t('tooltips.post.type')" name="type" :required="true">
+      <USelect
+        v-model="state.type"
+        :items="['buy', 'rent']"
+        :ui="{ base: 'w-full' }"
+        @input="submit()"
+      />
+    </UFormField>
+    <!-- visible -->
+    <UFormField :label="$t('tooltips.post.visible')" name="visible">
+      <USwitch
+        v-model="state.visible"
+        :ui="{ root: 'flex' }"
+        @input="submit()"
+      />
+    </UFormField>
+    <!-- relativeValue -->
+    <UFormField
+      :label="$t('tooltips.post.relativeValue')"
+      name="relativeValue"
+      :required="true"
+    >
+      <UInputNumber
+        v-model="state.relativeValue"
+        :min="0"
+        :step="0.01"
+        :ui="{ root: 'flex' }"
+        @change="submit()"
+      />
+    </UFormField>
+    <!-- numRooms -->
+    <UFormField :label="$t('tooltips.post.numRooms')" name="numRooms">
+      <UInputNumber
+        v-model="state.numRooms"
+        :min="0"
+        :step="0.5"
+        :ui="{ root: 'flex' }"
+        @change="submit()"
+      />
+    </UFormField>
+    <!-- numFloors -->
+    <UFormField :label="$t('tooltips.post.numFloors')" name="numFloors">
+      <UInputNumber
+        v-model="state.numFloors"
+        :min="0"
+        :step="0.5"
+        :ui="{ root: 'flex' }"
+        @change="submit()"
+      />
+    </UFormField>
+    <!-- terrainArea -->
+    <UFormField :label="$t('tooltips.post.terrainArea')" name="terrainArea">
+      <UInputNumber
+        v-model="state.terrainArea"
+        :min="0"
+        :step="1"
+        :ui="{ root: 'flex' }"
+        @change="submit()"
+      />
+    </UFormField>
+    <!-- livingArea -->
+    <UFormField :label="$t('tooltips.post.livingArea')" name="livingArea">
+      <UInputNumber
+        v-model="state.livingArea"
+        :min="0"
+        :step="1"
+        :ui="{ root: 'flex' }"
+        @change="submit()"
+      />
+    </UFormField>
+    <!-- livingVolume -->
+    <UFormField :label="$t('tooltips.post.livingVolume')" name="livingVolume">
+      <UInputNumber
+        v-model="state.livingVolume"
+        :min="0"
+        :step="1"
+        :ui="{ root: 'flex' }"
+        @change="submit()"
       />
     </UFormField>
   </UForm>

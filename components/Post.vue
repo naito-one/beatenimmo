@@ -103,7 +103,7 @@ onMounted(() => {
     <div
       v-if="post && postWriteup"
       @click="hasTapped = true"
-      class="font-numbers relative rounded-xl border border-neutral-200 bg-white p-4 pt-3 leading-none shadow"
+      class="font-numbers relative rounded-xl border border-neutral-200 bg-white p-4 pt-3 leading-none"
     >
       <!-- vail start -->
       <div

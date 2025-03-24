@@ -38,3 +38,4 @@ if (post?.value?.[0]) {
   console.log('There are no posts of type', type.value)
 }
 </script>
+<template></template>

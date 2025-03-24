@@ -19,6 +19,10 @@ export default {
   },
   tooltips: {
     post: {
+      slug: 'Unique name',
+      type: 'Type',
+      visible: 'Visible',
+      relativeValue: 'Relative value',
       numRooms: 'Number of rooms',
       numFloors: 'Number of floors',
       terrainArea: 'Terrain area in square meters',
@@ -26,9 +30,18 @@ export default {
       livingVolume: 'Living volume in cubic meters',
     },
     postWriteup: {
+      title: 'Title',
+      description: 'Description',
       price: 'Price',
       address: 'Address',
       crushes: 'Outstanding features',
+    },
+    postMedia: {
+      description: 'Description',
+    },
+    postText: {
+      title: 'Title',
+      content: 'Content',
     },
   },
   defaultAlt: 'A picture of the property',
@@ -36,5 +49,9 @@ export default {
     latest: 'Latest',
     top: 'Top',
     cheapest: 'Cheapest',
+  },
+  locales: {
+    en: 'English',
+    de: 'German',
   },
 }

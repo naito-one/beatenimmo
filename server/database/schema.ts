@@ -24,7 +24,7 @@ export const postWriteups = table('postWriteups', {
     .notNull(),
   locale: t.text().$type<'en' | 'de'>().notNull(),
   title: t.text().notNull(),
-  description: t.text(),
+  description: t.text().notNull(),
   price: t.text().notNull(),
   address: t.text(),
   crushes: t.text({ mode: 'json' }).$type<string[]>().default([]),

@@ -19,6 +19,10 @@ export default {
   },
   tooltips: {
     post: {
+      slug: 'Eindeutiger Name',
+      type: 'Typ',
+      visible: 'Sichtbar',
+      relativeValue: 'Relativer Wert',
       numRooms: 'Anzahl der Zimmer',
       numFloors: 'Anzahl der Stockwerke',
       terrainArea: 'Fläche des Geländes in Quadratmetern',
@@ -26,9 +30,18 @@ export default {
       livingVolume: 'Wohnvolumen in Kubikmetern',
     },
     postWriteup: {
+      title: 'Titel',
+      description: 'Beschreibung',
       price: 'Preis',
       address: 'Adresse',
       crushes: 'Herausragende Merkmale',
+    },
+    postMedia: {
+      description: 'Beschreibung',
+    },
+    postText: {
+      title: 'Titel',
+      content: 'Inhalt',
     },
   },
   defaultAlt: 'Ein Bild des Objekts',
@@ -36,5 +49,9 @@ export default {
     latest: 'Neueste',
     top: 'Beste',
     cheapest: 'Günstigste',
+  },
+  locales: {
+    en: 'Englisch',
+    de: 'Deutsch',
   },
 }

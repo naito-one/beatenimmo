@@ -2,7 +2,7 @@
 
 @theme {
   --color-bi-blue-100: #b3c5d6;
-  --color-bi-blue-200: #719CC5;
+  --color-bi-blue-200: #719cc5;
   --color-bi-blue-300: #274770;
 
   --font-sans: 'Raleway', sans-serif;
@@ -36,11 +36,12 @@
     transform: translateX(0);
   }
 
-  20%{
+  20% {
     opacity: 1;
   }
 
-  70%, 100% {
+  70%,
+  100% {
     transform: translateX(-100px);
   }
 

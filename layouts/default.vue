@@ -4,6 +4,15 @@ const config = useSiteConfig()
 <template>
   <main class="flex min-h-[100vh] flex-col bg-neutral-100 pb-24">
     <LanguageSelector></LanguageSelector>
+    <AuthState v-slot="{ loggedIn }">
+      <div v-if="loggedIn" class="fixed top-0 left-0 p-6">
+        <UButton
+          :to="$localePath('/admin')"
+          icon="i-material-symbols-admin-panel-settings"
+          >To Admin
+        </UButton>
+      </div>
+    </AuthState>
     <img
       src="/img/logo.svg"
       :alt="config.name"

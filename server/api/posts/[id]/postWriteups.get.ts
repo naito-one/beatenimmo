@@ -18,14 +18,6 @@ export default eventHandler(async (event) => {
           : undefined,
       ),
     )
-    .limit(1)
 
-  if (!postWriteups.length) {
-    throw createError({
-      statusCode: 404,
-      message: 'Not Found',
-    })
-  }
-
-  return postWriteups[0]
+  return postWriteups
 })

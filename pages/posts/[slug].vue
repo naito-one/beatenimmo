@@ -17,17 +17,18 @@ if (!p.value) {
 } else {
   const type = p.value.post.type
 
-  // once on the client, load every other post
-  onMounted(async () => {
-    allPosts.value = superjson.parse(
-      (await $fetch(
-        `/api/posts?type=${type}&sorting=${sorting}`,
-      )) as unknown as string,
-    ) as Post[]
-    currentPostIndex.value = allPosts.value.findIndex(
-      (x) => x.id === p.value?.post.id,
-    )
-  })
+  const { data } = await useFetch(
+    `/api/posts?type=${type}&sorting=${sorting}`,
+    {
+      transform(res) {
+        return superjson.parse(res as unknown as string) as Post[]
+      },
+    },
+  )
+  allPosts.value = data.value || []
+  currentPostIndex.value = allPosts.value.findIndex(
+    (x) => x.id === p.value?.post.id,
+  )
 }
 </script>
 <template>

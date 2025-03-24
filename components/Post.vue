@@ -12,6 +12,7 @@ const props = defineProps<{
   postWriteup?: PostWriteup
   postMedias?: PostMedia[]
   postTexts?: PostText[]
+  hideHints?: boolean
 }>()
 
 const { width } = useWindowSize()
@@ -27,12 +28,7 @@ const canScroll = ref(true)
 const hasSwiped = ref(false)
 const hasTapped = ref(false)
 
-const orderedContent: Ref<
-  (
-    | { type: 'media'; content: PostMedia }
-    | { type: 'text'; content: PostText }
-  )[]
-> = computed(() => {
+const orderedContent: Ref<Content[]> = computed(() => {
   const medias = (props.postMedias ?? []).map((x) => ({
     type: 'media' as 'media',
     content: x,
@@ -81,7 +77,11 @@ onMounted(() => {
     </h2>
     <USkeleton v-else class="h-4 w-[250px] bg-neutral-300" />
 
-    <span v-if="post && !post.visible">Post is invisible to normal users</span>
+    <UAlert
+      v-if="post && !post.visible"
+      icon="i-material-symbols-visibility-off-outline"
+      title="Post is invisible to normal users"
+    />
 
     <!-- always show first element before key points-->
     <template v-if="firstContent">
@@ -114,7 +114,11 @@ onMounted(() => {
         :class="`${showVailEnd && canScroll ? 'opacity-100' : 'opacity-0'} pointer-events-none absolute top-0 right-0 z-10 h-10 w-16 rounded-tr-xl bg-gradient-to-r from-transparent to-white transition-opacity duration-75`"
       ></div>
       <!-- swipe gesture hint -->
-      <UIcon name="i-mdi-gesture-swipe" class="absolute pointer-events-none top-0 right-4 z-10 h-12 text-2xl animate-[swipe_2s_ease-out_infinite] text-neutral-700/80" v-if="showVailEnd && canScroll && !hasSwiped" />
+      <UIcon
+        name="i-mdi-gesture-swipe"
+        class="pointer-events-none absolute top-0 right-4 z-10 h-12 animate-[swipe_2s_ease-out_infinite] text-2xl text-neutral-700/80"
+        v-if="showVailEnd && canScroll && !hasSwiped && !hideHints"
+      />
       <div></div>
       <!-- horizontal scroller -->
       <div
@@ -180,7 +184,11 @@ onMounted(() => {
       </div>
 
       <!-- tap gesture hint -->
-      <UIcon name="i-mdi-gesture-tap" class="absolute pointer-events-none top-[4.5rem] left-10  z-10 opacity-90 text-3xl animate-bounce text-neutral-700/80" v-if="!hasTapped" />
+      <UIcon
+        name="i-mdi-gesture-tap"
+        class="pointer-events-none absolute top-[4.5rem] left-10 z-10 animate-bounce text-3xl text-neutral-700/80 opacity-90"
+        v-if="!hasTapped && !hideHints"
+      />
       <div
         tabindex="0"
         :title="$t('tooltips.postWriteup.address')"

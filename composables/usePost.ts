@@ -9,16 +9,16 @@ export function usePost(
       (await $fetch(`/api/posts/${slug}`)) as unknown as string,
     ) as Post
     if (post) {
-      const postWriteup = await $fetch(
-        `/api/posts/${post.id}/postWriteup?locale=${locale}`,
+      const postWriteups = await $fetch(
+        `/api/posts/${post.id}/postWriteups?locale=${locale}`,
       )
-      if (postWriteup) {
+      if (postWriteups[0]) {
         const [postMedias, postTexts] = await Promise.all([
-          $fetch(`/api/postWriteups/${postWriteup.id}/postMedias`),
-          $fetch(`/api/postWriteups/${postWriteup.id}/postTexts`),
+          $fetch(`/api/postWriteups/${postWriteups[0].id}/postMedias`),
+          $fetch(`/api/postWriteups/${postWriteups[0].id}/postTexts`),
         ])
         if (postMedias && postTexts) {
-          return { post, postWriteup, postMedias, postTexts }
+          return { post, postWriteup: postWriteups[0], postMedias, postTexts }
         }
       }
     }

@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "fe40530e-5f85-4978-bbcb-f7a4e35a3bae",
-  "prevId": "de3d12a0-84b8-46bc-95be-b85848a6147b",
+  "id": "9fa2730e-6075-48b0-b037-180cc7860ba9",
+  "prevId": "4fa17abe-2976-4590-ac30-b2d58a84c11b",
   "tables": {
     "postMedias": {
       "name": "postMedias",
@@ -34,6 +34,13 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         }
       },
       "indexes": {},
@@ -42,8 +49,12 @@
           "name": "postMedias_postWriteupId_postWriteups_id_fk",
           "tableFrom": "postMedias",
           "tableTo": "postWriteups",
-          "columnsFrom": ["postWriteupId"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "postWriteupId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -82,6 +93,13 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         }
       },
       "indexes": {},
@@ -90,8 +108,12 @@
           "name": "postTexts_postWriteupId_postWriteups_id_fk",
           "tableFrom": "postTexts",
           "tableTo": "postWriteups",
-          "columnsFrom": ["postWriteupId"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "postWriteupId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -135,7 +157,7 @@
           "name": "description",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "price": {
@@ -167,8 +189,12 @@
           "name": "postWriteups_postId_posts_id_fk",
           "tableFrom": "postWriteups",
           "tableTo": "posts",
-          "columnsFrom": ["postId"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "postId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -252,6 +278,13 @@
         },
         "createdAt": {
           "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "order": {
+          "name": "order",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,

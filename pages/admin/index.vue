@@ -7,11 +7,11 @@ definePageMeta({
 })
 
 async function clear() {
-  await $fetch('/api/clear')
+  await $fetch('/api/admin/clear')
 }
 
 async function seed() {
-  await $fetch('/api/seed')
+  await $fetch('/api/admin/seed')
 }
 
 const posts: Ref<Post[]> = ref([])

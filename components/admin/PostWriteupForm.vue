@@ -7,7 +7,7 @@ import _debounce from 'lodash/debounce'
 const { postWriteup } = defineProps<{
   postWriteup?: PostWriteup
 }>()
-const emit = defineEmits<{ (e: 'change', post: Partial<Schema>): void }>()
+const emit = defineEmits<{ (e: 'change', post: Schema): void }>()
 
 const schema = createInsertSchema(tables.postWriteups,{
   title: (schema) => schema.trim().min(1),

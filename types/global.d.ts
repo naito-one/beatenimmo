@@ -1,4 +1,4 @@
-export { Sorting, FormFields, Content }
+export { Sorting, FormFields, Content, Editable, Optional }
 
 global {
   type Sorting = 'latest' | 'top' | 'cheapest'
@@ -14,7 +14,14 @@ global {
     items?: string[]
   }
 
-  type Content =
-    | { type: 'media'; content: PostMedia }
-    | { type: 'text'; content: PostText }
+  type Content<M = PostMedia, T = PostText> =
+    | { type: 'media'; content: M }
+    | { type: 'text'; content: T }
+
+  type Editable<T> = T & {
+    _deleted?: boolean
+    _tempId?: number
+  }
+
+  type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 }

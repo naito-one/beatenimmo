@@ -43,17 +43,23 @@ function onCreate(item: string) {
 
 const form = useTemplateRef('form')
 
+async function validate() {
+  if (!form.value) {
+    return false;
+  }
+  return form.value.validate({ silent: true, transform: true })
+}
+
 const submit = _debounce(async () => {
   setTimeout(async () => {
-    if (!form.value) {
-      return
-    }
-    const valid = await form.value.validate({ silent: true, transform: true })
+    const valid = await validate()
     if (valid) {
       emit('change', valid)
     }
   })
 }, 100)
+
+defineExpose({ validate })
 </script>
 
 <template>
@@ -69,7 +75,7 @@ const submit = _debounce(async () => {
       name="title"
       :required="true"
     >
-      <UInput type="text" v-model="state.title" :ui="{ root: 'flex' }" @input="submit()" />
+      <UInput type="text" v-model="state.title" @input="submit()"  class="flex" />
     </UFormField>
     <!-- description -->
     <UFormField
@@ -78,7 +84,7 @@ const submit = _debounce(async () => {
       name="description"
       :required="true"
     >
-      <UInput type="text" v-model="state.description" :ui="{ root: 'flex' }" @input="submit()" />
+      <UInput type="text" v-model="state.description" @input="submit()" class="flex" />
     </UFormField>
     <!-- price -->
     <UFormField
@@ -86,11 +92,11 @@ const submit = _debounce(async () => {
       name="price"
       :required="true"
     >
-      <UInput type="text" v-model="state.price" :ui="{ root: 'flex' }" @input="submit()" />
+      <UInput type="text" v-model="state.price" @input="submit()" class="flex font-numbers" />
     </UFormField>
     <!-- address -->
     <UFormField :label="$t('tooltips.postWriteup.address')" name="address">
-      <UInput type="text" v-model="state.address" :ui="{ root: 'flex' }" @input="submit()" />
+      <UInput type="text" v-model="state.address" @input="submit()"  class="flex font-numbers" />
     </UFormField>
     <UFormField
       :label="$t('tooltips.postWriteup.crushes')"
@@ -103,7 +109,7 @@ const submit = _debounce(async () => {
         v-model:search-term="crushSearch"
         @create="onCreate"
         create-item="always"
-        class="w-full"
+        class="w-full font-numbers"
         @update:model-value="submit()"
     />
     </UFormField>

@@ -35,19 +35,26 @@ const state = reactive<Partial<Schema>>({
   createdAt: post?.createdAt,
   order: post?.order,
 })
+
 const form = useTemplateRef('form')
+
+async function validate() {
+  if (!form.value) {
+    return false;
+  }
+  return form.value.validate({ silent: true, transform: true })
+}
 
 const submit = _debounce(async () => {
   setTimeout(async () => {
-    if (!form.value) {
-      return
-    }
-    const valid = await form.value.validate({ silent: true, transform: true })
+    const valid = await validate()
     if (valid) {
       emit('change', valid)
     }
   })
 }, 100)
+
+defineExpose({ validate })
 </script>
 
 <template>
@@ -55,7 +62,7 @@ const submit = _debounce(async () => {
     ref="form"
     :schema="schema"
     :state="state"
-    class="flex w-full flex-col gap-4"
+    class="grid grid-cols-3 gap-4"
   >
     <!-- slug -->
     <UFormField :label="$t('tooltips.post.slug')" name="slug" :required="true">
@@ -94,8 +101,8 @@ const submit = _debounce(async () => {
         v-model="state.relativeValue"
         :min="0"
         :step="0.01"
-        :ui="{ root: 'flex' }"
         @change="submit()"
+        class="flex font-numbers"
       />
     </UFormField>
     <!-- numRooms -->
@@ -104,8 +111,8 @@ const submit = _debounce(async () => {
         v-model="state.numRooms"
         :min="0"
         :step="0.5"
-        :ui="{ root: 'flex' }"
         @change="submit()"
+        class="flex font-numbers"
       />
     </UFormField>
     <!-- numFloors -->
@@ -114,8 +121,8 @@ const submit = _debounce(async () => {
         v-model="state.numFloors"
         :min="0"
         :step="0.5"
-        :ui="{ root: 'flex' }"
         @change="submit()"
+        class="flex font-numbers"
       />
     </UFormField>
     <!-- terrainArea -->
@@ -124,8 +131,8 @@ const submit = _debounce(async () => {
         v-model="state.terrainArea"
         :min="0"
         :step="1"
-        :ui="{ root: 'flex' }"
         @change="submit()"
+        class="flex font-numbers"
       />
     </UFormField>
     <!-- livingArea -->
@@ -134,8 +141,8 @@ const submit = _debounce(async () => {
         v-model="state.livingArea"
         :min="0"
         :step="1"
-        :ui="{ root: 'flex' }"
         @change="submit()"
+        class="flex font-numbers"
       />
     </UFormField>
     <!-- livingVolume -->
@@ -144,8 +151,8 @@ const submit = _debounce(async () => {
         v-model="state.livingVolume"
         :min="0"
         :step="1"
-        :ui="{ root: 'flex' }"
         @change="submit()"
+        class="flex font-numbers"
       />
     </UFormField>
   </UForm>

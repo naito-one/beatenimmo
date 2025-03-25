@@ -25,17 +25,23 @@ const state = reactive<Partial<Schema>>({
 
 const form = useTemplateRef('form')
 
+async function validate() {
+  if (!form.value) {
+    return false;
+  }
+  return form.value.validate({ silent: true, transform: true })
+}
+
 const submit = _debounce(async () => {
   setTimeout(async () => {
-    if (!form.value) {
-      return
-    }
-    const valid = await form.value.validate({ silent: true, transform: true })
+    const valid = await validate()
     if (valid) {
       emit('change', valid)
     }
   })
 }, 100)
+
+defineExpose({ validate })
 </script>
 
 <template>
@@ -43,7 +49,7 @@ const submit = _debounce(async () => {
     ref="form"
     :schema="schema"
     :state="state"
-    class="flex w-full flex-col gap-4"
+    class="flex flex-col gap-4"
   >
     <!-- pathname -->
     <UFormField

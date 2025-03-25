@@ -6,7 +6,11 @@ export function usePost(
 ) {
   return useAsyncData('post', async () => {
     const post = superjson.parse(
-      (await $fetch(`/api/posts/${slug}`)) as unknown as string,
+      (await $fetch(`/api/posts/${slug}`, {
+        // include credentials so we can see invisible projects on SSR if logged in
+        credentials: 'include',
+        headers: useRequestHeaders(['cookie']),
+      })) as unknown as string,
     ) as Post
     if (post) {
       const postWriteups = await $fetch(

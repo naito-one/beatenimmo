@@ -193,17 +193,17 @@ onMounted(() => {
         tabindex="0"
         :title="$t('tooltips.postWriteup.address')"
         v-if="postWriteup.address"
-        class="relative flex items-center gap-1 border-b border-neutral-200 py-4 last:border-none last:pb-0"
+        class="relative flex items-center gap-2 border-b border-neutral-200 py-4 last:border-none last:pb-0"
       >
-        <UIcon name="i-material-symbols-location-on" />{{ postWriteup.address }}
+        <UIcon name="i-material-symbols-location-on" class="shrink-0" />{{ postWriteup.address }}
       </div>
       <div
         tabindex="0"
         :title="$t('tooltips.postWriteup.crushes')"
         v-if="postWriteup.crushes && postWriteup.crushes.length"
-        class="relative flex items-center gap-1 border-b border-neutral-200 py-4 last:border-none last:pb-0"
+        class="relative flex items-center gap-2 border-b border-neutral-200 py-4 last:border-none last:pb-0"
       >
-        <UIcon name="i-material-symbols-favorite" />{{
+        <UIcon name="i-material-symbols-favorite" class="shrink-0" />{{
           postWriteup.crushes.join(', ')
         }}
       </div>

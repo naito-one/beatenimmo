@@ -184,11 +184,13 @@ onMounted(() => {
       </div>
 
       <!-- tap gesture hint -->
-      <UIcon
+       <!--
+        <UIcon
         name="i-mdi-gesture-tap"
         class="pointer-events-none absolute top-[4.5rem] left-10 z-10 animate-bounce text-3xl text-neutral-700/80 opacity-90"
         v-if="!hasTapped && !hideHints"
-      />
+        />
+        -->
       <div
         tabindex="0"
         :title="$t('tooltips.postWriteup.address')"

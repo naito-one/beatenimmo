@@ -1,15 +1,22 @@
 <script setup lang="ts">
 import superjson from 'superjson'
+import { useWindowSize } from 'vue-window-size'
+import _debounce from 'lodash/debounce'
 
-const { slug } = useRoute().params
+const slug = ref(useRoute().params['slug'])
 const { locale } = useI18n()
 const localePath = useLocalePath()
+const { width } = useWindowSize()
+const router = useRouter()
 
-const { data: p } = await usePost(slug, locale.value)
+const { data: p, clear: clearP } = await usePost(slug, locale.value)
 const allPosts: Ref<Post[]> = ref([])
 const currentPostIndex = ref(-1)
 // TODO: sorting from query
 const sorting: Ref<Sorting> = ref('top')
+const ratio = ref(0)
+const scroller = useTemplateRef('scroller')
+const clientSide = ref(false)
 
 // TODO: redirect to 404 or index if p is nullish
 if (!p.value) {
@@ -29,17 +36,88 @@ if (!p.value) {
   currentPostIndex.value = allPosts.value.findIndex(
     (x) => x.id === p.value?.post.id,
   )
+
+  onMounted(async () => {
+    clientSide.value = true
+    setTimeout(() => {
+      if (!scroller.value) {
+        return
+      }
+      ratio.value = scroller.value.scrollWidth / allPosts.value.length
+      watch(width, () => {
+        if (scroller.value) {
+          ratio.value = scroller.value.scrollWidth / allPosts.value.length
+        }
+      })
+      scrollToCurrent('instant')
+    })
+    // TODO get the previous and next post details for quick swipe navigation
+  })
+}
+
+const snapScroll = _debounce(() => {
+  if (!scroller.value || !allPosts.value) {
+    return
+  }
+  const old = currentPostIndex.value
+  const round = Math.round(scroller.value.scrollLeft / ratio.value)
+  if (old === round) {
+    return
+  }
+  clearP()
+  currentPostIndex.value = round
+  // slug.value = allPosts.value[currentPostIndex.value]!.slug
+  // replace URL without vue navigation, since we handle that
+  //history.pushState({}, '', localePath(`/posts/${slug.value}`))
+  router.push(
+    localePath(`/posts/${allPosts.value[currentPostIndex.value]!.slug}`),
+  )
+}, 300)
+
+function scrollToCurrent(behavior: 'smooth' | 'instant' = 'smooth') {
+  if (!scroller.value) {
+    return
+  }
+  scroller.value.scrollTo({
+    left: currentPostIndex.value * ratio.value,
+    behavior,
+  })
+  router
 }
 </script>
 <template>
   <Sorting :value="sorting" @change="sorting = $event"></Sorting>
-  <div class="p-4">
-    <Post
-      :post="p?.post"
-      :post-writeup="p?.postWriteup"
-      :post-medias="p?.postMedias"
-      :post-texts="p?.postTexts"
-    ></Post>
+  <!-- scroller -->
+  <div
+    ref="scroller"
+    @touchend.passive="snapScroll()"
+    class="slider flex w-full overflow-x-auto"
+  >
+    <div
+      v-if="!clientSide"
+      class="slide w-screen shrink-0 p-4"
+      :key="p?.post.id"
+    >
+      <Post
+        :post="p?.post"
+        :post-writeup="p?.postWriteup"
+        :post-medias="p?.postMedias"
+        :post-texts="p?.postTexts"
+      ></Post>
+    </div>
+    <div
+      v-else
+      class="slide w-screen shrink-0 p-4"
+      v-for="(post, index) in allPosts"
+      :key="post.id"
+    >
+      <Post
+        :post="post"
+        :post-writeup="index === currentPostIndex ? p?.postWriteup : undefined"
+        :post-medias="index === currentPostIndex ? p?.postMedias : undefined"
+        :post-texts="index === currentPostIndex ? p?.postTexts : undefined"
+      ></Post>
+    </div>
   </div>
 
   <!-- list -->
@@ -48,11 +126,10 @@ if (!p.value) {
     class="fixed bottom-14 left-0 flex w-full items-center justify-center gap-4 bg-gradient-to-b from-transparent to-neutral-100/80 py-4"
   >
     <ul class="flex items-center justify-center gap-1">
-      <li v-for="post in allPosts" :key="post.id">
+      <li v-for="(post, index) in allPosts" :key="post.id">
         <NuxtLinkLocale
           :to="`/posts/${post.slug}`"
-          class="block size-2 rounded-full bg-neutral-800 transition-transform hover:scale-150"
-          exact-active-class="size-4 mx-1 hover:scale-none"
+          :class="`${index === currentPostIndex ? 'mx-1 size-4' : 'size-2 hover:scale-150'} block rounded-full bg-neutral-800 transition-all`"
         ></NuxtLinkLocale>
       </li>
     </ul>

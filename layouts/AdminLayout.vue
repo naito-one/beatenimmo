@@ -21,9 +21,7 @@ async function logout() {
       </UButton>
       <AuthState v-slot="{ loggedIn, user }">
         <span v-if="loggedIn" class="ml-auto">Welcome, {{ user?.name }}</span>
-        <UButton v-if="loggedIn" class="cursor-pointer" @click="logout"
-          >Logout</UButton
-        >
+        <UButton v-if="loggedIn" @click="logout">Logout</UButton>
       </AuthState>
     </header>
     <slot />

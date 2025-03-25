@@ -27,9 +27,9 @@ const form = useTemplateRef('form')
 
 async function validate() {
   if (!form.value) {
-    return false;
+    return false
   }
-  return form.value.validate({ silent: true, transform: true })
+  return form.value.validate({ silent: true })
 }
 
 const submit = _debounce(async () => {
@@ -45,12 +45,7 @@ defineExpose({ validate })
 </script>
 
 <template>
-  <UForm
-    ref="form"
-    :schema="schema"
-    :state="state"
-    class="flex flex-col gap-4"
-  >
+  <UForm ref="form" :schema="schema" :state="state" class="flex flex-col gap-4">
     <!-- title -->
     <UFormField
       :label="$t('tooltips.postText.title')"

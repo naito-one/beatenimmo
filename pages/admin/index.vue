@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import superjson from 'superjson'
+import { AdminAddPostModal } from '#components'
 
 definePageMeta({
   layout: 'admin-layout',
   middleware: ['authenticated'],
 })
+
+const toast = useToast()
+const overlay = useOverlay()
+
+const localePath = useLocalePath()
 
 async function clear() {
   await $fetch('/api/admin/clear')
@@ -14,29 +19,54 @@ async function seed() {
   await $fetch('/api/admin/seed')
 }
 
-const posts: Ref<Post[]> = ref([])
+const table = useTemplateRef('table')
+const modal = overlay.create(AdminAddPostModal)
 
-const { data } = await useFetch('/api/posts?sorting=latest', {
-  transform(res) {
-    return superjson.parse(res as unknown as string) as Post[]
-  },
-})
-posts.value = data.value || []
+async function addPost(slug: false | string) {
+  if (!slug || !table.value) {
+    return
+  }
+  const added: Partial<Post> = {
+    slug,
+    type: 'buy',
+    visible: false,
+    relativeValue: 0,
+    createdAt: new Date(),
+    order: table.value.posts.length + 1,
+  }
+
+  console.log(added.order, table.value.posts)
+
+  try {
+    await $fetch(`/api/posts`, { method: 'post', body: added })
+    toast.add({ title: 'New Post created' })
+    await navigateTo(localePath(`/admin/posts/${slug}`))
+  } catch (e) {
+    console.error(e)
+    toast.add({ title: 'Failed to create Post', color: 'error' })
+  }
+}
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 p-4 items-center">
-    <div class="rounded-xl border border-neutral-200 bg-white p-4 w-3/4">
-
-      <h2 class="text-xl font-semibold mb-2">Debug actions</h2>
+  <div class="flex flex-col items-center gap-4 p-4">
+    <div class="w-3/4 rounded-xl border border-neutral-200 bg-white p-4">
+      <h2 class="mb-2 text-xl font-semibold">Debug actions</h2>
       <UButtonGroup>
-        <UButton class="cursor-pointer" @click="clear()">Clear DB</UButton>
-        <UButton class="cursor-pointer" @click="seed()"> Seed DB</UButton>
+        <UButton @click="clear()">Clear DB</UButton>
+        <UButton @click="seed()"> Seed DB</UButton>
       </UButtonGroup>
     </div>
 
-    <div class="rounded-xl border border-neutral-200 bg-white p-4  w-3/4">
-    <h2 class="text-xl font-semibold mb-2">Posts</h2>
-    <AdminPostTable></AdminPostTable></div>
+    <div class="w-3/4 rounded-xl border border-neutral-200 bg-white p-4">
+      <h2 class="mb-2 text-xl font-semibold">Posts</h2>
+      <AdminPostTable ref="table"></AdminPostTable>
+      <UButton
+        icon="i-material-symbols-post-add"
+        class="mx-auto mt-4 flex"
+        @click="modal.open().then(addPost)"
+        >Add Post</UButton
+      >
+    </div>
   </div>
 </template>

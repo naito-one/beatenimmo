@@ -8,6 +8,6 @@ defineProps<{
 <template>
   <div class="rounded-xl border border-neutral-200 bg-white px-4 py-6">
     <h3 class="mb-4 text-xl font-semibold">{{ text.title }}</h3>
-    <p class="whitespace-pre-line">{{ text.content }}</p>
+    <p class="break-words whitespace-pre-line">{{ text.content }}</p>
   </div>
 </template>

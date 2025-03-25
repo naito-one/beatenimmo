@@ -9,9 +9,9 @@ const { postMedia } = defineProps<{
 }>()
 const emit = defineEmits<{ (e: 'change', post: Schema): void }>()
 
-const schema = createInsertSchema(tables.postMedias,{
+const schema = createInsertSchema(tables.postMedias, {
   pathname: (schema) => schema.trim().min(1),
-  description: (schema) => schema.trim()
+  description: (schema) => schema.trim(),
 })
 
 type Schema = z.output<typeof schema>
@@ -27,9 +27,9 @@ const form = useTemplateRef('form')
 
 async function validate() {
   if (!form.value) {
-    return false;
+    return false
   }
-  return form.value.validate({ silent: true, transform: true })
+  return form.value.validate({ silent: true })
 }
 
 const submit = _debounce(async () => {
@@ -45,26 +45,31 @@ defineExpose({ validate })
 </script>
 
 <template>
-  <UForm
-    ref="form"
-    :schema="schema"
-    :state="state"
-    class="flex flex-col gap-4"
-  >
+  <UForm ref="form" :schema="schema" :state="state" class="flex flex-col gap-4">
     <!-- pathname -->
     <UFormField
       :label="$t('tooltips.postMedia.pathname')"
       name="pathname"
       :required="true"
     >
-      <UInput type="text" v-model="state.pathname" :ui="{ root: 'flex' }" @input="submit()" />
+      <UInput
+        type="text"
+        v-model="state.pathname"
+        :ui="{ root: 'flex' }"
+        @input="submit()"
+      />
     </UFormField>
     <!-- description -->
     <UFormField
       :label="$t('tooltips.postMedia.description')"
       name="description"
     >
-      <UInput type="text" v-model="state.description" :ui="{ root: 'flex' }" @input="submit()" />
+      <UInput
+        type="text"
+        v-model="state.description"
+        :ui="{ root: 'flex' }"
+        @input="submit()"
+      />
     </UFormField>
   </UForm>
 </template>

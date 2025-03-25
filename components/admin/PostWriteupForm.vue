@@ -9,7 +9,7 @@ const { postWriteup } = defineProps<{
 }>()
 const emit = defineEmits<{ (e: 'change', post: Schema): void }>()
 
-const schema = createInsertSchema(tables.postWriteups,{
+const schema = createInsertSchema(tables.postWriteups, {
   title: (schema) => schema.trim().min(1),
   description: (schema) => schema.trim().min(1),
   price: (schema) => schema.trim().min(1),
@@ -18,7 +18,7 @@ const schema = createInsertSchema(tables.postWriteups,{
 
 type Schema = z.output<typeof schema>
 
-const state = reactive<Partial<Schema> & { crushes: string[]}>({
+const state = reactive<Partial<Schema> & { crushes: string[] }>({
   postId: postWriteup?.postId,
   locale: postWriteup?.locale,
   title: postWriteup?.title,
@@ -45,9 +45,9 @@ const form = useTemplateRef('form')
 
 async function validate() {
   if (!form.value) {
-    return false;
+    return false
   }
-  return form.value.validate({ silent: true, transform: true })
+  return form.value.validate({ silent: true })
 }
 
 const submit = _debounce(async () => {
@@ -75,7 +75,12 @@ defineExpose({ validate })
       name="title"
       :required="true"
     >
-      <UInput type="text" v-model="state.title" @input="submit()"  class="flex" />
+      <UInput
+        type="text"
+        v-model="state.title"
+        @input="submit()"
+        class="flex"
+      />
     </UFormField>
     <!-- description -->
     <UFormField
@@ -84,7 +89,12 @@ defineExpose({ validate })
       name="description"
       :required="true"
     >
-      <UInput type="text" v-model="state.description" @input="submit()" class="flex" />
+      <UInput
+        type="text"
+        v-model="state.description"
+        @input="submit()"
+        class="flex"
+      />
     </UFormField>
     <!-- price -->
     <UFormField
@@ -92,16 +102,23 @@ defineExpose({ validate })
       name="price"
       :required="true"
     >
-      <UInput type="text" v-model="state.price" @input="submit()" class="flex font-numbers" />
+      <UInput
+        type="text"
+        v-model="state.price"
+        @input="submit()"
+        class="font-numbers flex"
+      />
     </UFormField>
     <!-- address -->
     <UFormField :label="$t('tooltips.postWriteup.address')" name="address">
-      <UInput type="text" v-model="state.address" @input="submit()"  class="flex font-numbers" />
+      <UInput
+        type="text"
+        v-model="state.address"
+        @input="submit()"
+        class="font-numbers flex"
+      />
     </UFormField>
-    <UFormField
-      :label="$t('tooltips.postWriteup.crushes')"
-      name="crushes"
-    >
+    <UFormField :label="$t('tooltips.postWriteup.crushes')" name="crushes">
       <USelectMenu
         multiple
         v-model="state.crushes"
@@ -109,9 +126,9 @@ defineExpose({ validate })
         v-model:search-term="crushSearch"
         @create="onCreate"
         create-item="always"
-        class="w-full font-numbers"
+        class="font-numbers w-full"
         @update:model-value="submit()"
-    />
+      />
     </UFormField>
   </UForm>
 </template>

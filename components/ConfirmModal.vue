@@ -4,11 +4,15 @@ defineProps<{
   description?: string
 }>()
 
-const emit = defineEmits<{ close: [boolean] }>()
+const emit = defineEmits<{ (e: 'close', slug: boolean): void }>()
 </script>
 
 <template>
-  <UModal :close="{ onClick: () => emit('close', false) }" :title="title">
+  <UModal
+    :close="{ onClick: () => emit('close', false) }"
+    :title="title"
+    :ui="{ footer: 'justify-end' }"
+  >
     <template #body>
       {{ description }}
     </template>

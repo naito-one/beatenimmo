@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { ConfirmModal } from '#components'
+import { ConfirmModal, UButton, UDropdownMenu } from '#components'
 import type { TableColumn, DropdownMenuItem } from '@nuxt/ui'
 import superjson from 'superjson'
+import type { Column } from '@tanstack/vue-table'
+
+const emit = defineEmits<{ (e: 'posts', posts: Post[]): void }>()
 
 const localPath = useLocalePath()
 const { locale } = useI18n()
@@ -10,39 +13,34 @@ const toast = useToast()
 const overlay = useOverlay()
 
 const modal = overlay.create(ConfirmModal)
-
-const { data } = await useFetch('/api/posts?sorting=latest', {
-  transform(res) {
-    return superjson.parse(res as unknown as string) as Post[]
-  },
-})
+const posts: Ref<Post[]> = ref([])
 
 const columns: TableColumn<Post>[] = [
   {
     accessorKey: 'id',
-    header: 'ID',
+    header: ({ column }) => getHeader(column, 'ID'),
   },
   {
     accessorKey: 'slug',
-    header: 'Slug',
+    header: ({ column }) => getHeader(column, 'Slug'),
   },
   {
     accessorKey: 'type',
-    header: 'Type',
+    header: ({ column }) => getHeader(column, 'Type'),
   },
   {
     accessorKey: 'visible',
-    header: 'Visible',
+    header: ({ column }) => getHeader(column, 'Visible'),
   },
   {
     accessorKey: 'createdAt',
-    header: 'Created',
+    header: ({ column }) => getHeader(column, 'Created'),
     cell: ({ row }) =>
       (row.getValue('createdAt') as Date).toLocaleString(locale.value),
   },
   {
     accessorKey: 'order',
-    header: 'Top Order',
+    header: ({ column }) => getHeader(column, 'Top Order'),
   },
   {
     id: 'action',
@@ -87,12 +85,13 @@ function getDropdownActions(post: Post): DropdownMenuItem[][] {
           })
           if (shouldDelete) {
             try {
+              // reorder to last
+              reorder(posts.value, post, posts.value.length!)
               await $fetch(`/api/posts/${post.id}`, { method: 'delete' })
-              if (data.value) {
-                const index = data.value.indexOf(post)
-                data.value.splice(index, 1)
-                data.value = [...data.value]
-              }
+              const index = posts.value.indexOf(post)
+              posts.value.splice(index, 1)
+              triggerTableUpdate()
+              await updateInDb()
               toast.add({
                 title: `Post Successfully deleted`,
                 color: 'success',
@@ -110,19 +109,105 @@ function getDropdownActions(post: Post): DropdownMenuItem[][] {
     ],
   ]
 }
+
+function triggerTableUpdate() {
+  posts.value = [...posts.value]
+}
+
+function getHeader(column: Column<Post>, label: string) {
+  const isSorted = column.getIsSorted()
+
+  return h(UButton, {
+    color: 'neutral',
+    variant: 'ghost',
+    label,
+    icon: isSorted
+      ? isSorted === 'asc'
+        ? 'i-lucide-arrow-up-narrow-wide'
+        : 'i-lucide-arrow-down-wide-narrow'
+      : 'i-lucide-arrow-up-down',
+    class: '-mx-2.5',
+    onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
+  })
+}
+
+const sorting = ref([
+  {
+    id: 'createdAt',
+    desc: true,
+  },
+])
+
+function reorder(content: Post[], toMove: Post, newOrder: number) {
+  const oldOrder = toMove.order
+  if (oldOrder === newOrder) {
+    return
+  }
+  content.forEach((c) => {
+    if (newOrder > oldOrder) {
+      if (c.order >= oldOrder && c.order <= newOrder) {
+        c.order--
+      }
+    } else {
+      if (c.order <= oldOrder && c.order >= newOrder) {
+        c.order++
+      }
+    }
+  })
+  toMove.order = newOrder
+}
+
+async function updateInDb() {
+  await Promise.all(
+    posts.value.map((x) =>
+      $fetch(`/api/posts/${x.id}`, { method: 'patch', body: x }),
+    ),
+  )
+}
+
+function reorderAndUpdate(content: Post[], toMove: Post, newOrder: number) {
+  reorder(content, toMove, newOrder)
+  triggerTableUpdate()
+  updateInDb().catch(console.error)
+}
+
+const loading = ref(true)
+
+onMounted(async () => {
+  posts.value = superjson.parse(
+    (await $fetch('/api/posts?sorting=latest')) as unknown as string,
+  ) as Post[]
+  loading.value = false
+})
+
+defineExpose({ posts })
 </script>
 
 <template>
-  <UTable :data="data" :columns="columns">
+  <UTable
+    v-model:sorting="sorting"
+    :data="posts"
+    :columns="columns"
+    :loading="loading"
+  >
     <template #action-cell="{ row }">
       <UDropdownMenu :items="getDropdownActions(row.original)">
         <UButton
-          class="cursor-pointer"
           icon="i-material-symbols-more-vert"
           color="neutral"
           variant="ghost"
         />
       </UDropdownMenu>
+    </template>
+    <template #order-cell="{ row }">
+      <USelect
+        :model-value="row.original.order"
+        :items="posts.map((x) => x.order).sort((a, b) => a - b)"
+        @update:model-value="reorderAndUpdate(posts, row.original, $event)"
+        class="font-numbers w-fit"
+        trailing-icon="i-material-symbols-expand-all"
+        :ui="{ content: 'font-numbers' }"
+      />
     </template>
   </UTable>
 </template>

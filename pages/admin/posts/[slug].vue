@@ -498,7 +498,10 @@ function deleteContent(
         >Back</UButton
       >
       <h1 class="text-center font-bold">Editing "{{ post?.slug }}"</h1>
-      <UButton icon="i-material-symbols-save" :loading="publishing"  @click="publish()"
+      <UButton
+        icon="i-material-symbols-save"
+        :loading="publishing"
+        @click="publish()"
         >Publish</UButton
       >
     </div>

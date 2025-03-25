@@ -192,10 +192,12 @@ onMounted(() => {
       <div
         tabindex="0"
         :title="$t('tooltips.postWriteup.address')"
-        v-if="postWriteup.address"
+        v-if="postWriteup.address?.trim()"
         class="relative flex items-center gap-2 border-b border-neutral-200 py-4 last:border-none last:pb-0"
       >
-        <UIcon name="i-material-symbols-location-on" class="shrink-0" />{{ postWriteup.address }}
+        <UIcon name="i-material-symbols-location-on" class="shrink-0" />{{
+          postWriteup.address
+        }}
       </div>
       <div
         tabindex="0"

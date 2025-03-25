@@ -9,16 +9,7 @@ const { post } = defineProps<{
 }>()
 const emit = defineEmits<{ (e: 'change', post: Schema): void }>()
 
-const schema = createInsertSchema(tables.posts, {
-  slug: (schema) =>
-    schema
-      .trim()
-      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/g, {
-        message:
-          'Slug must contain only lower case letters, numbers and hyphens, and cannot start or end with a hyphen',
-      })
-      .min(1),
-})
+const schema = createInsertSchema(tables.posts)
 
 type Schema = z.output<typeof schema>
 
@@ -40,9 +31,9 @@ const form = useTemplateRef('form')
 
 async function validate() {
   if (!form.value) {
-    return false;
+    return false
   }
-  return form.value.validate({ silent: true, transform: true })
+  return form.value.validate({ silent: true })
 }
 
 const submit = _debounce(async () => {
@@ -102,7 +93,7 @@ defineExpose({ validate })
         :min="0"
         :step="0.01"
         @change="submit()"
-        class="flex font-numbers"
+        class="font-numbers flex"
       />
     </UFormField>
     <!-- numRooms -->
@@ -112,7 +103,7 @@ defineExpose({ validate })
         :min="0"
         :step="0.5"
         @change="submit()"
-        class="flex font-numbers"
+        class="font-numbers flex"
       />
     </UFormField>
     <!-- numFloors -->
@@ -122,7 +113,7 @@ defineExpose({ validate })
         :min="0"
         :step="0.5"
         @change="submit()"
-        class="flex font-numbers"
+        class="font-numbers flex"
       />
     </UFormField>
     <!-- terrainArea -->
@@ -132,7 +123,7 @@ defineExpose({ validate })
         :min="0"
         :step="1"
         @change="submit()"
-        class="flex font-numbers"
+        class="font-numbers flex"
       />
     </UFormField>
     <!-- livingArea -->
@@ -142,7 +133,7 @@ defineExpose({ validate })
         :min="0"
         :step="1"
         @change="submit()"
-        class="flex font-numbers"
+        class="font-numbers flex"
       />
     </UFormField>
     <!-- livingVolume -->
@@ -152,7 +143,7 @@ defineExpose({ validate })
         :min="0"
         :step="1"
         @change="submit()"
-        class="flex font-numbers"
+        class="font-numbers flex"
       />
     </UFormField>
   </UForm>

@@ -49,12 +49,8 @@
           "name": "postMedias_postWriteupId_postWriteups_id_fk",
           "tableFrom": "postMedias",
           "tableTo": "postWriteups",
-          "columnsFrom": [
-            "postWriteupId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["postWriteupId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -108,12 +104,8 @@
           "name": "postTexts_postWriteupId_postWriteups_id_fk",
           "tableFrom": "postTexts",
           "tableTo": "postWriteups",
-          "columnsFrom": [
-            "postWriteupId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["postWriteupId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -189,12 +181,8 @@
           "name": "postWriteups_postId_posts_id_fk",
           "tableFrom": "postWriteups",
           "tableTo": "posts",
-          "columnsFrom": [
-            "postId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["postId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }

@@ -7,9 +7,8 @@
     >
       <li class="flex h-full grow">
         <NuxtLinkLocale
-          exact-active-class="text-white"
           to="/"
-          class="flex grow items-center justify-center gap-2 px-3"
+          :class="`flex grow items-center justify-center gap-2 px-3 ${$route.name?.toString().includes('post') || $route.name?.toString().includes('index')? 'text-white' : ''}`"
           ><UIcon name="i-material-symbols-gite" />
           <span class="leading-none">{{ $t('pages.buy.title') }}</span>
         </NuxtLinkLocale>

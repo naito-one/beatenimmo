@@ -90,7 +90,8 @@ function getDropdownActions(post: Post): DropdownMenuItem[][] {
               await $fetch(`/api/posts/${post.id}`, { method: 'delete' })
               if (data.value) {
                 const index = data.value.indexOf(post)
-                data.value = [...data.value.splice(index, 1)]
+                data.value.splice(index, 1)
+                data.value = [...data.value]
               }
               toast.add({
                 title: `Post Successfully deleted`,

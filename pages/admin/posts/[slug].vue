@@ -17,6 +17,8 @@ const { locale, t } = useI18n()
 const localePath = useLocalePath()
 const toast = useToast()
 
+const publishing = ref(false)
+
 const { data: post } = await useFetch(`/api/posts/${slug}`, {
   method: 'get',
   transform(res) {
@@ -173,6 +175,7 @@ async function publish() {
   if (!post.value) {
     return
   }
+  publishing.value = true
   const fs = Object.values(forms)
   // call validation on all and check if any have errors
   const res = await Promise.all(fs.map((f) => f.validate()))
@@ -183,6 +186,7 @@ async function publish() {
         'Some of the data is invalid. Please correct issues before publishing.',
       color: 'warning',
     })
+    publishing.value = false
   } else {
     // hide if no writeups and visible
     if (
@@ -311,9 +315,9 @@ async function publish() {
         title: 'An error occured while saving the Post',
         color: 'error',
       })
+      publishing.value = false
     }
   }
-  console.log({ forms: fs, res, post, postWriteups, postMedias, postTexts })
 }
 
 function reorder(
@@ -494,7 +498,7 @@ function deleteContent(
         >Back</UButton
       >
       <h1 class="text-center font-bold">Editing "{{ post?.slug }}"</h1>
-      <UButton icon="i-material-symbols-save" @click="publish()"
+      <UButton icon="i-material-symbols-save" :loading="publishing"  @click="publish()"
         >Publish</UButton
       >
     </div>

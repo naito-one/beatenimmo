@@ -18,7 +18,7 @@ if (!p.value) {
   const type = p.value.post.type
 
   const { data } = await useFetch(
-    `/api/posts?type=${type}&sorting=${sorting}`,
+    `/api/posts?type=${type}&sorting=${sorting.value}`,
     {
       transform(res) {
         return superjson.parse(res as unknown as string) as Post[]

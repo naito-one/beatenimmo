@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ConfirmModal } from '#components'
 import type { TableColumn, DropdownMenuItem } from '@nuxt/ui'
 import superjson from 'superjson'
 
@@ -6,6 +7,9 @@ const localPath = useLocalePath()
 const { locale } = useI18n()
 
 const toast = useToast()
+const overlay = useOverlay()
+
+const modal = overlay.create(ConfirmModal)
 
 const { data } = await useFetch('/api/posts?sorting=latest', {
   transform(res) {
@@ -47,6 +51,8 @@ const columns: TableColumn<Post>[] = [
 
 function getDropdownActions(post: Post): DropdownMenuItem[][] {
   return [
+    /*
+  TODO: implement quick actions
     [
       {
         label: post.visible ? 'Hide' : 'Show',
@@ -58,11 +64,10 @@ function getDropdownActions(post: Post): DropdownMenuItem[][] {
           toast.add({
             title: `Post visibility set to ${post.visible ? 'Hidden' : 'Visible'}`,
             color: 'success',
-            icon: 'i-lucide-circle-check',
           })
         },
       },
-    ],
+    ],*/
     [
       {
         label: 'Edit',
@@ -75,13 +80,30 @@ function getDropdownActions(post: Post): DropdownMenuItem[][] {
         label: 'Delete',
         icon: 'i-material-symbols-delete-outline',
         color: 'error',
-        onSelect: () => {
-          // TODO: confirm and delete
-          toast.add({
-            title: `Post Successfully deleted`,
-            color: 'success',
-            icon: 'i-lucide-circle-check',
+        onSelect: async () => {
+          const shouldDelete = await modal.open({
+            title: `Confirm deleting ${post.slug}`,
+            description: 'This action cannot be undone.',
           })
+          if (shouldDelete) {
+            try {
+              await $fetch(`/api/posts/${post.id}`, { method: 'delete' })
+              if (data.value) {
+                const index = data.value.indexOf(post)
+                data.value = [...data.value.splice(index, 1)]
+              }
+              toast.add({
+                title: `Post Successfully deleted`,
+                color: 'success',
+              })
+            } catch (e) {
+              console.error(e)
+              toast.add({
+                title: `Failed to deleted Post`,
+                color: 'error',
+              })
+            }
+          }
         },
       },
     ],
@@ -95,7 +117,7 @@ function getDropdownActions(post: Post): DropdownMenuItem[][] {
       <UDropdownMenu :items="getDropdownActions(row.original)">
         <UButton
           class="cursor-pointer"
-          icon="i-lucide-ellipsis-vertical"
+          icon="i-material-symbols-more-vert"
           color="neutral"
           variant="ghost"
         />

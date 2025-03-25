@@ -18,6 +18,7 @@ const localePath = useLocalePath()
 const toast = useToast()
 
 const { data: post } = await useFetch(`/api/posts/${slug}`, {
+  method: 'get',
   transform(res) {
     return superjson.parse(res as unknown as string) as Post
   },
@@ -42,12 +43,17 @@ const createWriteup: Ref<'en' | 'de' | undefined> = ref(undefined)
  */
 const availableWriteups = computed(
   () =>
-    ['en', 'de'].filter(
-      (l) =>
-        !postWriteups.value
-          .filter((x) => !x._deleted)
-          .some((p) => p.locale === l),
-    ).map(l => ({label: t(`locales.${l}`), value: l})) as {label: string, value: 'en' | 'de'}[],
+    ['en', 'de']
+      .filter(
+        (l) =>
+          !postWriteups.value
+            .filter((x) => !x._deleted)
+            .some((p) => p.locale === l),
+      )
+      .map((l) => ({ label: t(`locales.${l}`), value: l })) as {
+      label: string
+      value: 'en' | 'de'
+    }[],
 )
 
 const tabItems = computed(() => [
@@ -123,7 +129,13 @@ import AdminPostForm from '@/components/admin/PostForm.vue'
 import AdminPostMediaForm from '@/components/admin/PostMediaForm.vue'
 import AdminPostTextForm from '@/components/admin/PostTextForm.vue'
 import AdminPostWriteupForm from '@/components/admin/PostWriteupForm.vue'
-const forms: {[x: string] : (typeof AdminPostForm | typeof AdminPostMediaForm | typeof AdminPostTextForm | typeof AdminPostWriteupForm) } = {}
+const forms: {
+  [x: string]:
+    | typeof AdminPostForm
+    | typeof AdminPostMediaForm
+    | typeof AdminPostTextForm
+    | typeof AdminPostWriteupForm
+} = {}
 
 // TODO: redirect to 404 or index if p is nullish
 if (!post.value) {
@@ -148,14 +160,14 @@ if (!post.value) {
 }
 
 function setInputRef(id: any) {
-      return (el: any) => {
-        if (el) {
-          forms[id] = el; // Store the input ref per item id
-        } else {
-          delete forms[id]; // Clean up when the element is removed
-        }
-      }
+  return (el: any) => {
+    if (el) {
+      forms[id] = el // Store the input ref per item id
+    } else {
+      delete forms[id] // Clean up when the element is removed
     }
+  }
+}
 
 async function publish() {
   if (!post.value) {
@@ -163,25 +175,143 @@ async function publish() {
   }
   const fs = Object.values(forms)
   // call validation on all and check if any have errors
-  const res = await Promise.all(fs.map(f => f.validate()))
-  if (res.some(r => !r))  {
+  const res = await Promise.all(fs.map((f) => f.validate()))
+  if (res.some((r) => !r)) {
     toast.add({
       title: 'Could not publish',
-      description: 'Some of the data is invalid. Please correct issues before publishing.',
-      color: 'warning'
+      description:
+        'Some of the data is invalid. Please correct issues before publishing.',
+      color: 'warning',
     })
   } else {
     // hide if no writeups and visible
-    if (!postWriteups.value.filter(x => !x._deleted).length && post.value.visible) {
+    if (
+      !postWriteups.value.filter((x) => !x._deleted).length &&
+      post.value.visible
+    ) {
       post.value.visible = false
-    toast.add({
-      title: 'Visibility set to "Hide" as there are no Writeups',
-      color: 'warning'
-    })
+      toast.add({
+        title: 'Visibility set to Hidden as there are no Writeups',
+        color: 'warning',
+      })
     }
-    toast.add({
-      title: 'Yipiii published (not really)'
-    })
+
+    try {
+      // update post
+      await $fetch(`/api/posts/${post.value.id}`, {
+        method: 'patch',
+        body: post.value,
+      })
+
+      // create / update / delete writeup
+      for (const writeup of postWriteups.value) {
+        let createOrUpdate = false
+        let id = writeup.id
+        if (writeup.id) {
+          if (writeup._deleted) {
+            // delete
+            await $fetch(`/api/postWriteups/${writeup.id}`, {
+              method: 'delete',
+            })
+          } else {
+            // update
+            await $fetch(`/api/postWriteups/${writeup.id}`, {
+              method: 'patch',
+              body: writeup,
+            })
+            createOrUpdate = true
+          }
+        } else {
+          if (!writeup._deleted) {
+            // create
+            const res = await $fetch(`/api/postWriteups`, {
+              method: 'post',
+              body: writeup,
+            })
+            if (res[0]) {
+              id = res[0].id
+            }
+            createOrUpdate = true
+          }
+        }
+
+        // if created or updated, handle associated blocks
+        if (id && createOrUpdate) {
+          // create / update / delete media
+          const medias = postMedias.value.get(
+            writeup.id || writeup._tempId || -1,
+          )
+          if (medias) {
+            for (const media of medias) {
+              if (media.id) {
+                if (media._deleted) {
+                  // delete
+                  await $fetch(`/api/postMedias/${media.id}`, {
+                    method: 'delete',
+                  })
+                } else {
+                  // update
+                  await $fetch(`/api/postMedias/${media.id}`, {
+                    method: 'patch',
+                    body: media,
+                  })
+                }
+              } else {
+                if (!media._deleted) {
+                  // create
+                  media.postWriteupId = id
+                  await $fetch(`/api/postMedias`, {
+                    method: 'post',
+                    body: media,
+                  })
+                }
+              }
+            }
+          }
+
+          // create / update / delete text
+          const texts = postTexts.value.get(writeup.id || writeup._tempId || -1)
+          if (texts) {
+            for (const text of texts) {
+              if (text.id) {
+                if (text._deleted) {
+                  // delete
+                  await $fetch(`/api/postTexts/${text.id}`, {
+                    method: 'delete',
+                  })
+                } else {
+                  // update
+                  await $fetch(`/api/postTexts/${text.id}`, {
+                    method: 'patch',
+                    body: text,
+                  })
+                }
+              } else {
+                if (!text._deleted) {
+                  // create
+                  text.postWriteupId = id
+                  await $fetch(`/api/postTexts`, {
+                    method: 'post',
+                    body: text,
+                  })
+                }
+              }
+            }
+          }
+        }
+      }
+
+      toast.add({
+        title: 'Post successfully published',
+      })
+      useRouter().go(-1)
+    } catch (e) {
+      console.error(e)
+      toast.add({
+        title: 'An error occured while saving the Post',
+        color: 'error',
+      })
+    }
   }
   console.log({ forms: fs, res, post, postWriteups, postMedias, postTexts })
 }
@@ -382,22 +512,21 @@ function deleteContent(
         >
           <template #general>
             <USelect
-            placeholder="Create Writeup for"
+              placeholder="Create Writeup for"
               v-model="createWriteup"
               :items="availableWriteups"
               @update:model-value="addWriteup($event)"
               trailing-icon="i-material-symbols-add-ad"
               highlight
               :disabled="!availableWriteups.length"
-              class="w-fit mb-4 mt-2"
-              :ui="{ placeholder: 'text-(--ui-text)'}"
+              class="mt-2 mb-4 w-fit"
+              :ui="{ placeholder: 'text-(--ui-text)' }"
             />
             <AdminPostForm
-            :ref="setInputRef('post')"
+              :ref="setInputRef('post')"
               :post="post"
               @change="post = { ...post, ...$event }"
             />
-
           </template>
           <template #content="{ item }">
             <template v-if="item.writeup">
@@ -448,7 +577,7 @@ function deleteContent(
                       @update:model-value="reorder(item.c, c.content, $event)"
                       class="font-numbers w-fit"
                       trailing-icon="i-material-symbols-expand-all"
-                      :ui="{ content: 'font-numbers'}"
+                      :ui="{ content: 'font-numbers' }"
                     />
                     <h2 class="font-semibold">
                       {{ c.type === 'media' ? 'Media' : 'Text' }} Block
@@ -462,15 +591,23 @@ function deleteContent(
                     >
                   </div>
                   <AdminPostMediaForm
-                  v-if="c.type === 'media'"
-                  :ref="setInputRef(`writeup-${item.writeup.locale}-${c.content.id || c.content._tempId}`)"
+                    v-if="c.type === 'media'"
+                    :ref="
+                      setInputRef(
+                        `writeup-${item.writeup.locale}-${c.content.id || c.content._tempId}`,
+                      )
+                    "
                     :post-media="c.content"
                     @change="Object.assign(c.content as {}, $event)"
                     class="ml-4"
                   />
                   <AdminPostTextForm
-                  v-else
-                  :ref="setInputRef(`writeup-${item.writeup.locale}-${c.content.id || c.content._tempId}`)"
+                    v-else
+                    :ref="
+                      setInputRef(
+                        `writeup-${item.writeup.locale}-${c.content.id || c.content._tempId}`,
+                      )
+                    "
                     :post-text="c.content"
                     @change="Object.assign(c.content as {}, $event)"
                     class="ml-4"

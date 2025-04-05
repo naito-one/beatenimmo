@@ -53,5 +53,20 @@ export default {
   locales: {
     en: 'Englisch',
     de: 'Deutsch',
+    fr: 'Französisch',
+  },
+  contact: {
+    header: 'Nehmen Sie Kontakt auf!',
+    lastname: 'Nachname',
+    firstname: 'Vorname',
+    email: 'Email',
+    phone: 'Telefon',
+    phoneHint: 'Bitte geben Sie Ihre internationale Telefonvorwahl an',
+    locales: 'Gesprochene Sprachen',
+    message: 'Nachricht',
+    spam: 'Um Spam zu reduzieren, prüfen Sie bitte, was gilt',
+    checkbox1: 'Bitte kreuzen Sie an, ob Sie ein Mensch sind',
+    checkbox2: 'Bitte kreuzen Sie an, ob Sie ein Roboter sind',
+    submit: 'Nachricht senden',
   },
 }

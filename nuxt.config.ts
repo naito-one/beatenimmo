@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxtjs/seo',
     'nuxt-auth-utils',
+    'nuxt-nodemailer',
   ],
 
   // https://devtools.nuxt.com
@@ -22,6 +23,17 @@ export default defineNuxtConfig({
 
   colorMode: {
     preference: 'light',
+  },
+
+  nodemailer: {
+    from: '"Naito One Support" <support@naito.one>',
+    host: 'mail.infomaniak.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: 'support@naito.one',
+      pass: '',
+    },
   },
 
   /*

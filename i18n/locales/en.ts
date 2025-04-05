@@ -53,5 +53,20 @@ export default {
   locales: {
     en: 'English',
     de: 'German',
+    fr: 'French',
+  },
+  contact: {
+    header: 'Get in touch!',
+    lastname: 'Lastname',
+    firstname: 'Firstname',
+    email: 'Email',
+    phone: 'Phone',
+    phoneHint: 'Please include your international prefix',
+    locales: 'Spoken Languages',
+    message: 'Message',
+    spam: 'In order to reduce spam, please check what applies',
+    checkbox1: 'Please check if you are human',
+    checkbox2: 'Please check if you are a robot',
+    submit: 'Send Message',
   },
 }

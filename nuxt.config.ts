@@ -25,16 +25,14 @@ export default defineNuxtConfig({
     preference: 'light',
   },
 
-  runtimeConfig: {
-    nodemailer: {
-      from: '"Naito One Support" <support@naito.one>',
-      host: 'mail.infomaniak.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: 'support@naito.one',
-        pass: process.env.NUXT_NODEMAILER_AUTH_PASS,
-      },
+  nodemailer: {
+    from: 'support@naito.one',
+    host: 'mail.infomaniak.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: 'support@naito.one',
+      pass: '',
     },
   },
 

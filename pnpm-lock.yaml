@@ -38,6 +38,9 @@ importers:
       nuxt-auth-utils:
         specifier: 0.5.17
         version: 0.5.17(magicast@0.3.5)
+      nuxt-workmailer:
+        specifier: github:twinkelmann/nuxt-workmailer
+        version: https://codeload.github.com/twinkelmann/nuxt-workmailer/tar.gz/258b545548af6d7ac4251ab946731b759befc88a(magicast@0.3.5)(nodemailer@6.10.0)(worker-mailer@1.1.1)
       tailwindcss:
         specifier: ^4.0.14
         version: 4.0.14
@@ -50,6 +53,9 @@ importers:
       vue-window-size:
         specifier: ^2.0.0
         version: 2.0.0(vue@3.5.13(typescript@5.8.2))
+      worker-mailer:
+        specifier: ^1.1.1
+        version: 1.1.1
     devDependencies:
       '@iconify-json/circle-flags':
         specifier: ^1.2.6
@@ -66,9 +72,6 @@ importers:
       nodemailer:
         specifier: ^6.10.0
         version: 6.10.0
-      nuxt-nodemailer:
-        specifier: ^1.1.2
-        version: 1.1.2(magicast@0.3.5)(nodemailer@6.10.0)
       prettier:
         specifier: '=3.5.3'
         version: 3.5.3
@@ -3881,11 +3884,6 @@ packages:
   nuxt-link-checker@4.3.0:
     resolution: {integrity: sha512-Ps//GJjuQ6yKZvSrOmpH7goG7YKioBctlm9IfTn3EDvp0cO0Cho0n7DO7RcVquclj/rLtVCukacRlbN411/z0Q==}
 
-  nuxt-nodemailer@1.1.2:
-    resolution: {integrity: sha512-oYi0AnEZu56euRxJ/G7NAQLmRct9ORgKvxF3AcAbVlxfKJJQ7kNPZnlymQbzg9F/SLBlQgSE+mSQR/3Wz6JOIg==}
-    peerDependencies:
-      nodemailer: ^6.9.13
-
   nuxt-og-image@5.0.5:
     resolution: {integrity: sha512-MS2w3k3lqrukrB/p712aiyk0FrJjUALTtIerfRBneBpirYKLsKPRQZdDUfIH461CKl4nRA4b1fHy+cyCHE2Y8A==}
     engines: {node: '>=18.0.0'}
@@ -3904,6 +3902,13 @@ packages:
 
   nuxt-site-config@3.1.7:
     resolution: {integrity: sha512-28YrXiqnk8qwHb4pjA25o46NgMspBOGR9VfUiM9Z9avCILfihyZ5QDPuln5zqFhnGTerC8AblvEtN2VrCipLug==}
+
+  nuxt-workmailer@https://codeload.github.com/twinkelmann/nuxt-workmailer/tar.gz/258b545548af6d7ac4251ab946731b759befc88a:
+    resolution: {tarball: https://codeload.github.com/twinkelmann/nuxt-workmailer/tar.gz/258b545548af6d7ac4251ab946731b759befc88a}
+    version: 1.1.2
+    peerDependencies:
+      nodemailer: ^6.9.13
+      worker-mailer: ^1.1.1
 
   nuxt@3.16.1:
     resolution: {integrity: sha512-V0odAW9Yo8s58yGnSy0RuX+rQwz0wtQp3eOgMTsh1YDDZdIIYZmAlZaLypNeieO/mbmvOOUcnuRyIGIRrF4+5A==}
@@ -5169,6 +5174,9 @@ packages:
   word-wrap@1.2.5:
     resolution: {integrity: sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==}
     engines: {node: '>=0.10.0'}
+
+  worker-mailer@1.1.1:
+    resolution: {integrity: sha512-UPPd48aBMVuAE2j9ha7wDEhBakM23zKBk8wd9lLUhChExPeq8B8cO6C1ur4hMOypmJO7mZ+xTZff1KoCKprvGA==}
 
   workerd@1.20250317.0:
     resolution: {integrity: sha512-m+aqA4RS/jsIaml0KuTi96UBlkx1vC0mcLClGKPFNPiMStK75hVQxUhupXEMI4knHtb/vgNQyPFMKAJtxW5c6w==}
@@ -9243,13 +9251,6 @@ snapshots:
       - vite
       - vue
 
-  nuxt-nodemailer@1.1.2(magicast@0.3.5)(nodemailer@6.10.0):
-    dependencies:
-      '@nuxt/kit': 3.16.1(magicast@0.3.5)
-      nodemailer: 6.10.0
-    transitivePeerDependencies:
-      - magicast
-
   nuxt-og-image@5.0.5(@unhead/vue@2.0.0-rc.13(vue@3.5.13(typescript@5.8.2)))(magicast@0.3.5)(unstorage@1.15.0(db0@0.3.1(drizzle-orm@0.40.1(@cloudflare/workers-types@4.20250317.0)(gel@2.0.1)))(ioredis@5.6.0))(vite@6.2.2(@types/node@22.13.10)(jiti@2.4.2)(lightningcss@1.29.2)(terser@5.39.0)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.2)):
     dependencies:
       '@nuxt/devtools-kit': 2.3.0(magicast@0.3.5)(vite@6.2.2(@types/node@22.13.10)(jiti@2.4.2)(lightningcss@1.29.2)(terser@5.39.0)(yaml@2.7.0))
@@ -9345,6 +9346,14 @@ snapshots:
     transitivePeerDependencies:
       - magicast
       - vue
+
+  nuxt-workmailer@https://codeload.github.com/twinkelmann/nuxt-workmailer/tar.gz/258b545548af6d7ac4251ab946731b759befc88a(magicast@0.3.5)(nodemailer@6.10.0)(worker-mailer@1.1.1):
+    dependencies:
+      '@nuxt/kit': 3.16.1(magicast@0.3.5)
+      nodemailer: 6.10.0
+      worker-mailer: 1.1.1
+    transitivePeerDependencies:
+      - magicast
 
   nuxt@3.16.1(@parcel/watcher@2.5.1)(@types/node@22.13.10)(db0@0.3.1(drizzle-orm@0.40.1(@cloudflare/workers-types@4.20250317.0)(gel@2.0.1)))(drizzle-orm@0.40.1(@cloudflare/workers-types@4.20250317.0)(gel@2.0.1))(eslint@9.22.0(jiti@2.4.2))(ioredis@5.6.0)(lightningcss@1.29.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.36.0)(terser@5.39.0)(typescript@5.8.2)(vite@6.2.2(@types/node@22.13.10)(jiti@2.4.2)(lightningcss@1.29.2)(terser@5.39.0)(yaml@2.7.0))(vue-tsc@2.2.8(typescript@5.8.2))(yaml@2.7.0):
     dependencies:
@@ -10705,6 +10714,8 @@ snapshots:
       isexe: 3.1.1
 
   word-wrap@1.2.5: {}
+
+  worker-mailer@1.1.1: {}
 
   workerd@1.20250317.0:
     optionalDependencies:

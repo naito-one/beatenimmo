@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxtjs/seo',
     'nuxt-auth-utils',
-    'nuxt-nodemailer',
+    'nuxt-workmailer',
   ],
 
   // https://devtools.nuxt.com

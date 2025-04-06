@@ -33,7 +33,9 @@ Automatically sent from BeatenIMMO.ch`
       to: 'twinkelmann@naito.one',
     })
   } catch (e) {
+    const { nodemailer } = useRuntimeConfig()
     console.error(e)
+    console.error(JSON.stringify(nodemailer, null, 2))
     throw createError({
       statusCode: 500,
       message: 'Internal server error',

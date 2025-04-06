@@ -1,5 +1,5 @@
 export default eventHandler(async (event) => {
-  requireUserSession(event)
+  await requireUserSession(event)
   // route uses slug like the get route because otherwise occurs a weird
   // D1_TYPE_ERROR: Type 'undefined' not supported for value 'undefined'
   // but it's actually the ID

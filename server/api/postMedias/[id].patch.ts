@@ -6,7 +6,7 @@ const schema = createUpdateSchema(tables.postMedias, {
 })
 
 export default eventHandler(async (event) => {
-  requireUserSession(event)
+  await requireUserSession(event)
   const { id } = getRouterParams(event)
   const postMedia = await readValidatedBody(event, schema.parse)
 

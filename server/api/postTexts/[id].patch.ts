@@ -6,7 +6,7 @@ const schema = createUpdateSchema(tables.postTexts, {
 })
 
 export default eventHandler(async (event) => {
-  requireUserSession(event)
+  await requireUserSession(event)
   const { id } = getRouterParams(event)
   const postText = await readValidatedBody(event, schema.parse)
 

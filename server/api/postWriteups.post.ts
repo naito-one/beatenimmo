@@ -10,7 +10,7 @@ const schema = createInsertSchema(tables.postWriteups, {
 })
 
 export default eventHandler(async (event) => {
-  requireUserSession(event)
+  await requireUserSession(event)
   const postWriteup = await readValidatedBody(event, schema.parse)
   postWriteup.id = undefined
 

@@ -6,7 +6,7 @@ const schema = createInsertSchema(tables.postMedias, {
 })
 
 export default eventHandler(async (event) => {
-  requireUserSession(event)
+  await requireUserSession(event)
   const postMedia = await readValidatedBody(event, schema.parse)
   postMedia.id = undefined
 

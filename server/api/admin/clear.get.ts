@@ -1,5 +1,5 @@
 export default eventHandler(async (event) => {
-  requireUserSession(event)
+  await requireUserSession(event)
 
   console.log('Running DB clear task...')
 

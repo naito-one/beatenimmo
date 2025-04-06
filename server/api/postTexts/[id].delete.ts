@@ -1,5 +1,5 @@
 export default eventHandler(async (event) => {
-  requireUserSession(event)
+  await requireUserSession(event)
   const { id } = getRouterParams(event)
 
   const idNum = Number(id)

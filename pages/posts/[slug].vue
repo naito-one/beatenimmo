@@ -86,7 +86,7 @@ function scrollToCurrent(behavior: 'smooth' | 'instant' = 'smooth') {
 }
 </script>
 <template>
-  <Sorting :value="sorting" @change="sorting = $event"></Sorting>
+  <Sorting :value="sorting" @change="sorting = $event" v-if="allPosts.length > 1"></Sorting>
   <!-- scroller -->
   <div
     ref="scroller"
@@ -122,7 +122,7 @@ function scrollToCurrent(behavior: 'smooth' | 'instant' = 'smooth') {
 
   <!-- list -->
   <nav
-    v-if="allPosts.length"
+    v-if="allPosts.length > 1"
     class="fixed bottom-14 left-0 flex w-full items-center justify-center gap-4 bg-gradient-to-b from-transparent to-neutral-100/80 py-4"
   >
     <ul class="flex items-center justify-center gap-1">

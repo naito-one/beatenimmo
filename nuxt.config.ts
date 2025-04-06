@@ -32,7 +32,7 @@ export default defineNuxtConfig({
     secure: true,
     auth: {
       user: 'support@naito.one',
-      pass: '',
+      pass: '5xhuHqr%|$84"XF*/5_x',
     },
   },
 

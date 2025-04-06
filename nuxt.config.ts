@@ -32,7 +32,7 @@ export default defineNuxtConfig({
     secure: true,
     auth: {
       user: 'support@naito.one',
-      pass: '',
+      pass: process.env.NUXT_NODEMAILER_AUTH_PASS,
     },
   },
 

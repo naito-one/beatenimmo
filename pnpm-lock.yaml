@@ -39,8 +39,8 @@ importers:
         specifier: 0.5.17
         version: 0.5.17(magicast@0.3.5)
       nuxt-workmailer:
-        specifier: ^1.1.2
-        version: 1.1.2(magicast@0.3.5)(nodemailer@6.10.0)(worker-mailer@1.1.1)
+        specifier: ^1.1.3
+        version: 1.1.3(magicast@0.3.5)(nodemailer@6.10.0)(worker-mailer@1.1.1)
       tailwindcss:
         specifier: ^4.0.14
         version: 4.0.14
@@ -3903,8 +3903,8 @@ packages:
   nuxt-site-config@3.1.7:
     resolution: {integrity: sha512-28YrXiqnk8qwHb4pjA25o46NgMspBOGR9VfUiM9Z9avCILfihyZ5QDPuln5zqFhnGTerC8AblvEtN2VrCipLug==}
 
-  nuxt-workmailer@1.1.2:
-    resolution: {integrity: sha512-5KuX9mzO2Qf5gvhPgseytTn9E5Iu72F9WQE+Rgj2YFp8aYzrnEv0FHzUNjOeA7B3tICGMPIbQt3cYA8Xne9k6w==}
+  nuxt-workmailer@1.1.3:
+    resolution: {integrity: sha512-0zQz63c6k6wYPRZqI85BiF1Ewu25G+xWgrwdUG+FjimVe4pr2Ph7C7JuKD7QNDt3tnL4cZef7dXwgT0ZJZBsvg==}
     peerDependencies:
       nodemailer: ^6.9.13
       worker-mailer: ^1.1.1
@@ -9346,7 +9346,7 @@ snapshots:
       - magicast
       - vue
 
-  nuxt-workmailer@1.1.2(magicast@0.3.5)(nodemailer@6.10.0)(worker-mailer@1.1.1):
+  nuxt-workmailer@1.1.3(magicast@0.3.5)(nodemailer@6.10.0)(worker-mailer@1.1.1):
     dependencies:
       '@nuxt/kit': 3.16.1(magicast@0.3.5)
       nodemailer: 6.10.0

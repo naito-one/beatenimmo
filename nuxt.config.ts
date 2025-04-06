@@ -36,7 +36,7 @@ export default defineNuxtConfig({
         pass: process.env.NUXT_NODEMAILER_AUTH_PASS,
       },
     },
-  }
+  },
 
   /*
   hooks: {

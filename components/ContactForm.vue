@@ -5,6 +5,10 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 const { t, locale } = useI18n()
 const url = useRequestURL()
 
+const props = defineProps<{
+  defaultMessage?: string
+}>()
+
 type Schema = z.output<typeof schema>
 
 const state = reactive<Partial<Schema> & { locales: never[] }>({
@@ -14,7 +18,7 @@ const state = reactive<Partial<Schema> & { locales: never[] }>({
   phone: undefined,
   locales: [locale.value] as never[],
   from: url.toString(),
-  message: undefined,
+  message: props.defaultMessage,
   checkbox1: false,
   checkbox2: false,
 })
@@ -56,7 +60,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     class="grid grid-cols-2 gap-4"
     @submit="onSubmit"
   >
-    <h1 class="col-span-2 text-xl font-bold">{{ $t('contact.header') }}</h1>
     <!-- lastname -->
     <UFormField
       :label="$t('contact.lastname')"
@@ -143,6 +146,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     />
     <UButton
       type="submit"
+      color="secondary"
       class="col-span-2"
       icon="i-material-symbols-outgoing-mail"
       :ui="{ base: 'justify-center' }"

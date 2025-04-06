@@ -24,7 +24,7 @@
       href="https://beatenberg.ch"
       target="_blank"
       rel="noopener"
-      class="text-bi-blue-300 whitespace-nowrap underline"
+      class="whitespace-nowrap text-(--ui-secondary) underline"
     >
       <UIcon
         name="i-material-symbols-open-in-new"

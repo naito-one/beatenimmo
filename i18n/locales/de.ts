@@ -68,5 +68,11 @@ export default {
     checkbox1: 'Bitte kreuzen Sie an, ob Sie ein Mensch sind',
     checkbox2: 'Bitte kreuzen Sie an, ob Sie ein Roboter sind',
     submit: 'Nachricht senden',
+    modal: {
+      call: 'Rufen Sie uns jetzt an und erfahren Sie mehr über',
+      message:
+        'Oder senden Sie uns eine Nachricht mit Ihren Kontaktdaten und wir werden uns so schnell wie möglich bei Ihnen melden!',
+      defaultMessage: 'Ich möchte mehr Informationen über',
+    },
   },
 }

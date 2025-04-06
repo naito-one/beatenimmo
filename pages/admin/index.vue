@@ -53,8 +53,8 @@ async function addPost(slug: false | string) {
     <div class="w-3/4 rounded-xl border border-neutral-200 bg-white p-4">
       <h2 class="mb-2 text-xl font-semibold">Debug actions</h2>
       <UButtonGroup>
-        <UButton @click="clear()">Clear DB</UButton>
-        <UButton @click="seed()"> Seed DB</UButton>
+        <UButton @click="clear()" color="secondary">Clear DB</UButton>
+        <UButton @click="seed()" color="secondary"> Seed DB</UButton>
       </UButtonGroup>
     </div>
 
@@ -63,6 +63,7 @@ async function addPost(slug: false | string) {
       <AdminPostTable ref="table"></AdminPostTable>
       <UButton
         icon="i-material-symbols-post-add"
+        color="secondary"
         class="mx-auto mt-4 flex"
         @click="modal.open().then(addPost)"
         >Add Post</UButton

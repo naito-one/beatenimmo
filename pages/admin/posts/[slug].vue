@@ -558,12 +558,14 @@ function deleteContent(
                   <h2 class="font-semibold">Blocks</h2>
                   <UButton
                     icon="i-material-symbols-perm-media-outline"
+                    color="secondary"
                     class="ml-auto"
                     @click="addMedia(item.c, item.writeup)"
                     >Add Media</UButton
                   >
                   <UButton
                     icon="i-material-symbols-insert-text"
+                    color="secondary"
                     @click="addText(item.c, item.writeup)"
                     >Add Text</UButton
                   >

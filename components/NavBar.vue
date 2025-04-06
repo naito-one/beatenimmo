@@ -1,14 +1,14 @@
 <template>
   <nav
-    class="from-bi-blue-300 to-bi-blue-200 fixed bottom-0 left-0 z-20 h-14 w-full bg-linear-to-r from-10% to-[300%] select-none"
+    class="fixed bottom-0 left-0 z-20 h-14 w-full bg-linear-to-r from-blue-800 from-10% to-blue-500 to-[300%] select-none"
   >
     <ul
-      class="text-bi-blue-100 flex h-full w-full items-center px-5 font-semibold"
+      class="flex h-full w-full items-center px-5 font-semibold text-blue-100"
     >
       <li class="flex h-full grow">
         <NuxtLinkLocale
           to="/"
-          :class="`flex grow items-center justify-center gap-2 px-3 ${$route.name?.toString().includes('post') || $route.name?.toString().includes('index')? 'text-white' : ''}`"
+          :class="`flex grow items-center justify-center gap-2 px-3 ${$route.name?.toString().includes('post') || $route.name?.toString().includes('index') ? 'text-white' : ''}`"
           ><UIcon name="i-material-symbols-gite" />
           <span class="leading-none">{{ $t('pages.buy.title') }}</span>
         </NuxtLinkLocale>

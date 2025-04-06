@@ -4,8 +4,6 @@ import type { TableColumn, DropdownMenuItem } from '@nuxt/ui'
 import superjson from 'superjson'
 import type { Column } from '@tanstack/vue-table'
 
-const emit = defineEmits<{ (e: 'posts', posts: Post[]): void }>()
-
 const localPath = useLocalePath()
 const { locale } = useI18n()
 

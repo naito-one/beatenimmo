@@ -68,5 +68,11 @@ export default {
     checkbox1: 'Please check if you are human',
     checkbox2: 'Please check if you are a robot',
     submit: 'Send Message',
+    modal: {
+      call: 'Feel free to call us now to learn more about',
+      message:
+        'Or send us a message with your contact details and we will get back to you as soon as we can!',
+      defaultMessage: 'I would like more information about',
+    },
   },
 }

@@ -6,6 +6,7 @@ import type {
   PostText,
   PostWriteup,
 } from '~/server/utils/drizzle'
+import ContactModal from './ContactModal.vue'
 
 const props = defineProps<{
   post?: Post
@@ -16,6 +17,13 @@ const props = defineProps<{
 }>()
 
 const { width } = useWindowSize()
+const overlay = useOverlay()
+
+const modal = overlay.create(ContactModal)
+
+function onContact() {
+  modal.open({ post: props.postWriteup?.title })
+}
 
 const vailStartTrigger = useTemplateRef('vail-start-trigger')
 const vailEndTrigger = useTemplateRef('vail-end-trigger')
@@ -89,8 +97,13 @@ onMounted(() => {
         v-if="firstContent.type === 'media'"
         :media="firstContent.content"
         :post-writeup="postWriteup"
+        @contact="onContact"
       ></PostMedia>
-      <PostText v-else :text="firstContent.content"></PostText>
+      <PostText
+        v-else
+        :text="firstContent.content"
+        @contact="onContact"
+      ></PostText>
     </template>
 
     <!-- skeleton for a media -->
@@ -184,7 +197,7 @@ onMounted(() => {
       </div>
 
       <!-- tap gesture hint -->
-       <!--
+      <!--
         <UIcon
         name="i-mdi-gesture-tap"
         class="pointer-events-none absolute top-[4.5rem] left-10 z-10 animate-bounce text-3xl text-neutral-700/80 opacity-90"
@@ -220,8 +233,9 @@ onMounted(() => {
         v-if="c.type === 'media'"
         :media="c.content"
         :post-writeup="postWriteup"
+        @contact="onContact"
       ></PostMedia>
-      <PostText v-else :text="c.content"></PostText>
+      <PostText v-else :text="c.content" @contact="onContact"></PostText>
     </template>
 
     <!-- skeleton for a text -->

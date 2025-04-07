@@ -138,8 +138,15 @@ function scrollToCurrent(behavior: 'smooth' | 'instant' = 'smooth') {
   <!-- list -->
   <nav
     v-if="allPosts.length > 1"
-    class="fixed bottom-14 left-0 flex w-full items-center justify-center gap-4 bg-gradient-to-b from-transparent to-neutral-100/80 py-4 lg:bottom-12"
+    class="fixed bottom-14 left-0 flex w-full items-center justify-center gap-4 bg-gradient-to-b from-transparent to-neutral-100 pt-4 pb-2 lg:bottom-12"
   >
+    <NuxtLinkLocale
+      :to="`/posts/${allPosts[currentPostIndex - 1]?.slug}`"
+      :class="`mr-auto flex p-3 sm:ml-4 ${currentPostIndex > 0 ? '' : 'pointer-events-none'}`"
+      ><UIcon
+        name="i-material-symbols-arrow-back-ios-new"
+        :class="`size-6 ${currentPostIndex > 0 ? 'bg-neutral-800' : 'bg-(--ui-text-muted)'}`"
+    /></NuxtLinkLocale>
     <ul class="flex items-center justify-center gap-1">
       <li v-for="(post, index) in allPosts" :key="post.id">
         <NuxtLinkLocale
@@ -151,5 +158,12 @@ function scrollToCurrent(behavior: 'smooth' | 'instant' = 'smooth') {
     <span class="font-numbers text-sm font-semibold text-gray-800"
       >{{ currentPostIndex + 1 }}/{{ allPosts.length }}</span
     >
+    <NuxtLinkLocale
+      :to="`/posts/${allPosts[currentPostIndex + 1]?.slug}`"
+      :class="`ml-auto flex p-3 sm:mr-4 ${currentPostIndex < allPosts.length - 1 ? '' : 'pointer-events-none'}`"
+      ><UIcon
+        name="i-material-symbols-arrow-forward-ios"
+        :class="`size-6 ${currentPostIndex < allPosts.length - 1 ? 'bg-neutral-800' : 'bg-(--ui-text-muted)'}`"
+    /></NuxtLinkLocale>
   </nav>
 </template>

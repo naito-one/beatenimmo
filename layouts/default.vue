@@ -2,7 +2,7 @@
 const config = useSiteConfig()
 </script>
 <template>
-  <main class="flex min-h-[100vh] flex-col bg-neutral-100 pb-24">
+  <main class="flex min-h-[100vh] flex-col bg-neutral-100 pb-32">
     <LanguageSelector></LanguageSelector>
     <AuthState v-slot="{ loggedIn }">
       <div v-if="loggedIn" class="fixed top-0 left-0 z-20 p-6">

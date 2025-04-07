@@ -18,7 +18,9 @@ const sortings: { sort: Sorting; icon: string }[] = [
 ]
 </script>
 <template>
-  <ul class="mt-4 flex flex-wrap justify-center gap-2 px-4 font-semibold">
+  <ul
+    class="mt-4 flex flex-wrap justify-center gap-2 px-4 font-semibold md:mb-4"
+  >
     <li v-for="s of sortings" :key="s.sort">
       <button
         :class="`flex items-center gap-2 rounded-3xl p-4 select-none ${value === s.sort ? 'bg-(--ui-color-primary-500) text-white shadow-md' : 'bg-white text-gray-800'}`"

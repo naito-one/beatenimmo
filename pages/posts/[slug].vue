@@ -86,8 +86,14 @@ function scrollToCurrent(behavior: 'smooth' | 'instant' = 'smooth') {
 }
 </script>
 <template>
-  <Sorting :value="sorting" @change="sorting = $event" v-if="allPosts.length > 1"></Sorting>
+  <Sorting
+    :value="sorting"
+    @change="sorting = $event"
+    v-if="allPosts.length > 1"
+  ></Sorting>
   <!-- scroller -->
+  <!--
+  TODO: polish scroller
   <div
     ref="scroller"
     @touchend.passive="snapScroll()"
@@ -119,11 +125,20 @@ function scrollToCurrent(behavior: 'smooth' | 'instant' = 'smooth') {
       ></Post>
     </div>
   </div>
+    -->
 
+  <div class="mx-auto w-full p-4 md:w-2xl">
+    <Post
+      :post="p?.post"
+      :post-writeup="p?.postWriteup"
+      :post-medias="p?.postMedias"
+      :post-texts="p?.postTexts"
+    ></Post>
+  </div>
   <!-- list -->
   <nav
     v-if="allPosts.length > 1"
-    class="fixed bottom-14 left-0 flex w-full items-center justify-center gap-4 bg-gradient-to-b from-transparent to-neutral-100/80 py-4"
+    class="fixed bottom-14 left-0 flex w-full items-center justify-center gap-4 bg-gradient-to-b from-transparent to-neutral-100/80 py-4 lg:bottom-12"
   >
     <ul class="flex items-center justify-center gap-1">
       <li v-for="(post, index) in allPosts" :key="post.id">

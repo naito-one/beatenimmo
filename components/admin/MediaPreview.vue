@@ -12,7 +12,7 @@ const isVideo = ref(false)
 
 <template>
   <div
-    class="relative h-0 overflow-hidden rounded-md bg-cover pb-[100%]"
+    class="relative h-0 overflow-hidden rounded-md bg-cover bg-center pb-[100%]"
     :style="`background-image: url(/media/${pathname})`"
     aria-label="A Media"
     aria-roledescription="img"
@@ -21,7 +21,7 @@ const isVideo = ref(false)
       muted
       loop
       :controls="controls"
-      :class="`absolute h-full w-full object-cover transition-opacity duration-500 ${isVideo ? '' : 'pointer-events-none opacity-0'}`"
+      :class="`absolute h-full w-full object-cover object-center transition-opacity duration-500 ${isVideo ? '' : 'pointer-events-none opacity-0'}`"
       :key="pathname"
       @loadeddata="isVideo = true"
     >

@@ -15,7 +15,7 @@ defineEmits<{ (e: 'contact'): void }>()
       {{ media.description }}
     </p>
     <div
-      class="relative h-0 bg-cover pb-[100%]"
+      class="relative h-0 bg-cover bg-center pb-[100%] md:pb-[75%]"
       :style="`background-image: url(/media/${media.pathname})`"
       :aria-label="
         media.description?.trim() ||
@@ -28,7 +28,7 @@ defineEmits<{ (e: 'contact'): void }>()
         autoplay
         muted
         loop
-        :class="`absolute h-full w-full object-cover transition-opacity duration-500 ${isVideo ? 'opacity-100' : 'opacity-0'}`"
+        :class="`absolute h-full w-full object-cover object-center transition-opacity duration-500 ${isVideo ? 'opacity-100' : 'opacity-0'}`"
         :key="media.pathname"
         @loadeddata="isVideo = true"
       >

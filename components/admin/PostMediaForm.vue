@@ -6,6 +6,8 @@ import _debounce from 'lodash/debounce'
 
 const { postMedia } = defineProps<{
   postMedia?: PostMedia
+  currentWriteupMedias: PostMedia[]
+  allWriteupsMedias: PostMedia[]
 }>()
 const emit = defineEmits<{ (e: 'change', post: Schema): void }>()
 
@@ -41,24 +43,28 @@ const submit = _debounce(async () => {
   })
 }, 100)
 
+function choosePathname(pathname: string) {
+  state.pathname = pathname
+  submit()
+}
+
 defineExpose({ validate })
 </script>
 
 <template>
   <UForm ref="form" :schema="schema" :state="state" class="flex flex-col gap-4">
     <!-- pathname -->
-    <UFormField
-      :label="$t('tooltips.postMedia.pathname')"
-      name="pathname"
-      :required="true"
-    >
-      <UInput
-        type="text"
-        v-model="state.pathname"
-        :ui="{ root: 'flex' }"
-        @input="submit()"
+    <div class="flex items-center gap-4">
+      <div class="w-16" v-if="state.pathname">
+        <AdminMediaPreview :pathname="state.pathname" :controls="false" />
+      </div>
+      <AdminChooseMediaModal
+        :current-pathname="state.pathname"
+        :current-writeup-medias="currentWriteupMedias"
+        :all-writeups-medias="allWriteupsMedias"
+        @media="choosePathname"
       />
-    </UFormField>
+    </div>
     <!-- description -->
     <UFormField
       :label="$t('tooltips.postMedia.description')"

@@ -413,7 +413,6 @@ function addMedia(content: EditableContent[], writeup: EditablePostWriteup) {
   const added: EditablePostMedia = {
     _tempId: useRandId(),
     postWriteupId: id,
-    // TODO: fill from media picker
     pathname: '',
     description: null,
     order:
@@ -437,7 +436,6 @@ function addText(content: EditableContent[], writeup: EditablePostWriteup) {
   const added: EditablePostText = {
     _tempId: useRandId(),
     postWriteupId: id,
-    // TODO: fill from media picker
     title: '',
     content: '',
     order:
@@ -607,6 +605,21 @@ function deleteContent(
                       )
                     "
                     :post-media="c.content"
+                    :current-writeup-medias="
+                      item.c
+                        .filter((x) => x.type === 'media')
+                        .map((x) => x.content)
+                    "
+                    :all-writeups-medias="
+                      tabItems
+                        .filter((x) => x.c)
+                        .map((x) =>
+                          x
+                            .c!.filter((x) => x.type === 'media')
+                            .map((x) => x.content),
+                        )
+                        .flat()
+                    "
                     @change="Object.assign(c.content as {}, $event)"
                     class="ml-4"
                   />

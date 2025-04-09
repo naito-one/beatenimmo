@@ -8,6 +8,7 @@ const url = useRequestURL()
 const props = defineProps<{
   defaultMessage?: string
 }>()
+const emit = defineEmits<{ (e: 'success'): void }>()
 
 type Schema = z.output<typeof schema>
 
@@ -37,10 +38,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       body: event.data,
     })
     toast.add({
-      title: 'Success',
+      title: res ? 'Warning' : 'Success',
       description: res || 'The form has been submitted.',
-      color: 'success',
+      color: res ? 'warning' : 'success',
     })
+    if (!res) {
+      emit('success')
+    }
   } catch (e) {
     toast.add({
       title: 'Error',

@@ -25,7 +25,6 @@ const validate = _debounce(() => {
     if (!res.success) {
       output.value = undefined
       error.value = res.error
-      console.log({ err: res.error })
     } else {
       output.value = res.data
       error.value = undefined
@@ -39,7 +38,8 @@ const validate = _debounce(() => {
   <UModal
     :close="{ onClick: () => emit('close', false) }"
     title="Add Post"
-    :ui="{ footer: 'justify-end' }"
+    description="Add Post"
+    :ui="{ footer: 'justify-end', description: 'hidden' }"
   >
     <template #body>
       <!-- slug -->

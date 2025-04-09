@@ -131,7 +131,8 @@ function chooseMedia(pathname: string) {
   <UModal
     v-model:open="open"
     title="Choose Media File"
-    :ui="{ content: 'max-w-5/6' }"
+    description="Choose Media File"
+    :ui="{ content: 'max-w-5/6', description: 'hidden' }"
   >
     <UButton>{{ currentPathname ? 'Replace Media' : 'Choose Media' }}</UButton>
     <template #body>

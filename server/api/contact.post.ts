@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
 
   if (form.checkbox2 || !form.checkbox1) {
     // silently fail, this is the bot test
-    return "Thank you for this finely machined message, don't expect an answer ;)"
+    return 'Bip boop, did you forget to check something ?'
   }
 
   const { sendMail } = useNodeMailer()

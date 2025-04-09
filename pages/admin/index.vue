@@ -35,8 +35,6 @@ async function addPost(slug: false | string) {
     order: table.value.posts.length + 1,
   }
 
-  console.log(added.order, table.value.posts)
-
   try {
     await $fetch(`/api/posts`, { method: 'post', body: added })
     toast.add({ title: 'New Post created' })

@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import { ContactModal } from '#components'
 import superjson from 'superjson'
 // import { useWindowSize } from 'vue-window-size'
 // import _debounce from 'lodash/debounce'
 
 const route = useRoute()
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 const localePath = useLocalePath()
+const toast = useToast()
 // const { width } = useWindowSize()
 // const router = useRouter()
 
@@ -18,6 +20,14 @@ const sorting = useSorting()
 // const ratio = ref(0)
 // const scroller = useTemplateRef('scroller')
 // const clientSide = ref(false)
+
+const overlay = useOverlay()
+
+const modal = overlay.create(ContactModal)
+
+function onContact() {
+  modal.open({ post: p.value?.postWriteup?.title })
+}
 
 // TODO: redirect to 404 or index if p is nullish
 if (!p.value) {
@@ -72,7 +82,10 @@ watch(sorting, async () => {
   currentPostIndex.value = allPosts.value.findIndex(
     (x) => x.id === p.value?.post.id,
   )
-  console.log({ sort: currentPostIndex.value })
+  toast.add({
+    title: `${t('sorting.sorted')}: ${t(`sorting.${sorting.value}`)}`,
+    duration: 2000,
+  })
 })
 
 /*
@@ -152,7 +165,7 @@ function scrollToCurrent(behavior: 'smooth' | 'instant' = 'smooth') {
   </div>
     -->
 
-  <div class="mx-auto w-full p-4 md:w-2xl mt-2 md:mt-4">
+  <div class="mx-auto mt-2 w-full p-4 md:mt-4 md:w-2xl">
     <Post
       :post="p?.post"
       :post-writeup="p?.postWriteup"
@@ -160,4 +173,11 @@ function scrollToCurrent(behavior: 'smooth' | 'instant' = 'smooth') {
       :post-texts="p?.postTexts"
     ></Post>
   </div>
+
+  <UButton
+    @click="onContact"
+    color="secondary"
+    icon="i-material-symbols-perm-phone-msg"
+    class="fixed right-4 bottom-[4.5rem] z-10 rounded-full p-4 lg:bottom-16"
+  />
 </template>

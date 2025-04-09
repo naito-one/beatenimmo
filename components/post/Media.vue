@@ -5,12 +5,9 @@ defineProps<{
   postWriteup?: PostWriteup
 }>()
 const isVideo = ref(false)
-defineEmits<{ (e: 'contact'): void }>()
 </script>
 <template>
-  <div
-    class="relative overflow-hidden rounded-xl border border-neutral-200 bg-white"
-  >
+  <div class="overflow-hidden rounded-xl border border-neutral-200 bg-white">
     <p v-if="media.description?.trim()" class="p-4 font-bold">
       {{ media.description }}
     </p>
@@ -35,12 +32,5 @@ defineEmits<{ (e: 'contact'): void }>()
         <source :src="`/media/${media.pathname}`" />
       </video>
     </div>
-    <UButton
-      @click="$emit('contact')"
-      color="secondary"
-      size="sm"
-      icon="i-material-symbols-perm-phone-msg"
-      class="absolute right-4 bottom-4 rounded-full p-4"
-    />
   </div>
 </template>

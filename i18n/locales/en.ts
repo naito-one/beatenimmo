@@ -46,6 +46,7 @@ export default {
   },
   defaultAlt: 'A picture of the property',
   sorting: {
+    sorted: 'Sorted by',
     latest: 'Latest',
     top: 'Top',
     cheapest: 'Cheapest',

@@ -11,7 +11,8 @@ const emit = defineEmits<{ (e: 'close', slug: boolean): void }>()
   <UModal
     :close="{ onClick: () => emit('close', false) }"
     :title="title"
-    :ui="{ footer: 'justify-end' }"
+    :description="title"
+    :ui="{ footer: 'justify-end', description: 'hidden' }"
   >
     <template #body>
       {{ description }}

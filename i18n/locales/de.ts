@@ -46,6 +46,7 @@ export default {
   },
   defaultAlt: 'Ein Bild des Objekts',
   sorting: {
+    sorted: 'Sortiert nach',
     latest: 'Neueste',
     top: 'Beste',
     cheapest: 'Günstigste',
@@ -64,7 +65,7 @@ export default {
     phoneHint: 'Bitte geben Sie Ihre internationale Telefonvorwahl an',
     locales: 'Gesprochene Sprachen',
     message: 'Nachricht',
-    spam: 'Um Spam zu reduzieren, prüfen Sie bitte, was gilt',
+    spam: 'Um Spam zu reduzieren, kreuzen Sie bitte an, was gilt',
     checkbox1: 'Bitte kreuzen Sie an, ob Sie ein Mensch sind',
     checkbox2: 'Bitte kreuzen Sie an, ob Sie ein Roboter sind',
     submit: 'Nachricht senden',

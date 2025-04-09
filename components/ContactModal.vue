@@ -2,15 +2,21 @@
 defineProps<{
   post: string
 }>()
+
+const emit = defineEmits<{ (e: 'close'): void }>()
 </script>
 
 <template>
-  <UModal :title="$t('contact.header')">
+  <UModal
+    :close="{ onClick: () => emit('close') }"
+    :title="$t('contact.header')"
+    :description="$t('contact.header')"
+    :ui="{ description: 'hidden' }"
+  >
     <template #body>
       <p class="text-center">
-        {{ $t('contact.modal.call') }} "<span class="font-semibold italic">{{
-          post
-        }}</span
+        {{ $t('contact.modal.call') }}<br />
+        "<span class="font-semibold italic">{{ post }}</span
         >"
       </p>
       <a
@@ -25,6 +31,7 @@ defineProps<{
       </p>
       <ContactForm
         :default-message="`${$t('contact.modal.defaultMessage')}: ${post}`"
+        @success="emit('close')"
       />
     </template>
   </UModal>

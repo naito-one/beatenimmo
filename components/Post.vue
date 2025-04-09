@@ -80,7 +80,7 @@ onMounted(() => {
 <template>
   <article class="flex flex-col gap-4">
     <!-- title -->
-    <h2 v-if="postWriteup" class="leading-none font-bold">
+    <h2 v-if="postWriteup" class="leading-none font-bold text-xl mb-2">
       {{ postWriteup.title }}
     </h2>
     <USkeleton v-else class="h-4 w-[250px] bg-neutral-300" />
@@ -109,7 +109,7 @@ onMounted(() => {
     <!-- skeleton for a media -->
     <USkeleton
       v-if="!postMedias"
-      class="h-0 w-full rounded-xl bg-neutral-300 pb-[100%]"
+      class="h-0 w-full rounded-xl bg-neutral-300 pb-[100%] md:pb-[75%]"
     />
 
     <!-- key points -->
@@ -241,7 +241,7 @@ onMounted(() => {
     <!-- skeleton for a text -->
     <USkeleton
       v-if="!postTexts"
-      class="h-0 w-full rounded-xl bg-neutral-300 pb-[120%]"
+      class="h-0 w-full rounded-xl bg-neutral-300 pb-[120%] md:pb-[50%]"
     />
   </article>
 </template>

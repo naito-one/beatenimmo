@@ -18,7 +18,7 @@ const config = useSiteConfig()
       :alt="config.name"
       class="mx-14 mt-8 w-auto select-none md:mx-auto md:w-xl lg:mt-0"
     />
-    <h1 class="text-center font-semibold">{{ config.description }}</h1>
+    <h1 class="text-center font-semibold sm:-mt-4 md:mb-4">{{ config.description }}</h1>
     <slot />
     <NavBar></NavBar>
   </main>

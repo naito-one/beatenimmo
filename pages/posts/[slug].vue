@@ -152,7 +152,7 @@ function scrollToCurrent(behavior: 'smooth' | 'instant' = 'smooth') {
   </div>
     -->
 
-  <div class="mx-auto w-full p-4 md:w-2xl">
+  <div class="mx-auto w-full p-4 md:w-2xl mt-2 md:mt-4">
     <Post
       :post="p?.post"
       :post-writeup="p?.postWriteup"

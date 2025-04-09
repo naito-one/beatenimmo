@@ -11,7 +11,7 @@ const sorting = useSorting()
   <nav class="sticky top-0 z-10 flex w-full items-center justify-center pt-4">
     <UButtonGroup class="overflow-hidden rounded-3xl shadow-md">
       <UButton
-        :to="`/posts/${previous}?sorting=${sorting}`"
+        :to="$localePath(`/posts/${previous}?sorting=${sorting}`)"
         :disabled="!previous"
         icon="i-material-symbols-arrow-back-ios-new"
         color="secondary"
@@ -22,7 +22,7 @@ const sorting = useSorting()
         >{{ current + 1 }}/{{ total }}</UBadge
       >
       <UButton
-        :to="`/posts/${next}?sorting=${sorting}`"
+        :to="$localePath(`/posts/${next}?sorting=${sorting}`)"
         :disabled="!next"
         icon="i-material-symbols-arrow-forward-ios"
         color="secondary"

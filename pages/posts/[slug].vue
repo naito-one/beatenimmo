@@ -1,22 +1,23 @@
 <script setup lang="ts">
 import superjson from 'superjson'
-import { useWindowSize } from 'vue-window-size'
-import _debounce from 'lodash/debounce'
+// import { useWindowSize } from 'vue-window-size'
+// import _debounce from 'lodash/debounce'
 
-const slug = ref(useRoute().params['slug'])
+const route = useRoute()
 const { locale } = useI18n()
 const localePath = useLocalePath()
-const { width } = useWindowSize()
-const router = useRouter()
+// const { width } = useWindowSize()
+// const router = useRouter()
 
-const { data: p, clear: clearP } = await usePost(slug, locale.value)
+const slug = ref(route.params['slug'])
+const { data: p/*, clear: clearP*/ } = await usePost(slug, locale.value)
 const allPosts: Ref<Post[]> = ref([])
 const currentPostIndex = ref(-1)
-// TODO: sorting from query
-const sorting: Ref<Sorting> = ref('top')
-const ratio = ref(0)
-const scroller = useTemplateRef('scroller')
-const clientSide = ref(false)
+
+const sorting: Ref<Sorting> = ref(useSorting())
+// const ratio = ref(0)
+// const scroller = useTemplateRef('scroller')
+// const clientSide = ref(false)
 
 // TODO: redirect to 404 or index if p is nullish
 if (!p.value) {
@@ -37,6 +38,7 @@ if (!p.value) {
     (x) => x.id === p.value?.post.id,
   )
 
+  /*
   onMounted(async () => {
     clientSide.value = true
     setTimeout(() => {
@@ -53,8 +55,10 @@ if (!p.value) {
     })
     // TODO get the previous and next post details for quick swipe navigation
   })
+    */
 }
 
+/*
 const snapScroll = _debounce(() => {
   if (!scroller.value || !allPosts.value) {
     return
@@ -84,13 +88,10 @@ function scrollToCurrent(behavior: 'smooth' | 'instant' = 'smooth') {
   })
   router
 }
+*/
 </script>
 <template>
-  <Sorting
-    :value="sorting"
-    @change="sorting = $event"
-    v-if="allPosts.length > 1"
-  ></Sorting>
+  <Sorting :value="sorting" v-if="allPosts.length > 1"></Sorting>
   <!-- scroller -->
   <!--
   TODO: polish scroller

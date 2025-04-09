@@ -17,8 +17,7 @@ const type = computed(() =>
   route.name?.toString().startsWith('rent') ? 'rent' : 'buy',
 )
 
-// TODO: get sorting from query param
-const sorting: Sorting = 'top'
+const sorting = useSorting()
 
 const { data: post } = await useFetch(
   `/api/posts?type=${type.value}&sorting=${sorting}&limit=1`,

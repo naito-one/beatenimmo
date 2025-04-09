@@ -76,4 +76,9 @@ export default {
       defaultMessage: 'Ich möchte mehr Informationen über',
     },
   },
+  noPosts: {
+    title: 'Momentan gibt es nichts zu sehen!',
+    description:
+      'Wir bereiten einige interessante neue Projekte vor, die Sie sich ansehen können. Bitte besuchen Sie uns bald wieder!',
+  },
 }

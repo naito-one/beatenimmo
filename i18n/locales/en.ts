@@ -76,4 +76,9 @@ export default {
       defaultMessage: 'I would like more information about',
     },
   },
+  noPosts: {
+    title: 'Nothing to show at the moment!',
+    description:
+      'We are preparing some juicy new projects for you to look at. Please visit us again soon!',
+  },
 }

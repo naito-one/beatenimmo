@@ -1,6 +1,4 @@
 <script setup lang="ts">
-defineProps<{ value: Sorting }>()
-
 const sortings: { sort: Sorting; icon: string }[] = [
   {
     sort: 'latest',
@@ -15,14 +13,13 @@ const sortings: { sort: Sorting; icon: string }[] = [
     icon: 'i-material-symbols-sell',
   },
 ]
+const sorting = useSorting()
 </script>
 <template>
-  <ul
-    class="mt-4 flex flex-wrap justify-center gap-2 px-4 font-semibold md:mb-4"
-  >
+  <ul class="mt-4 flex flex-wrap justify-center gap-2 px-4 font-semibold">
     <li v-for="s of sortings" :key="s.sort">
       <NuxtLinkLocale
-        :class="`flex items-center gap-2 rounded-3xl p-4 select-none ${value === s.sort ? 'bg-(--ui-color-primary-500) text-white shadow-md' : 'bg-white text-gray-800'}`"
+        :class="`flex items-center gap-2 rounded-3xl p-4 select-none ${sorting === s.sort ? 'bg-(--ui-color-primary-500) text-white shadow-md' : 'bg-white text-gray-800'}`"
         :to="`/?sorting=${s.sort}`"
       >
         <UIcon :name="s.icon" />

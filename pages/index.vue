@@ -20,7 +20,7 @@ const type = computed(() =>
 const sorting = useSorting()
 
 const { data: post } = await useFetch(
-  `/api/posts?type=${type.value}&sorting=${sorting}&limit=1`,
+  `/api/posts?type=${type.value}&sorting=${sorting.value}&limit=1`,
   {
     transform(res) {
       return superjson.parse(res as unknown as string) as Post[]
@@ -30,7 +30,7 @@ const { data: post } = await useFetch(
 
 if (post?.value?.[0]) {
   await navigateTo(
-    localePath(`/posts/${post.value[0].slug}?sorting=${sorting}`),
+    localePath(`/posts/${post.value[0].slug}?sorting=${sorting.value}`),
   )
 } else {
   // TODO: handle case when there are no posts

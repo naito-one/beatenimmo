@@ -8,10 +8,14 @@ export const posts = table('posts', {
   visible: t.int({ mode: 'boolean' }).notNull(),
   relativeValue: t.real().notNull(),
   numRooms: t.real(),
+  numBathrooms: t.real(),
+  numBedrooms: t.real(),
   numFloors: t.real(),
   terrainArea: t.int(),
   livingArea: t.int(),
   livingVolume: t.int(),
+  constructionYear: t.text(),
+  renovationYear: t.text(),
   createdAt: t.int({ mode: 'timestamp' }).notNull(),
   order: t.int().notNull(),
 })
@@ -26,7 +30,9 @@ export const postWriteups = table('postWriteups', {
   title: t.text().notNull(),
   description: t.text().notNull(),
   price: t.text().notNull(),
+  heatingType: t.text(),
   address: t.text(),
+  parking: t.text(),
   crushes: t.text({ mode: 'json' }).$type<string[]>().default([]),
 })
 

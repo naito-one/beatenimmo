@@ -19,10 +19,14 @@ const state = reactive<Partial<Schema>>({
   visible: post?.visible,
   relativeValue: post?.relativeValue,
   numRooms: post?.numRooms,
+  numBathrooms: post?.numBathrooms,
+  numBedrooms: post?.numBedrooms,
   numFloors: post?.numFloors,
   terrainArea: post?.terrainArea,
   livingArea: post?.livingArea,
   livingVolume: post?.livingVolume,
+  constructionYear: post?.constructionYear,
+  renovationYear: post?.renovationYear,
   createdAt: post?.createdAt,
   order: post?.order,
 })
@@ -56,7 +60,7 @@ defineExpose({ validate })
     class="grid grid-cols-3 gap-4"
   >
     <!-- slug -->
-    <UFormField :label="$t('tooltips.post.slug')" name="slug" :required="true">
+    <UFormField :label="$t('tooltips.post.slug')" name="slug" required>
       <UInput
         type="text"
         v-model="state.slug"
@@ -66,7 +70,7 @@ defineExpose({ validate })
       />
     </UFormField>
     <!-- type -->
-    <UFormField :label="$t('tooltips.post.type')" name="type" :required="true">
+    <UFormField :label="$t('tooltips.post.type')" name="type" required>
       <USelect
         v-model="state.type"
         :items="['buy', 'rent']"
@@ -100,6 +104,26 @@ defineExpose({ validate })
     <UFormField :label="$t('tooltips.post.numRooms')" name="numRooms">
       <UInputNumber
         v-model="state.numRooms"
+        :min="0"
+        :step="0.5"
+        @change="submit()"
+        class="font-numbers flex"
+      />
+    </UFormField>
+    <!-- numBathrooms -->
+    <UFormField :label="$t('tooltips.post.numBathrooms')" name="numBathrooms">
+      <UInputNumber
+        v-model="state.numBathrooms"
+        :min="0"
+        :step="0.5"
+        @change="submit()"
+        class="font-numbers flex"
+      />
+    </UFormField>
+    <!-- numBedrooms -->
+    <UFormField :label="$t('tooltips.post.numBedrooms')" name="numBedrooms">
+      <UInputNumber
+        v-model="state.numBedrooms"
         :min="0"
         :step="0.5"
         @change="submit()"
@@ -144,6 +168,30 @@ defineExpose({ validate })
         :step="1"
         @change="submit()"
         class="font-numbers flex"
+      />
+    </UFormField>
+    <!-- constructionYear -->
+    <UFormField
+      :label="$t('tooltips.post.constructionYear')"
+      name="constructionYear"
+    >
+      <UInput
+        type="text"
+        v-model="state.constructionYear"
+        class="font-numbers flex"
+        @input="submit()"
+      />
+    </UFormField>
+    <!-- renovationYear -->
+    <UFormField
+      :label="$t('tooltips.post.renovationYear')"
+      name="renovationYear"
+    >
+      <UInput
+        type="text"
+        v-model="state.renovationYear"
+        class="font-numbers flex"
+        @input="submit()"
       />
     </UFormField>
   </UForm>

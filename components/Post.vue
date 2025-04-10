@@ -72,7 +72,7 @@ onMounted(() => {
 <template>
   <article class="flex flex-col gap-4">
     <!-- title -->
-    <h2 v-if="postWriteup" class="leading-none font-bold text-xl mb-2">
+    <h2 v-if="postWriteup" class="mb-2 text-xl leading-none font-bold">
       {{ postWriteup.title }}
     </h2>
     <USkeleton v-else class="h-4 w-[250px] bg-neutral-300" />
@@ -90,10 +90,7 @@ onMounted(() => {
         :media="firstContent.content"
         :post-writeup="postWriteup"
       ></PostMedia>
-      <PostText
-        v-else
-        :text="firstContent.content"
-      ></PostText>
+      <PostText v-else :text="firstContent.content"></PostText>
     </template>
 
     <!-- skeleton for a media -->
@@ -147,11 +144,29 @@ onMounted(() => {
         </div>
         <div
           tabindex="0"
+          :title="$t('tooltips.post.numBathrooms')"
+          v-if="post.numBathrooms"
+          class="flex h-8 shrink-0 items-center gap-1 border-r border-neutral-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
+        >
+          <UIcon name="i-solar-bath-bold" />{{ post.numBathrooms }}
+        </div>
+        <div
+          tabindex="0"
+          :title="$t('tooltips.post.numBedrooms')"
+          v-if="post.numBedrooms"
+          class="flex h-8 shrink-0 items-center gap-1 border-r border-neutral-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
+        >
+          <UIcon name="i-material-symbols-bed" />{{ post.numBedrooms }}
+        </div>
+        <div
+          tabindex="0"
           :title="$t('tooltips.post.numFloors')"
           v-if="post.numFloors"
           class="flex h-8 shrink-0 items-center gap-1 border-r border-neutral-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
         >
-          <UIcon name="i-material-symbols-floor" />{{ post.numFloors }}
+          <UIcon name="i-cbi-roomsstaircase" />{{
+            /*i-material-symbols-floor*/ post.numFloors
+          }}
         </div>
         <div
           tabindex="0"
@@ -183,6 +198,14 @@ onMounted(() => {
           }}
           m³
         </div>
+        <div
+          tabindex="0"
+          :title="$t('tooltips.post.constructionYear')"
+          v-if="post.constructionYear?.trim()"
+          class="flex h-8 shrink-0 items-center gap-1 border-r border-neutral-200 px-2 first-of-type:pl-0 last-of-type:border-none last-of-type:pr-0"
+        >
+          <UIcon name="i-bi-house-add-fill" />{{ post.constructionYear }}
+        </div>
         <span ref="vail-end-trigger" class="w-px shrink-0"></span>
       </div>
 
@@ -202,6 +225,43 @@ onMounted(() => {
       >
         <UIcon name="i-material-symbols-location-on" class="shrink-0" />{{
           postWriteup.address
+        }}
+      </div>
+      <div
+        tabindex="0"
+        :title="$t('tooltips.post.renovationYear')"
+        v-if="post.renovationYear?.trim()"
+        class="relative flex items-center gap-2 border-b border-neutral-200 py-4 last:border-none last:pb-0"
+      >
+        <UIcon
+          name="i-fluent-paint-brush-sparkle-24-filled"
+          class="shrink-0"
+        />{{
+          /*i-mingcute-paint-brush-ai-fill*/
+          post.renovationYear
+        }}
+      </div>
+      <div
+        tabindex="0"
+        :title="$t('tooltips.postWriteup.heatingType')"
+        v-if="postWriteup.heatingType?.trim()"
+        class="relative flex items-center gap-2 border-b border-neutral-200 py-4 last:border-none last:pb-0"
+      >
+        <UIcon name="i-mdi-stove-burner" class="shrink-0" />{{
+          /*i-mdi-radiator*/
+          /*i-mdi-fireplace*/
+          postWriteup.heatingType
+        }}
+      </div>
+      <div
+        tabindex="0"
+        :title="$t('tooltips.postWriteup.parking')"
+        v-if="postWriteup.parking?.trim()"
+        class="relative flex items-center gap-2 border-b border-neutral-200 py-4 last:border-none last:pb-0"
+      >
+        <UIcon name="i-material-symbols-directions-car" class="shrink-0" />{{
+          /*i-material-symbols-local-parking*/
+          postWriteup.parking
         }}
       </div>
       <div

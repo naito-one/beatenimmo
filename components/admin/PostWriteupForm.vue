@@ -24,7 +24,9 @@ const state = reactive<Partial<Schema> & { crushes: string[] }>({
   title: postWriteup?.title,
   description: postWriteup?.description,
   price: postWriteup?.price,
+  heatingType: postWriteup?.heatingType,
   address: postWriteup?.address,
+  parking: postWriteup?.parking,
   crushes: postWriteup?.crushes || [],
 })
 
@@ -70,11 +72,7 @@ defineExpose({ validate })
     class="flex w-full flex-col gap-4"
   >
     <!-- title -->
-    <UFormField
-      :label="$t('tooltips.postWriteup.title')"
-      name="title"
-      :required="true"
-    >
+    <UFormField :label="$t('tooltips.postWriteup.title')" name="title" required>
       <UInput
         type="text"
         v-model="state.title"
@@ -87,7 +85,7 @@ defineExpose({ validate })
       :label="$t('tooltips.postWriteup.description')"
       description="Only visible in search engine results"
       name="description"
-      :required="true"
+      required
     >
       <UInput
         type="text"
@@ -97,14 +95,22 @@ defineExpose({ validate })
       />
     </UFormField>
     <!-- price -->
-    <UFormField
-      :label="$t('tooltips.postWriteup.price')"
-      name="price"
-      :required="true"
-    >
+    <UFormField :label="$t('tooltips.postWriteup.price')" name="price" required>
       <UInput
         type="text"
         v-model="state.price"
+        @input="submit()"
+        class="font-numbers flex"
+      />
+    </UFormField>
+    <!-- heatingType -->
+    <UFormField
+      :label="$t('tooltips.postWriteup.heatingType')"
+      name="heatingType"
+    >
+      <UInput
+        type="text"
+        v-model="state.heatingType"
         @input="submit()"
         class="font-numbers flex"
       />
@@ -114,6 +120,15 @@ defineExpose({ validate })
       <UInput
         type="text"
         v-model="state.address"
+        @input="submit()"
+        class="font-numbers flex"
+      />
+    </UFormField>
+    <!-- parking -->
+    <UFormField :label="$t('tooltips.postWriteup.parking')" name="parking">
+      <UInput
+        type="text"
+        v-model="state.parking"
         @input="submit()"
         class="font-numbers flex"
       />

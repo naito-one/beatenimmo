@@ -8,6 +8,7 @@ export default defineEventHandler(async (event) => {
     return 'Bip boop, did you forget to check something ?'
   }
 
+  const { contactTo } = useRuntimeConfig()
   const { sendMail } = useNodeMailer()
 
   const text = `Someone has left a new message on BeatenIMMO!
@@ -30,7 +31,7 @@ Automatically sent from BeatenIMMO.ch`
     await sendMail({
       subject: 'New Message on BeatenIMMO',
       text,
-      to: 'twinkelmann@naito.one',
+      to: contactTo,
     })
   } catch (e) {
     console.error(e)

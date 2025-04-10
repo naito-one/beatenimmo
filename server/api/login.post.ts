@@ -6,16 +6,17 @@ const bodySchema = z.object({
 })
 
 export default defineEventHandler(async (event) => {
+  const { adminPassword } = useRuntimeConfig()
   const body = await readBody(event)
   const { email, password } = await readValidatedBody(event, bodySchema.parse)
 
-  if (email === 'admin@admin.com' && password === 'iamtheadmin') {
+  if (email === 'info@beatenimmo.ch' && password === adminPassword) {
     try {
       // set the user session in the cookie
       // this server util is auto-imported by the auth-utils module
       await setUserSession(event, {
         user: {
-          name: 'John Doe',
+          name: 'Corinne Winkelmann',
         },
       })
       return {}

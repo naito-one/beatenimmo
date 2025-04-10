@@ -48,6 +48,11 @@ export default defineNuxtConfig({
   },
   */
 
+  runtimeConfig: {
+    adminPassword: '',
+    contactTo: '',
+  },
+
   nitro: {
     experimental: {
       tasks: true,

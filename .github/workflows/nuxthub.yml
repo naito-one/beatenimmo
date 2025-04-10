@@ -32,6 +32,11 @@ jobs:
 
       - name: Build application
         run: pnpm build
+        env:
+          NUXT_SESSION_PASSWORD: ${{ secrets.NUXT_SESSION_PASSWORD }}
+          NUXT_NODEMAILER_AUTH_PASS: ${{ secrets.NUXT_NODEMAILER_AUTH_PASS }}
+          NUXT_ADMIN_PASSWORD: ${{ secrets.NUXT_ADMIN_PASSWORD }}
+          NUXT_CONTACT_TO: ${{ vars.NUXT_CONTACT_TO }}
 
       - name: Deploy to NuxtHub
         uses: nuxt-hub/action@v1

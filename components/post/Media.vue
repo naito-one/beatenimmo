@@ -4,7 +4,6 @@ defineProps<{
   media: PostMedia
   postWriteup?: PostWriteup
 }>()
-const isVideo = ref(false)
 </script>
 <template>
   <div class="overflow-hidden rounded-xl border border-neutral-200 bg-white">
@@ -25,9 +24,8 @@ const isVideo = ref(false)
         autoplay
         muted
         loop
-        :class="`absolute h-full w-full object-cover object-center transition-opacity duration-500 ${isVideo ? 'opacity-100' : 'opacity-0'}`"
+        class="absolute h-full w-full object-cover object-center"
         :key="media.pathname"
-        @loadeddata="isVideo = true"
       >
         <source :src="`/media/${media.pathname}`" />
       </video>

@@ -120,7 +120,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    baseUrl: 'https://beatenimmo.nuxt.dev/', // https://beatenimmo.ch
+    baseUrl: 'https://beatenimmo.ch',
     strategy: 'prefix_except_default',
     defaultLocale: 'en',
     locales: [

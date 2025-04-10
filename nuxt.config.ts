@@ -32,7 +32,7 @@ export default defineNuxtConfig({
     secure: true,
     auth: {
       user: 'support@naito.one',
-      pass: '5xhuHqr%|$84"XF*/5_x',
+      pass: '',
     },
   },
 
@@ -51,10 +51,6 @@ export default defineNuxtConfig({
   runtimeConfig: {
     adminPassword: '',
     contactTo: '',
-    public: {
-      // Can be overridden by NUXT_PUBLIC_HELLO_TEXT environment variable
-      helloText: 'Hello from the Edge 👋',
-    },
   },
 
   nitro: {

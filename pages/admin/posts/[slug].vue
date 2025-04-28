@@ -590,6 +590,7 @@ function deleteContent(
                     icon="i-material-symbols-delete-outline"
                     color="error"
                     @click="deleteWriteup(item.writeup)"
+                    :disabled="disableModifyBlocks || publishing"
                     >Delete Writeup</UButton
                   >
                 </div>
@@ -606,14 +607,14 @@ function deleteContent(
                     color="secondary"
                     class="ml-auto"
                     @click="addMedia(item.c, item.writeup)"
-                    :disabled="disableModifyBlocks"
+                    :disabled="disableModifyBlocks || publishing"
                     >Add Media</UButton
                   >
                   <UButton
                     icon="i-material-symbols-insert-text"
                     color="secondary"
                     @click="addText(item.c, item.writeup)"
-                    :disabled="disableModifyBlocks"
+                    :disabled="disableModifyBlocks || publishing"
                     >Add Text</UButton
                   >
                 </div>
@@ -633,7 +634,7 @@ function deleteContent(
                       @update:model-value="
                         protectedReorder(item.c, c.content, $event)
                       "
-                      :disabled="disableModifyBlocks"
+                      :disabled="disableModifyBlocks || publishing"
                       class="font-numbers w-fit"
                       trailing-icon="i-material-symbols-expand-all"
                       :ui="{ content: 'font-numbers' }"
@@ -646,7 +647,7 @@ function deleteContent(
                       icon="i-material-symbols-delete-outline"
                       color="error"
                       @click="deleteContent(item.writeup, item.c, c.content)"
-                      :disabled="disableModifyBlocks"
+                      :disabled="disableModifyBlocks || publishing"
                       >Delete Block</UButton
                     >
                   </div>

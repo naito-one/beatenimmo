@@ -139,6 +139,8 @@ const forms: {
     | typeof AdminPostWriteupForm
 } = {}
 
+const disableModifyBlocks = ref(false)
+
 // TODO: redirect to 404 or index if p is nullish
 if (!post.value) {
   navigateTo(localePath('/404'))
@@ -320,6 +322,21 @@ async function publish() {
   }
 }
 
+function protectedReorder(
+  content: EditableContent[],
+  toMove: EditableContent['content'],
+  newOrder: number,
+) {
+  if (disableModifyBlocks.value) {
+    return
+  }
+  disableModifyBlocks.value = true
+  setTimeout(() => {
+    reorder(content, toMove, newOrder)
+    disableModifyBlocks.value = false
+  })
+}
+
 function reorder(
   content: EditableContent[],
   toMove: EditableContent['content'],
@@ -404,49 +421,67 @@ function deleteWriteup(writeup: EditablePostWriteup) {
 }
 
 function addMedia(content: EditableContent[], writeup: EditablePostWriteup) {
-  const id = writeup.id || writeup._tempId
-  if (!id) {
-    console.warn('No ID to create Media')
+  if (disableModifyBlocks.value) {
     return
   }
-  const contentNotDeleted = content.filter((x) => !x.content._deleted)
-  const added: EditablePostMedia = {
-    _tempId: useRandId(),
-    postWriteupId: id,
-    pathname: '',
-    description: null,
-    order:
-      (contentNotDeleted[contentNotDeleted.length - 1]?.content.order || 0) + 1,
-  }
-  if (postMedias.value.has(id)) {
-    postMedias.value.get(id)?.push(added)
-  } else {
-    postMedias.value.set(id, [added])
-  }
-  reorder(content, added, 1)
+  disableModifyBlocks.value = true
+  setTimeout(() => {
+    const id = writeup.id || writeup._tempId
+    if (!id) {
+      console.warn('No ID to create Media')
+      disableModifyBlocks.value = false
+      return
+    }
+    const contentNotDeleted = content.filter((x) => !x.content._deleted)
+    const added: EditablePostMedia = {
+      _tempId: useRandId(),
+      postWriteupId: id,
+      pathname: '',
+      description: null,
+      order:
+        (contentNotDeleted[contentNotDeleted.length - 1]?.content.order || 0) +
+        1,
+    }
+    if (postMedias.value.has(id)) {
+      postMedias.value.get(id)?.push(added)
+    } else {
+      postMedias.value.set(id, [added])
+    }
+    reorder(content, added, 1)
+    disableModifyBlocks.value = false
+  })
 }
 
 function addText(content: EditableContent[], writeup: EditablePostWriteup) {
-  const id = writeup.id || writeup._tempId
-  if (!id) {
-    console.warn('No ID to create Text')
+  if (disableModifyBlocks.value) {
     return
   }
-  const contentNotDeleted = content.filter((x) => !x.content._deleted)
-  const added: EditablePostText = {
-    _tempId: useRandId(),
-    postWriteupId: id,
-    title: '',
-    content: '',
-    order:
-      (contentNotDeleted[contentNotDeleted.length - 1]?.content.order || 0) + 1,
-  }
-  if (postTexts.value.has(id)) {
-    postTexts.value.get(id)?.push(added)
-  } else {
-    postTexts.value.set(id, [added])
-  }
-  reorder(content, added, 1)
+  disableModifyBlocks.value = true
+  setTimeout(() => {
+    const id = writeup.id || writeup._tempId
+    if (!id) {
+      console.warn('No ID to create Text')
+      disableModifyBlocks.value = false
+      return
+    }
+    const contentNotDeleted = content.filter((x) => !x.content._deleted)
+    const added: EditablePostText = {
+      _tempId: useRandId(),
+      postWriteupId: id,
+      title: '',
+      content: '',
+      order:
+        (contentNotDeleted[contentNotDeleted.length - 1]?.content.order || 0) +
+        1,
+    }
+    if (postTexts.value.has(id)) {
+      postTexts.value.get(id)?.push(added)
+    } else {
+      postTexts.value.set(id, [added])
+    }
+    reorder(content, added, 1)
+    disableModifyBlocks.value = false
+  })
 }
 
 function deleteContent(
@@ -454,38 +489,50 @@ function deleteContent(
   content: EditableContent[],
   toMove: EditableContent['content'],
 ) {
-  const contentNotDeleted = content.filter((x) => !x.content._deleted)
-  const originalOrder = toMove.order
-  // move to lats then mark as deleted
-  const last =
-    (contentNotDeleted[contentNotDeleted.length - 1]?.content.order || 0) + 1
-  reorder(content, toMove, last)
-  toMove._deleted = true
+  if (disableModifyBlocks.value) {
+    return
+  }
+  disableModifyBlocks.value = true
 
-  toast.add({
-    title: 'Deleted Block',
-    actions: [
-      {
-        icon: 'i-material-symbols-undo',
-        label: 'Undo',
-        color: 'neutral',
-        variant: 'outline',
-        onClick: (e) => {
-          e?.stopPropagation()
-          // undo
-          const t = tabItems.value.find((tab) => tab.writeup === writeup)
-          if (!t || !t.c) {
-            // cannot restore because writeup was deleted
-            return
-          }
-          const last = (t.c[t.c.length - 1]?.content.order || 0) + 1
-          toMove.order = last
-          toMove._deleted = false
-          // attempt to restore order. won't work if multiple were deleted
-          reorder(t.c, toMove, Math.min(t.c.length + 1, originalOrder))
+  setTimeout(() => {
+    const contentNotDeleted = content.filter((x) => !x.content._deleted)
+    const originalOrder = toMove.order
+    // move to lats then mark as deleted
+    const last =
+      (contentNotDeleted[contentNotDeleted.length - 1]?.content.order || 0) + 1
+    reorder(content, toMove, last)
+    toMove._deleted = true
+
+    toast.add({
+      title: 'Deleted Block',
+      actions: [
+        {
+          icon: 'i-material-symbols-undo',
+          label: 'Undo',
+          color: 'neutral',
+          variant: 'outline',
+          onClick: (e) => {
+            e?.stopPropagation()
+            // undo
+            const t = tabItems.value.find((tab) => tab.writeup === writeup)
+            if (!t || !t.c) {
+              // cannot restore because writeup was deleted
+              return
+            }
+            const last = (t.c[t.c.length - 1]?.content.order || 0) + 1
+            toMove.order = last
+            toMove._deleted = false
+            // attempt to restore order. won't work if multiple were deleted
+            protectedReorder(
+              t.c,
+              toMove,
+              Math.min(t.c.length + 1, originalOrder),
+            )
+          },
         },
-      },
-    ],
+      ],
+    })
+    disableModifyBlocks.value = false
   })
 }
 </script>
@@ -559,12 +606,14 @@ function deleteContent(
                     color="secondary"
                     class="ml-auto"
                     @click="addMedia(item.c, item.writeup)"
+                    :disabled="disableModifyBlocks"
                     >Add Media</UButton
                   >
                   <UButton
                     icon="i-material-symbols-insert-text"
                     color="secondary"
                     @click="addText(item.c, item.writeup)"
+                    :disabled="disableModifyBlocks"
                     >Add Text</UButton
                   >
                 </div>
@@ -581,7 +630,10 @@ function deleteContent(
                     <USelect
                       :model-value="c.content.order"
                       :items="item.c.map((x) => x.content.order)"
-                      @update:model-value="reorder(item.c, c.content, $event)"
+                      @update:model-value="
+                        protectedReorder(item.c, c.content, $event)
+                      "
+                      :disabled="disableModifyBlocks"
                       class="font-numbers w-fit"
                       trailing-icon="i-material-symbols-expand-all"
                       :ui="{ content: 'font-numbers' }"
@@ -594,6 +646,7 @@ function deleteContent(
                       icon="i-material-symbols-delete-outline"
                       color="error"
                       @click="deleteContent(item.writeup, item.c, c.content)"
+                      :disabled="disableModifyBlocks"
                       >Delete Block</UButton
                     >
                   </div>

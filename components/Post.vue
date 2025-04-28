@@ -16,6 +16,7 @@ const props = defineProps<{
 }>()
 
 const { width } = useWindowSize()
+const { t } = useI18n()
 
 const vailStartTrigger = useTemplateRef('vail-start-trigger')
 const vailEndTrigger = useTemplateRef('vail-end-trigger')
@@ -42,6 +43,29 @@ const orderedContent: Ref<Content[]> = computed(() => {
 })
 const firstContent = computed(() => orderedContent.value[0])
 const restOfContent = computed(() => orderedContent.value.slice(1))
+
+const banner = computed(() => {
+  if (!props.post) {
+    return null
+  }
+
+  switch (props.post.state) {
+    case 'available':
+      return null
+    case 'reserved':
+      return {
+        text: t('tooltips.post.states.reserved'),
+        class: 'bg-orange-500',
+      }
+    case 'sold':
+      return {
+        text: t(
+          `tooltips.post.states.${props.post.type === 'buy' ? 'sold' : 'rented'}`,
+        ),
+        class: 'bg-pink-600',
+      }
+  }
+})
 
 // don't show the vail if the scrolling amount is very small (prevent flickering)
 watch(width, () => {
@@ -89,8 +113,9 @@ onMounted(() => {
         v-if="firstContent.type === 'media'"
         :media="firstContent.content"
         :post-writeup="postWriteup"
+        :banner="banner"
       ></PostMedia>
-      <PostText v-else :text="firstContent.content"></PostText>
+      <PostText v-else :text="firstContent.content" :banner="banner"></PostText>
     </template>
 
     <!-- skeleton for a media -->

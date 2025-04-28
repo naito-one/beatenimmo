@@ -3,10 +3,13 @@ import type { PostMedia, PostWriteup } from '~/server/utils/drizzle'
 defineProps<{
   media: PostMedia
   postWriteup?: PostWriteup
+  banner?: { text: string; class: string } | null
 }>()
 </script>
 <template>
-  <div class="overflow-hidden rounded-xl border border-neutral-200 bg-white">
+  <div
+    class="relative overflow-hidden rounded-xl border border-neutral-200 bg-white"
+  >
     <p v-if="media.description?.trim()" class="p-4 font-bold">
       {{ media.description }}
     </p>
@@ -29,6 +32,15 @@ defineProps<{
       >
         <source :src="`/media/${media.pathname}`" />
       </video>
+    </div>
+    <div
+      :class="
+        banner.class +
+        ' absolute right-20 bottom-10 w-full translate-x-1/2 -rotate-45 p-4 text-center text-lg font-bold text-(--ui-bg) shadow-md'
+      "
+      v-if="banner"
+    >
+      {{ banner.text }}
     </div>
   </div>
 </template>

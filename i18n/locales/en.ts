@@ -72,8 +72,8 @@ export default {
     locales: 'Spoken Languages',
     message: 'Message',
     spam: 'In order to reduce spam, please check what applies',
-    checkbox1: 'Please check if you are human',
-    checkbox2: 'Please check if you are a robot',
+    checkbox1: 'I am a human',
+    checkbox2: 'I am a robot',
     submit: 'Send Message',
     modal: {
       call: 'Feel free to call us now to learn more about',

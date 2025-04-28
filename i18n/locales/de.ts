@@ -21,6 +21,13 @@ export default {
     post: {
       slug: 'Individueller Name',
       type: 'Immobilienart',
+      state: 'Poststaat',
+      states: {
+        available: 'Verfügbar',
+        reserved: 'Reserviert',
+        sold: 'Verkauft',
+        rented: 'Vermietet',
+      },
       visible: 'Sichtbarkeit',
       relativeValue: 'Relativer Wert',
       numRooms: 'Zimmeranzahl',

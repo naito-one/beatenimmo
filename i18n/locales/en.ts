@@ -21,6 +21,13 @@ export default {
     post: {
       slug: 'Unique name',
       type: 'Type',
+      state: 'State',
+      states: {
+        available: 'Available',
+        reserved: 'Reserved',
+        sold: 'Sold',
+        rented: 'Rented',
+      },
       visible: 'Visible',
       relativeValue: 'Relative value',
       numRooms: 'Number of rooms',

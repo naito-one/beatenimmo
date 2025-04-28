@@ -5,6 +5,11 @@ export const posts = table('posts', {
   id: t.int().primaryKey({ autoIncrement: true }),
   slug: t.text().notNull(),
   type: t.text().$type<'buy' | 'rent'>().notNull(),
+  state: t
+    .text()
+    .$type<'available' | 'reserved' | 'sold'>()
+    .notNull()
+    .default('available'),
   visible: t.int({ mode: 'boolean' }).notNull(),
   relativeValue: t.real().notNull(),
   numRooms: t.real(),

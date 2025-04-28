@@ -9,6 +9,8 @@ const { post } = defineProps<{
 }>()
 const emit = defineEmits<{ (e: 'change', post: Schema): void }>()
 
+const { t } = useI18n()
+
 const schema = createInsertSchema(tables.posts)
 
 type Schema = z.output<typeof schema>
@@ -16,6 +18,7 @@ type Schema = z.output<typeof schema>
 const state = reactive<Partial<Schema>>({
   slug: post?.slug,
   type: post?.type,
+  state: post?.state,
   visible: post?.visible,
   relativeValue: post?.relativeValue,
   numRooms: post?.numRooms,
@@ -30,6 +33,21 @@ const state = reactive<Partial<Schema>>({
   createdAt: post?.createdAt,
   order: post?.order,
 })
+
+const stateItems = computed(() => [
+  {
+    label: t('tooltips.post.states.available'),
+    value: 'available',
+  },
+  {
+    label: t('tooltips.post.states.reserved'),
+    value: 'reserved',
+  },
+  {
+    label: t(`tooltips.post.states.${state.type === 'buy' ? 'sold' : 'rented'}`),
+    value: 'sold',
+  },
+])
 
 const form = useTemplateRef('form')
 
@@ -70,11 +88,21 @@ defineExpose({ validate })
       />
     </UFormField>
     <!-- type -->
+    <!--
     <UFormField :label="$t('tooltips.post.type')" name="type" required>
       <USelect
         v-model="state.type"
         :items="['buy', 'rent']"
         :ui="{ base: 'w-full' }"
+        @input="submit()"
+      />
+    </UFormField>
+    -->
+    <!-- state -->
+    <UFormField :label="$t('tooltips.post.state')" name="state">
+      <URadioGroup
+        v-model="state.state"
+        :items="stateItems"
         @input="submit()"
       />
     </UFormField>

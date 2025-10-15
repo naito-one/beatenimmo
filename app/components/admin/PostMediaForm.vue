@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import * as z from 'zod'
 import { createInsertSchema } from 'drizzle-zod'
-import { tables } from '../../server/utils/drizzle'
+import { tables } from '~~/server/utils/drizzle'
 import _debounce from 'lodash/debounce'
 
 const { postMedia } = defineProps<{

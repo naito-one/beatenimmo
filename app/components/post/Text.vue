@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PostText } from '~/server/utils/drizzle'
+import type { PostText } from '~~/server/utils/drizzle'
 defineProps<{
   text: PostText
   banner?: { text: string; class: string } | null

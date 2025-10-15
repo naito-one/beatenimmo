@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import * as z from 'zod'
 import { createInsertSchema } from 'drizzle-zod'
-import { tables } from '../../server/utils/drizzle'
+import { tables } from '~~/server/utils/drizzle'
 import _debounce from 'lodash/debounce'
 
 const { post } = defineProps<{
@@ -44,7 +44,9 @@ const stateItems = computed(() => [
     value: 'reserved',
   },
   {
-    label: t(`tooltips.post.states.${state.type === 'buy' ? 'sold' : 'rented'}`),
+    label: t(
+      `tooltips.post.states.${state.type === 'buy' ? 'sold' : 'rented'}`,
+    ),
     value: 'sold',
   },
 ])

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PostMedia, PostWriteup } from '~/server/utils/drizzle'
+import type { PostMedia, PostWriteup } from '~~/server/utils/drizzle'
 defineProps<{
   media: PostMedia
   postWriteup?: PostWriteup

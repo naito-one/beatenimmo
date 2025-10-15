@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { z } from 'zod'
-import schema from '~/server/utils/contactSchema'
+import schema from '~~/server/utils/contactSchema'
 import type { FormSubmitEvent } from '@nuxt/ui'
 const { t, locale } = useI18n()
 const url = useRequestURL()

@@ -9,7 +9,7 @@ const sorting = useSorting()
 </script>
 <template>
   <nav class="sticky top-0 z-10 flex w-full items-center justify-center pt-4">
-    <UButtonGroup class="overflow-hidden rounded-3xl shadow-md">
+    <UFieldGroup class="overflow-hidden rounded-3xl shadow-md">
       <UButton
         :to="$localePath(`/posts/${previous}?sorting=${sorting}`)"
         :disabled="!previous"
@@ -27,6 +27,6 @@ const sorting = useSorting()
         icon="i-material-symbols-arrow-forward-ios"
         color="secondary"
       />
-    </UButtonGroup>
+    </UFieldGroup>
   </nav>
 </template>

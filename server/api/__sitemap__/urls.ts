@@ -1,7 +1,7 @@
 import { defineSitemapEventHandler } from '#imports'
 import type { SitemapUrl } from '#sitemap/types'
 import { PublicRuntimeConfig } from 'nuxt/schema'
-import { Post } from '~/server/utils/drizzle'
+import { Post } from '~~/server/utils/drizzle'
 import superjson from 'superjson'
 
 function localePath(

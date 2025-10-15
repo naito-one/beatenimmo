@@ -48,13 +48,15 @@ async function addPost(slug: false | string) {
 
 <template>
   <div class="flex flex-col items-center gap-4 p-4">
-    <div class="w-3/4 rounded-xl border border-neutral-200 bg-white p-4">
-      <h2 class="mb-2 text-xl font-semibold">Debug actions</h2>
-      <UButtonGroup>
-        <UButton @click="clear()" color="secondary">Clear DB</UButton>
-        <UButton @click="seed()" color="secondary"> Seed DB</UButton>
-      </UButtonGroup>
-    </div>
+    <DevOnly>
+      <div class="w-3/4 rounded-xl border border-neutral-200 bg-white p-4">
+        <h2 class="mb-2 text-xl font-semibold">Debug actions</h2>
+        <UFieldGroup>
+          <UButton @click="clear()" color="secondary">Clear DB</UButton>
+          <UButton @click="seed()" color="secondary"> Seed DB</UButton>
+        </UFieldGroup>
+      </div>
+    </DevOnly>
 
     <div class="w-3/4 rounded-xl border border-neutral-200 bg-white p-4">
       <h2 class="mb-2 text-xl font-semibold">Posts</h2>

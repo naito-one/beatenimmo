@@ -5,7 +5,7 @@ import type {
   PostMedia,
   PostText,
   PostWriteup,
-} from '~/server/utils/drizzle'
+} from '~~/server/utils/drizzle'
 
 const props = defineProps<{
   post?: Post

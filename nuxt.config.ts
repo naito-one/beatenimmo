@@ -66,8 +66,14 @@ export default defineNuxtConfig({
 
   // https://hub.nuxt.com/docs/getting-started/installation#options
   hub: {
+    // D1 database
+    db: {
+      dialect: 'sqlite',
+      driver: 'd1',
+      applyMigrationsDuringBuild: false,
+    },
+    // R2 bucket
     blob: true,
-    database: true,
   },
 
   app: {
@@ -138,8 +144,6 @@ export default defineNuxtConfig({
   },
 
   sitemap: {
-    sources: [
-      '/api/__sitemap__/urls',
-    ]
-  }
+    sources: ['/api/__sitemap__/urls'],
+  },
 })

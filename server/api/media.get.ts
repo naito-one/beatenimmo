@@ -1,4 +1,5 @@
-import { BlobObject } from '@nuxthub/core'
+import { blob } from '@nuxthub/blob'
+import { BlobObject } from '@nuxthub/core/blob'
 // import { computeUsage } from '../utils/media'
 
 /**
@@ -11,7 +12,7 @@ export default eventHandler(async (event) => {
   let cursor = undefined
 
   do {
-    const res = await hubBlob().list({ cursor })
+    const res = await blob.list({ cursor })
     blobs.push(...res.blobs)
     cursor = res.cursor
   } while (cursor)

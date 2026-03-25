@@ -1,7 +1,7 @@
 import { db } from '@nuxthub/db'
 export { sql, eq, and, or, asc, desc } from 'drizzle-orm'
 
-import * as schema from '../database/schema'
+import * as schema from '../db/schema'
 
 export const tables = schema
 

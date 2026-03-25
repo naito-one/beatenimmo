@@ -54,6 +54,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    preset: 'cloudflare_module',
     experimental: {
       tasks: true,
       openAPI: true,

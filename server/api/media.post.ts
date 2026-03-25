@@ -1,3 +1,5 @@
+import { blob } from '@nuxthub/blob'
+
 export default eventHandler(async (event) => {
   const form = await readFormData(event)
   const file = form.get('file') as File
@@ -11,7 +13,7 @@ export default eventHandler(async (event) => {
     types: ['image', 'video'],
   })
 
-  return hubBlob().put(file.name, file, {
+  return blob.put(file.name, file, {
     addRandomSuffix: true,
   })
 })

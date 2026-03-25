@@ -9,9 +9,10 @@
     "preview": "npx nuxthub preview",
     "deploy": "npx nuxthub deploy",
     "postinstall": "nuxt prepare",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "nuxt db generate"
   },
   "dependencies": {
+    "@libsql/client": "^0.17.2",
     "@nuxt/ui": "^4.6.0",
     "@nuxthub/core": "^0.10.7",
     "@nuxtjs/i18n": "10.2.4",

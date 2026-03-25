@@ -1,4 +1,4 @@
-import { drizzle } from 'drizzle-orm/d1'
+import { db } from '@nuxthub/db'
 export { sql, eq, and, or, asc, desc } from 'drizzle-orm'
 
 import * as schema from '../database/schema'
@@ -6,7 +6,7 @@ import * as schema from '../database/schema'
 export const tables = schema
 
 export function useDrizzle() {
-  return drizzle(hubDatabase(), { schema })
+  return db
 }
 
 export type Post = typeof schema.posts.$inferSelect

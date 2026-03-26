@@ -12,7 +12,7 @@ const toast = useToast()
 // const router = useRouter()
 
 const slug = ref(route.params['slug'])
-const { data: p /*, clear: clearP*/ } = await usePost(slug, locale.value)
+const p = await usePost(slug, locale.value)
 const allPosts: Ref<Post[]> = ref([])
 const currentPostIndex = ref(-1)
 
@@ -26,14 +26,14 @@ const overlay = useOverlay()
 const modal = overlay.create(ContactModal)
 
 function onContact() {
-  modal.open({ post: p.value?.postWriteup?.title })
+  modal.open({ post: p?.postWriteup?.title ?? 'Unknown' })
 }
 
 // TODO: redirect to 404 or index if p is nullish
-if (!p.value) {
+if (!p) {
   navigateTo(localePath('/404'))
 } else {
-  const type = p.value.post.type
+  const type = p.post.type
 
   const { data } = await useFetch(
     `/api/posts?type=${type}&sorting=${sorting.value}`,
@@ -44,9 +44,7 @@ if (!p.value) {
     },
   )
   allPosts.value = data.value || []
-  currentPostIndex.value = allPosts.value.findIndex(
-    (x) => x.id === p.value?.post.id,
-  )
+  currentPostIndex.value = allPosts.value.findIndex((x) => x.id === p?.post.id)
 
   /*
   onMounted(async () => {
@@ -69,19 +67,17 @@ if (!p.value) {
 }
 
 watch(sorting, async () => {
-  if (!p.value) {
+  if (!p) {
     return
   }
-  const type = p.value.post.type
+  const type = p.post.type
   const data = superjson.parse(
     (await $fetch(
       `/api/posts?type=${type}&sorting=${sorting.value}`,
     )) as unknown as string,
   ) as Post[]
   allPosts.value = data || []
-  currentPostIndex.value = allPosts.value.findIndex(
-    (x) => x.id === p.value?.post.id,
-  )
+  currentPostIndex.value = allPosts.value.findIndex((x) => x.id === p?.post.id)
   toast.add({
     title: `${t('sorting.sorted')}: ${t(`sorting.${sorting.value}`)}`,
     duration: 2000,
@@ -121,7 +117,7 @@ function scrollToCurrent(behavior: 'smooth' | 'instant' = 'smooth') {
 */
 </script>
 <template>
-  <Sorting v-if="allPosts.length > 1"></Sorting>
+  <Sorting :current-slug="p?.post.slug" v-if="allPosts.length > 1"></Sorting>
   <Pagination
     v-if="allPosts.length > 1"
     :current="currentPostIndex"

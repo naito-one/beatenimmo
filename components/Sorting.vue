@@ -1,4 +1,6 @@
 <script setup lang="ts">
+defineProps<{ currentSlug: string|undefined}>()
+
 const sortings: { sort: Sorting; icon: string }[] = [
   {
     sort: 'latest',
@@ -20,7 +22,7 @@ const sorting = useSorting()
     <li v-for="s of sortings" :key="s.sort">
       <NuxtLinkLocale
         :class="`flex items-center gap-2 rounded-3xl p-4 select-none ${sorting === s.sort ? 'bg-(--ui-color-primary-500) text-white shadow-md' : 'bg-white text-gray-800'}`"
-        :to="`/?sorting=${s.sort}`"
+        :to="`/posts/${currentSlug}?sorting=${s.sort}`"
       >
         <UIcon :name="s.icon" />
         <span class="leading-none">{{ $t(`sorting.${s.sort}`) }}</span>

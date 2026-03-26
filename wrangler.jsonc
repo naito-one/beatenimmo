@@ -3,6 +3,10 @@
   "name": "beatenimmo",
   "compatibility_flags": ["nodejs_compat"],
 
+  "vars": {
+    "NUXT_CONTACT_TO": "info@beatenimmo.ch",
+  },
+
   "d1_databases": [
     {
       "binding": "DB",
@@ -26,4 +30,5 @@
       "invocation_logs": true,
     },
   },
+  "send_metrics": false,
 }

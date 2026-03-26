@@ -7,6 +7,13 @@
     "NUXT_CONTACT_TO": "info@beatenimmo.ch",
   },
 
+  "routes": [
+    {
+      "pattern": "beatenimmo.ch",
+      "custom_domain": true,
+    },
+  ],
+
   "d1_databases": [
     {
       "binding": "DB",

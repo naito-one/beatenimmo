@@ -1,3 +1,4 @@
+import { db } from '@nuxthub/db'
 import { createSchemaFactory } from 'drizzle-zod'
 import superjson from 'superjson'
 
@@ -36,7 +37,7 @@ export default eventHandler(async (event) => {
     })
   }
 
-  const posts = await useDrizzle()
+  const posts = await db
     .update(tables.posts)
     .set(post)
     .where(eq(tables.posts.id, idNum))

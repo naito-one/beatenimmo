@@ -1,3 +1,4 @@
+import { db } from '@nuxthub/db'
 import superjson from 'superjson'
 
 export default eventHandler(async (event) => {
@@ -21,7 +22,7 @@ export default eventHandler(async (event) => {
   const session = await getUserSession(event)
   const isLoggedIn = Boolean(session.user)
 
-  const query = useDrizzle()
+  const query = db
     .select()
     .from(tables.posts)
     .where(

@@ -1,3 +1,4 @@
+import { db } from '@nuxthub/db'
 import { createSchemaFactory } from 'drizzle-zod'
 import superjson from 'superjson'
 
@@ -24,7 +25,7 @@ export default eventHandler(async (event) => {
   const post = await readValidatedBody(event, schema.parse)
   post.id = undefined
 
-  const posts = await useDrizzle().insert(tables.posts).values(post).returning()
+  const posts = await db.insert(tables.posts).values(post).returning()
 
   return superjson.stringify(posts) as unknown as typeof posts
 })

@@ -1,3 +1,4 @@
+import { db } from '@nuxthub/db'
 import { createUpdateSchema } from 'drizzle-zod'
 
 const schema = createUpdateSchema(tables.postWriteups, {
@@ -23,7 +24,7 @@ export default eventHandler(async (event) => {
     })
   }
 
-  const postWriteups = await useDrizzle()
+  const postWriteups = await db
     .update(tables.postWriteups)
     .set(postWriteup)
     .where(eq(tables.postWriteups.id, idNum))

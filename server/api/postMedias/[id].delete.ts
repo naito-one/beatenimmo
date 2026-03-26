@@ -1,3 +1,5 @@
+import { db } from '@nuxthub/db'
+
 export default eventHandler(async (event) => {
   await requireUserSession(event)
   const { id } = getRouterParams(event)
@@ -11,7 +13,7 @@ export default eventHandler(async (event) => {
     })
   }
 
-  const res = await useDrizzle()
+  const res = await db
     .delete(tables.postMedias)
     .where(eq(tables.postMedias.id, idNum))
 

@@ -1,3 +1,4 @@
+import { db } from '@nuxthub/db'
 import { Post, PostMedia, PostText, PostWriteup } from '../utils/drizzle'
 
 export default defineTask({
@@ -295,7 +296,7 @@ export default defineTask({
       ],
     ]
 
-    const insertedPosts = await useDrizzle()
+    const insertedPosts = await db
       .insert(tables.posts)
       .values(posts)
       .returning()
@@ -306,7 +307,7 @@ export default defineTask({
       )
     }
 
-    const insertetPostWriteups = await useDrizzle()
+    const insertetPostWriteups = await db
       .insert(tables.postWriteups)
       .values(postWriteups.flat())
       .returning()
@@ -320,8 +321,8 @@ export default defineTask({
       )
     }
 
-    await useDrizzle().insert(tables.postMedias).values(postMedias.flat())
-    await useDrizzle().insert(tables.postTexts).values(postTexts.flat())
+    await db.insert(tables.postMedias).values(postMedias.flat())
+    await db.insert(tables.postTexts).values(postTexts.flat())
 
     return { result: 'success' }
   },

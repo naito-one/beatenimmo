@@ -1,3 +1,4 @@
+import { db } from '@nuxthub/db'
 import { createInsertSchema } from 'drizzle-zod'
 
 const schema = createInsertSchema(tables.postWriteups, {
@@ -14,7 +15,7 @@ export default eventHandler(async (event) => {
   const postWriteup = await readValidatedBody(event, schema.parse)
   postWriteup.id = undefined
 
-  const postWriteups = await useDrizzle()
+  const postWriteups = await db
     .insert(tables.postWriteups)
     .values(postWriteup)
     .returning()

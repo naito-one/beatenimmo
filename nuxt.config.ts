@@ -61,16 +61,13 @@ export default defineNuxtConfig({
     },
   },
 
-  // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
-  future: { compatibilityVersion: 4 },
-  compatibilityDate: '2025-03-01',
+  compatibilityDate: 'latest',
 
   // https://hub.nuxt.com/docs/getting-started/installation#options
   hub: {
     // D1 database
     db: {
       dialect: 'sqlite',
-      driver: 'd1',
       applyMigrationsDuringBuild: false,
     },
     // R2 bucket

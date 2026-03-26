@@ -1,3 +1,4 @@
+import { db } from '@nuxthub/db'
 import { createUpdateSchema } from 'drizzle-zod'
 
 const schema = createUpdateSchema(tables.postMedias, {
@@ -19,7 +20,7 @@ export default eventHandler(async (event) => {
     })
   }
 
-  const postMedias = await useDrizzle()
+  const postMedias = await db
     .update(tables.postMedias)
     .set(postMedia)
     .where(eq(tables.postMedias.id, idNum))

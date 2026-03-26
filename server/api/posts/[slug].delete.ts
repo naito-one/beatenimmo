@@ -1,3 +1,5 @@
+import { db } from '@nuxthub/db'
+
 export default eventHandler(async (event) => {
   await requireUserSession(event)
   // route uses slug like the get route because otherwise occurs a weird
@@ -14,9 +16,7 @@ export default eventHandler(async (event) => {
     })
   }
 
-  const res = await useDrizzle()
-    .delete(tables.posts)
-    .where(eq(tables.posts.id, idNum))
+  const res = await db.delete(tables.posts).where(eq(tables.posts.id, idNum))
 
   return res
 })

@@ -1,3 +1,5 @@
+import { db } from '@nuxthub/db'
+
 export default defineTask({
   meta: {
     name: 'db:clear',
@@ -6,7 +8,7 @@ export default defineTask({
   async run() {
     console.log('Running DB clear task...')
 
-    await useDrizzle().delete(tables.posts)
+    await db.delete(tables.posts)
 
     return { result: 'success' }
   },

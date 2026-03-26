@@ -1,3 +1,5 @@
+import { db } from '@nuxthub/db'
+
 export default eventHandler(async (event) => {
   await requireUserSession(event)
 
@@ -17,6 +19,11 @@ export default eventHandler(async (event) => {
         livingVolume: null,
         createdAt: new Date(),
         order: 2,
+        state: 'available',
+        numBathrooms: 1,
+        numBedrooms: 2,
+        constructionYear: '1980',
+        renovationYear: null,
       },
       {
         type: 'buy',
@@ -30,6 +37,11 @@ export default eventHandler(async (event) => {
         livingVolume: 350,
         createdAt: new Date(),
         order: 1,
+        state: 'available',
+        numBathrooms: null,
+        numBedrooms: null,
+        constructionYear: '2010',
+        renovationYear: null,
       },
       {
         type: 'buy',
@@ -43,6 +55,11 @@ export default eventHandler(async (event) => {
         livingVolume: null,
         createdAt: new Date(),
         order: 3,
+        state: 'available',
+        numBathrooms: 1,
+        numBedrooms: 2,
+        constructionYear: '1980',
+        renovationYear: null,
       },
     ]
 
@@ -57,6 +74,8 @@ export default eventHandler(async (event) => {
           price: "CHF 500'000",
           address: 'Schmockenstrasse 220, 3803 Beatenberg',
           crushes: ['Balcony', 'Barbecue'],
+          heatingType: null,
+          parking: null,
         },
         {
           postId: -1,
@@ -66,6 +85,8 @@ export default eventHandler(async (event) => {
           price: '500000.-',
           address: 'Schmockenstrasse 220, 3803 Beatenberg',
           crushes: ['Balkon', 'Grill'],
+          heatingType: null,
+          parking: null,
         },
       ],
       // second post
@@ -79,6 +100,8 @@ export default eventHandler(async (event) => {
           price: "CHF 1'300'000",
           address: 'Schmockenstrasse 42, 3803 Beatenberg',
           crushes: ['Terrace', 'Lounge', 'High-Tech Kitchen'],
+          heatingType: null,
+          parking: null,
         },
         {
           postId: -1,
@@ -89,6 +112,8 @@ export default eventHandler(async (event) => {
           price: '1.300.000,-',
           address: 'Schmockenstrasse 42, 3803 Beatenberg',
           crushes: ['Balkon', 'Lounge', 'Hightech-Küche'],
+          heatingType: null,
+          parking: null,
         },
       ],
       // third post
@@ -102,6 +127,8 @@ export default eventHandler(async (event) => {
           price: "CHF 256'000",
           address: 'Schmockenstrasse 1, 3803 Beatenberg',
           crushes: ['Fruit trees', 'Stream'],
+          heatingType: null,
+          parking: null,
         },
         {
           postId: -1,
@@ -112,6 +139,8 @@ export default eventHandler(async (event) => {
           price: '256.000,-',
           address: 'Schmockenstrasse 1, 3803 Beatenberg',
           crushes: ['Obstbäume', 'Wasserstrom'],
+          heatingType: null,
+          parking: null,
         },
       ],
     ]
@@ -292,33 +321,33 @@ export default eventHandler(async (event) => {
       ],
     ]
 
-    const insertedPosts = await useDrizzle()
+    const insertedPosts = await db
       .insert(tables.posts)
       .values(posts)
       .returning()
 
     for (let i = 0; i < insertedPosts.length; ++i) {
-      postWriteups[i].forEach(
-        (writeup) => (writeup.postId = insertedPosts[i].id),
+      postWriteups[i]!.forEach(
+        (writeup) => (writeup.postId = insertedPosts[i]!.id),
       )
     }
 
-    const insertetPostWriteups = await useDrizzle()
+    const insertetPostWriteups = await db
       .insert(tables.postWriteups)
       .values(postWriteups.flat())
       .returning()
 
     for (let i = 0; i < insertetPostWriteups.length; ++i) {
-      postMedias[i].forEach(
-        (media) => (media.postWriteupId = insertetPostWriteups[i].id),
+      postMedias[i]!.forEach(
+        (media) => (media.postWriteupId = insertetPostWriteups[i]!.id),
       )
-      postTexts[i].forEach(
-        (text) => (text.postWriteupId = insertetPostWriteups[i].id),
+      postTexts[i]!.forEach(
+        (text) => (text.postWriteupId = insertetPostWriteups[i]!.id),
       )
     }
 
-    await useDrizzle().insert(tables.postMedias).values(postMedias.flat())
-    await useDrizzle().insert(tables.postTexts).values(postTexts.flat())
+    await db.insert(tables.postMedias).values(postMedias.flat())
+    await db.insert(tables.postTexts).values(postTexts.flat())
     return { result: 'success' }
   } catch (e) {
     return { result: 'failure', error: String(e) }

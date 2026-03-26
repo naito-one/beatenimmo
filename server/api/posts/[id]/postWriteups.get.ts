@@ -1,3 +1,5 @@
+import { db } from '@nuxthub/db'
+
 export default eventHandler(async (event) => {
   const { id } = getRouterParams(event)
   const { locale } = getQuery(event)
@@ -7,7 +9,7 @@ export default eventHandler(async (event) => {
       ? (locale.toString() as PostWriteup['locale'])
       : undefined
 
-  const postWriteups = await useDrizzle()
+  const postWriteups = await db
     .select()
     .from(tables.postWriteups)
     .where(

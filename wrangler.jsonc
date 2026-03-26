@@ -20,4 +20,10 @@
       "preview_bucket_name": "beatenimmo-preview",
     },
   ],
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true,
+    },
+  },
 }

@@ -1,5 +1,21 @@
+<script setup lang="ts">
+import { NewsletterModal } from '#components'
+
+const overlay = useOverlay()
+
+const newsletterModal = overlay.create(NewsletterModal)
+</script>
 <template>
   <div class="mx-auto flex flex-col gap-4 p-4 md:mt-4 md:w-3/4 lg:w-2xl">
+    <UButton
+      color="secondary"
+      class="col-span-2"
+      icon="i-material-symbols-campaign"
+      :ui="{ base: 'justify-center' }"
+      @click="newsletterModal.open()"
+    >
+      {{ $t('newsletter.modal.header') }}
+    </UButton>
     <div class="rounded-xl border border-neutral-200 bg-white p-4">
       <h2 class="mb-4 text-xl font-bold">{{ $t('contact.header') }}</h2>
       <ContactForm />

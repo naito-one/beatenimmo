@@ -3,12 +3,14 @@ defineProps<{
   post: string
 }>()
 
+const { interact } = useInteractions()
+
 const emit = defineEmits<{ (e: 'close'): void }>()
 </script>
 
 <template>
   <UModal
-    :close="{ onClick: () => emit('close') }"
+    @after:leave="interact"
     :title="$t('contact.header')"
     :description="$t('contact.header')"
     :ui="{ description: 'hidden' }"

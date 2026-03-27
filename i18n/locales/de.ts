@@ -89,6 +89,11 @@ export default {
       defaultMessage: 'Ich interessiere mich für weitere Informationen zu',
     },
   },
+  newsletter: {
+    modal: {
+      header: 'Verpassen Sie keine neuen Objekte',
+    },
+  },
   noPosts: {
     title: 'Aktuell keine Immobilien verfügbar!',
     description:

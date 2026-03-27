@@ -89,6 +89,11 @@ export default {
       defaultMessage: 'I would like more information about',
     },
   },
+  newsletter: {
+    modal: {
+      header: 'Never miss a new Property',
+    },
+  },
   noPosts: {
     title: 'Nothing to show at the moment!',
     description:

@@ -18,7 +18,7 @@ const emit = defineEmits<{ (e: 'close'): void }>()
   >
     <template #body>
       <iframe
-        class="h-80 w-full"
+        class="h-100 sm:h-85 w-full"
         :src="
           $i18n.locale === 'en' ? '/newsletter.en.html' : '/newsletter.de.html'
         "

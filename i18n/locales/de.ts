@@ -91,7 +91,7 @@ export default {
   },
   newsletter: {
     modal: {
-      header: 'Verpassen Sie keine neuen Objekte',
+      header: 'Newsletter abonnieren',
     },
   },
   noPosts: {

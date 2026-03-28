@@ -91,7 +91,7 @@ export default {
   },
   newsletter: {
     modal: {
-      header: 'Never miss a new Property',
+      header: 'Subscribe to the Newsletter',
     },
   },
   noPosts: {

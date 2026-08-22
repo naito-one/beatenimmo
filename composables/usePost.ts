@@ -1,9 +1,10 @@
 import superjson from 'superjson'
+import type { AvailableLocales } from '~/consts'
 
 
 export async function usePost(
   slug: Ref<string | string[] | undefined>,
-  locale: 'en' | 'de',
+  locale: AvailableLocales,
 ) {
   const post = superjson.parse(
     (await $fetch(`/api/posts/${slug.value}`, {

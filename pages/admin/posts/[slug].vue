@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import superjson from 'superjson'
+import AdminPostForm from '@/components/admin/PostForm.vue'
+import AdminPostMediaForm from '@/components/admin/PostMediaForm.vue'
+import AdminPostTextForm from '@/components/admin/PostTextForm.vue'
+import AdminPostWriteupForm from '@/components/admin/PostWriteupForm.vue'
+import { normalizedLocales, type AvailableLocales } from '~/consts'
 
 definePageMeta({
   layout: 'admin-layout',
@@ -39,13 +44,13 @@ const postTexts: Ref<Map<PostWriteup['id'], EditablePostText[]>> = ref(
  *
  * Used to reset to empty after a choice is made
  */
-const createWriteup: Ref<'en' | 'de' | undefined> = ref(undefined)
+const createWriteup: Ref<AvailableLocales | undefined> = ref(undefined)
 /**
  * Writeups that can still be created
  */
 const availableWriteups = computed(
   () =>
-    ['en', 'de']
+    normalizedLocales
       .filter(
         (l) =>
           !postWriteups.value
@@ -54,7 +59,7 @@ const availableWriteups = computed(
       )
       .map((l) => ({ label: t(`locales.${l}`), value: l })) as {
       label: string
-      value: 'en' | 'de'
+      value: AvailableLocales
     }[],
 )
 
@@ -127,10 +132,7 @@ const previewTexts = computed(() =>
     : []
   ).filter((x) => !x._deleted),
 )
-import AdminPostForm from '@/components/admin/PostForm.vue'
-import AdminPostMediaForm from '@/components/admin/PostMediaForm.vue'
-import AdminPostTextForm from '@/components/admin/PostTextForm.vue'
-import AdminPostWriteupForm from '@/components/admin/PostWriteupForm.vue'
+
 const forms: {
   [x: string]:
     | typeof AdminPostForm
@@ -362,7 +364,7 @@ function reorder(
   toMove.order = newOrder
 }
 
-function addWriteup(locale: 'en' | 'de') {
+function addWriteup(locale: AvailableLocales) {
   if (!post.value) {
     return
   }
@@ -375,6 +377,8 @@ function addWriteup(locale: 'en' | 'de') {
     price: '',
     address: null,
     crushes: [],
+    heatingType: null,
+    parking: null
   }
   postWriteups.value.push(added)
   setTimeout(() => {

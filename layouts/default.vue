@@ -4,21 +4,23 @@ import { NEWSLETTER_FLAG } from '~/consts'
 
 const config = useSiteConfig()
 const persist = usePersist()
+const runtimeConfig = useRuntimeConfig()
 
-onMounted(() => {
-  if (!persist.getFlag(NEWSLETTER_FLAG)) {
-    const { interactions } = useInteractions()
-    const overlay = useOverlay()
-    const newsletterModal = overlay.create(NewsletterModal)
-    watch(interactions, (num) => {
-      // after exactly 4 interactions, display the newsletter modal
-      if (num === 4) {
-        // TODO: check if already shown / store shown on close
-        newsletterModal.open()
-      }
-    })
-  }
-})
+if (runtimeConfig.public.enableNewsletter) {
+  onMounted(() => {
+    if (!persist.getFlag(NEWSLETTER_FLAG)) {
+      const { interactions } = useInteractions()
+      const overlay = useOverlay()
+      const newsletterModal = overlay.create(NewsletterModal)
+      watch(interactions, (num) => {
+        // after exactly 4 interactions, display the newsletter modal
+        if (num === 4) {
+          newsletterModal.open()
+        }
+      })
+    }
+  })
+}
 </script>
 <template>
   <main class="flex min-h-[100vh] flex-col bg-neutral-100 pb-14 lg:pb-12">

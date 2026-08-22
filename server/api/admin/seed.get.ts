@@ -1,9 +1,12 @@
 import { db } from '@nuxthub/db'
+import { normalizedLocales } from '~/consts'
 
 export default eventHandler(async (event) => {
   await requireUserSession(event)
 
   console.log('Running DB seed task...')
+
+  const hasMultiLocale = normalizedLocales.length > 1
 
   try {
     const posts: Omit<Post, 'id'>[] = [
@@ -68,7 +71,7 @@ export default eventHandler(async (event) => {
       [
         {
           postId: -1,
-          locale: 'en',
+          locale: normalizedLocales[0],
           title: 'Renovated Swiss Chalet with forest',
           description: 'Magnificient Chalet Lorem ipsum dolor sit amet.',
           price: "CHF 500'000",
@@ -77,23 +80,25 @@ export default eventHandler(async (event) => {
           heatingType: null,
           parking: null,
         },
-        {
-          postId: -1,
-          locale: 'de',
-          title: 'Renoviertes Schweizer Chalet mit Wald',
-          description: 'Wunderschönes Chalet Lorem ipsum dolor sit amet.',
-          price: '500000.-',
-          address: 'Schmockenstrasse 220, 3803 Beatenberg',
-          crushes: ['Balkon', 'Grill'],
-          heatingType: null,
-          parking: null,
-        },
-      ],
+        hasMultiLocale
+          ? {
+              postId: -1,
+              locale: normalizedLocales[1],
+              title: 'Renoviertes Schweizer Chalet mit Wald',
+              description: 'Wunderschönes Chalet Lorem ipsum dolor sit amet.',
+              price: '500000.-',
+              address: 'Schmockenstrasse 220, 3803 Beatenberg',
+              crushes: ['Balkon', 'Grill'],
+              heatingType: null,
+              parking: null,
+            }
+          : undefined,
+      ].filter((x) => x !== undefined),
       // second post
       [
         {
           postId: -1,
-          locale: 'en',
+          locale: normalizedLocales[0],
           title: 'Dream house in the mountains',
           description:
             'Your dream house in Beatenberg Lorem ipsum dolor sit amet.',
@@ -103,24 +108,26 @@ export default eventHandler(async (event) => {
           heatingType: null,
           parking: null,
         },
-        {
-          postId: -1,
-          locale: 'de',
-          title: 'Wunschhaus in den Bergen',
-          description:
-            'Ihr Wunschobjekt in Beatenberg Lorem ipsum dolor sit amet.',
-          price: '1.300.000,-',
-          address: 'Schmockenstrasse 42, 3803 Beatenberg',
-          crushes: ['Balkon', 'Lounge', 'Hightech-Küche'],
-          heatingType: null,
-          parking: null,
-        },
-      ],
+        hasMultiLocale
+          ? {
+              postId: -1,
+              locale: normalizedLocales[1],
+              title: 'Wunschhaus in den Bergen',
+              description:
+                'Ihr Wunschobjekt in Beatenberg Lorem ipsum dolor sit amet.',
+              price: '1.300.000,-',
+              address: 'Schmockenstrasse 42, 3803 Beatenberg',
+              crushes: ['Balkon', 'Lounge', 'Hightech-Küche'],
+              heatingType: null,
+              parking: null,
+            }
+          : undefined,
+      ].filter((x) => x !== undefined),
       // third post
       [
         {
           postId: -1,
-          locale: 'en',
+          locale: normalizedLocales[0],
           title: 'Terrain with ideal sun exposure',
           description:
             'Ready to build your mountain house project Lorem ipsum dolor sit amet.',
@@ -130,19 +137,21 @@ export default eventHandler(async (event) => {
           heatingType: null,
           parking: null,
         },
-        {
-          postId: -1,
-          locale: 'de',
-          title: 'Boden mit idealer Sonneneinstrahlung',
-          description:
-            'Bereit zum Bau Ihres Berghausprojekts ipsum dolor sit amet.',
-          price: '256.000,-',
-          address: 'Schmockenstrasse 1, 3803 Beatenberg',
-          crushes: ['Obstbäume', 'Wasserstrom'],
-          heatingType: null,
-          parking: null,
-        },
-      ],
+        hasMultiLocale
+          ? {
+              postId: -1,
+              locale: normalizedLocales[1],
+              title: 'Boden mit idealer Sonneneinstrahlung',
+              description:
+                'Bereit zum Bau Ihres Berghausprojekts ipsum dolor sit amet.',
+              price: '256.000,-',
+              address: 'Schmockenstrasse 1, 3803 Beatenberg',
+              crushes: ['Obstbäume', 'Wasserstrom'],
+              heatingType: null,
+              parking: null,
+            }
+          : undefined,
+      ].filter((x) => x !== undefined),
     ]
 
     const postMedias: Omit<PostMedia, 'id'>[][] = [

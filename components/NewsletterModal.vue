@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import { NEWSLETTER_FLAG } from '~/consts'
+import { NEWSLETTER_FLAG, type AvailableLocales } from '~/consts'
 const persist = usePersist()
+
+const newsletters: Record<AvailableLocales, string> = {
+  en: '/newsletter.en.html',
+  de: '/newsletter.de.html',
+}
 
 const emit = defineEmits<{ (e: 'close'): void }>()
 </script>
@@ -18,10 +23,8 @@ const emit = defineEmits<{ (e: 'close'): void }>()
   >
     <template #body>
       <iframe
-        class="h-100 sm:h-85 w-full"
-        :src="
-          $i18n.locale === 'en' ? '/newsletter.en.html' : '/newsletter.de.html'
-        "
+        class="h-100 w-full sm:h-85"
+        :src="newsletters[$i18n.locale]"
         frameborder="0"
       ></iframe>
     </template>

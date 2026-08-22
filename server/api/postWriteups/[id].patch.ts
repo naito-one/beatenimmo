@@ -1,5 +1,6 @@
 import { db } from '@nuxthub/db'
 import { createUpdateSchema } from 'drizzle-zod'
+import { type AvailableLocales, normalizedLocales } from '~/consts'
 
 const schema = createUpdateSchema(tables.postWriteups, {
   title: (schema) => schema.trim().min(1),
@@ -7,7 +8,9 @@ const schema = createUpdateSchema(tables.postWriteups, {
   price: (schema) => schema.trim().min(1),
   address: (schema) => schema.trim(),
   locale: (schema) =>
-    schema.refine((locale) => locale === 'en' || locale === 'de'),
+    schema.refine((locale): locale is AvailableLocales =>
+      normalizedLocales.includes(locale as any),
+    ),
 })
 
 export default eventHandler(async (event) => {

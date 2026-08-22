@@ -1,12 +1,13 @@
 import { db } from '@nuxthub/db'
+import { type AvailableLocales, normalizedLocales } from '~/consts'
 
 export default eventHandler(async (event) => {
   const { id } = getRouterParams(event)
   const { locale } = getQuery(event)
 
   const checkedLocale =
-    locale && ['en', 'de'].includes(locale.toString())
-      ? (locale.toString() as PostWriteup['locale'])
+    locale && normalizedLocales.includes(locale.toString() as any)
+      ? (locale.toString() as AvailableLocales)
       : undefined
 
   const postWriteups = await db

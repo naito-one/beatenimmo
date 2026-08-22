@@ -1,5 +1,6 @@
 import { sqliteTable as table } from 'drizzle-orm/sqlite-core'
 import * as t from 'drizzle-orm/sqlite-core'
+import { AvailableLocales } from '~/consts'
 
 export const posts = table('posts', {
   id: t.int().primaryKey({ autoIncrement: true }),
@@ -31,7 +32,7 @@ export const postWriteups = table('postWriteups', {
     .int()
     .references(() => posts.id, { onDelete: 'cascade' })
     .notNull(),
-  locale: t.text().$type<'en' | 'de'>().notNull(),
+  locale: t.text().$type<AvailableLocales>().notNull(),
   title: t.text().notNull(),
   description: t.text().notNull(),
   price: t.text().notNull(),

@@ -51,6 +51,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     adminPassword: process.env.NUXT_ADMIN_PASSWORD,
     contactTo: process.env.NUXT_CONTACT_TO,
+    public: {
+      enableNewsletter: true,
+    },
   },
 
   nitro: {

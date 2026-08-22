@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { NewsletterModal } from '#components'
 
+const runtimeConfig = useRuntimeConfig()
 const overlay = useOverlay()
 
 const newsletterModal = overlay.create(NewsletterModal)
@@ -8,6 +9,7 @@ const newsletterModal = overlay.create(NewsletterModal)
 <template>
   <div class="mx-auto flex flex-col gap-4 p-4 md:mt-4 md:w-3/4 lg:w-2xl">
     <UButton
+      v-if="runtimeConfig.public.enableNewsletter"
       color="secondary"
       class="col-span-2"
       icon="i-material-symbols-campaign"

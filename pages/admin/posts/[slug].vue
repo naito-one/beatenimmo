@@ -65,9 +65,7 @@ const availableWriteups = computed(
 
 const tabItems = computed(() => [
   {
-    label: 'General',
-    description:
-      "Make changes to your account here. Click save when you're done.",
+    label: t('admin.tabs.general'),
     icon: 'i-material-symbols-settings',
     slot: 'general',
     writeup: undefined,
@@ -87,13 +85,13 @@ const tabItems = computed(() => [
         const medias = (postMedias.value.get(id) ?? [])
           .filter((x) => !x._deleted)
           .map((x) => ({
-            type: 'media' as 'media',
+            type: 'media' as const,
             content: x,
           }))
         const texts = (postTexts.value.get(id) ?? [])
           .filter((x) => !x._deleted)
           .map((x) => ({
-            type: 'text' as 'text',
+            type: 'text' as const,
             content: x,
           }))
 
@@ -143,9 +141,8 @@ const forms: {
 
 const disableModifyBlocks = ref(false)
 
-// TODO: redirect to 404 or index if p is nullish
 if (!post.value) {
-  navigateTo(localePath('/404'))
+  navigateTo(localePath('/admin'))
 } else {
   // casting because comparison stack depth is exceeded
   const writeups = (await $fetch(
@@ -185,10 +182,10 @@ async function publish() {
   const res = await Promise.all(fs.map((f) => f.validate()))
   if (res.some((r) => !r)) {
     toast.add({
-      title: 'Could not publish',
-      description:
-        'Some of the data is invalid. Please correct issues before publishing.',
+      title: t('admin.save.invalid.title'),
+      description: t('admin.save.invalid.description'),
       color: 'warning',
+      icon: 'i-material-symbols-warning-outline',
     })
     publishing.value = false
   } else {
@@ -199,8 +196,9 @@ async function publish() {
     ) {
       post.value.visible = false
       toast.add({
-        title: 'Visibility set to Hidden as there are no Writeups',
+        title: t('admin.save.madeInvisible.title'),
         color: 'warning',
+        icon: 'i-material-symbols-warning-outline',
       })
     }
 
@@ -310,15 +308,18 @@ async function publish() {
       }
 
       toast.add({
-        title: 'Post successfully published',
+        title: t('admin.save.success.title'),
+        color: 'success',
+        icon: 'i-material-symbols-check-circle-outline',
       })
-      useRouter().go(-1)
     } catch (e) {
       console.error(e)
       toast.add({
-        title: 'An error occured while saving the Post',
+        title: t('admin.save.error.title'),
         color: 'error',
+        icon: 'i-material-symbols-error-outline',
       })
+    } finally {
       publishing.value = false
     }
   }
@@ -378,7 +379,7 @@ function addWriteup(locale: AvailableLocales) {
     address: null,
     crushes: [],
     heatingType: null,
-    parking: null
+    parking: null,
   }
   postWriteups.value.push(added)
   setTimeout(() => {
@@ -392,11 +393,11 @@ function deleteWriteup(writeup: EditablePostWriteup) {
   writeup._deleted = true
 
   toast.add({
-    title: 'Deleted Writeup',
+    title: t('admin.deleteWriteup.deleted.title'),
     actions: [
       {
         icon: 'i-material-symbols-undo',
-        label: 'Undo',
+        label: t('admin.generic.undo'),
         color: 'neutral',
         variant: 'outline',
         onClick: (e) => {
@@ -408,9 +409,8 @@ function deleteWriteup(writeup: EditablePostWriteup) {
           ) {
             // cannot undo as the user already created a new one
             toast.add({
-              title: 'Failed to undo',
-              description:
-                'Cannot undo deletion as another Writeup exists for the same language.',
+              title: t('admin.deleteWriteup.undoFailed.title'),
+              description: t('admin.deleteWriteup.undoFailed.description'),
               color: 'error',
               icon: 'i-material-symbols-error-outline',
             })
@@ -421,6 +421,8 @@ function deleteWriteup(writeup: EditablePostWriteup) {
         },
       },
     ],
+    color: 'success',
+    icon: 'i-material-symbols-check-circle-outline',
   })
 }
 
@@ -432,7 +434,11 @@ function addMedia(content: EditableContent[], writeup: EditablePostWriteup) {
   setTimeout(() => {
     const id = writeup.id || writeup._tempId
     if (!id) {
-      console.warn('No ID to create Media')
+      toast.add({
+        title: t('admin.addBlock.missingId.title'),
+        color: 'error',
+        icon: 'i-material-symbols-error-outline',
+      })
       disableModifyBlocks.value = false
       return
     }
@@ -464,7 +470,11 @@ function addText(content: EditableContent[], writeup: EditablePostWriteup) {
   setTimeout(() => {
     const id = writeup.id || writeup._tempId
     if (!id) {
-      console.warn('No ID to create Text')
+      toast.add({
+        title: t('admin.addBlock.missingId.title'),
+        color: 'error',
+        icon: 'i-material-symbols-error-outline',
+      })
       disableModifyBlocks.value = false
       return
     }
@@ -508,33 +518,41 @@ function deleteContent(
     toMove._deleted = true
 
     toast.add({
-      title: 'Deleted Block',
+      title: t('admin.deleteBlock.deleted.title'),
       actions: [
         {
           icon: 'i-material-symbols-undo',
-          label: 'Undo',
+          label: t('admin.generic.undo'),
           color: 'neutral',
           variant: 'outline',
           onClick: (e) => {
             e?.stopPropagation()
             // undo
-            const t = tabItems.value.find((tab) => tab.writeup === writeup)
-            if (!t || !t.c) {
+            const tab = tabItems.value.find((tab) => tab.writeup === writeup)
+            if (!tab || !tab.c) {
               // cannot restore because writeup was deleted
+              toast.add({
+                title: t('admin.deleteBlock.undoFailed.title'),
+                description: t('admin.deleteBlock.undoFailed.description'),
+                color: 'error',
+                icon: 'i-material-symbols-error-outline',
+              })
               return
             }
-            const last = (t.c[t.c.length - 1]?.content.order || 0) + 1
+            const last = (tab.c[tab.c.length - 1]?.content.order || 0) + 1
             toMove.order = last
             toMove._deleted = false
             // attempt to restore order. won't work if multiple were deleted
             protectedReorder(
-              t.c,
+              tab.c,
               toMove,
-              Math.min(t.c.length + 1, originalOrder),
+              Math.min(tab.c.length + 1, originalOrder),
             )
           },
         },
       ],
+      color: 'success',
+      icon: 'i-material-symbols-check-circle-outline',
     })
     disableModifyBlocks.value = false
   })
@@ -543,15 +561,17 @@ function deleteContent(
 <template>
   <div class="flex h-full flex-col items-center gap-4 p-4">
     <div class="flex w-full items-center justify-between gap-8">
-      <UButton icon="i-material-symbols-arrow-back" @click="$router.go(-1)"
-        >Back</UButton
-      >
-      <h1 class="text-center font-bold">Editing "{{ post?.slug }}"</h1>
+      <UButton icon="i-material-symbols-arrow-back" @click="$router.go(-1)">{{
+        t('admin.generic.back')
+      }}</UButton>
+      <h1 class="text-center font-bold">
+        {{ t('admin.generic.editing') }} "{{ post?.slug }}"
+      </h1>
       <UButton
         icon="i-material-symbols-save"
         :loading="publishing"
         @click="publish()"
-        >Publish</UButton
+        >{{ $t('admin.generic.save') }}</UButton
       >
     </div>
     <div class="flex h-0 w-full grow justify-center gap-16">
@@ -568,7 +588,7 @@ function deleteContent(
         >
           <template #general>
             <USelect
-              placeholder="Create Writeup for"
+              :placeholder="t('admin.generic.writeupFor')"
               v-model="createWriteup"
               :items="availableWriteups"
               @update:model-value="addWriteup($event)"
@@ -588,14 +608,16 @@ function deleteContent(
             <template v-if="item.writeup">
               <div class="mt-2 flex flex-col gap-4">
                 <div class="flex items-center gap-4">
-                  <h2 class="font-semibold">{{ item.label }} Writeup</h2>
+                  <h2 class="font-semibold">
+                    {{ t('admin.generic.writeup', { lang: item.label }) }}
+                  </h2>
                   <UButton
                     class="ml-auto"
                     icon="i-material-symbols-delete-outline"
                     color="error"
                     @click="deleteWriteup(item.writeup)"
                     :disabled="disableModifyBlocks || publishing"
-                    >Delete Writeup</UButton
+                    >{{ t('admin.deleteWriteup.action') }}</UButton
                   >
                 </div>
                 <AdminPostWriteupForm
@@ -605,21 +627,25 @@ function deleteContent(
                 />
 
                 <div class="flex w-full items-center gap-4">
-                  <h2 class="font-semibold">Blocks</h2>
+                  <h2 class="font-semibold">{{ t('admin.generic.blocks') }}</h2>
                   <UButton
                     icon="i-material-symbols-perm-media-outline"
                     color="secondary"
                     class="ml-auto"
                     @click="addMedia(item.c, item.writeup)"
                     :disabled="disableModifyBlocks || publishing"
-                    >Add Media</UButton
+                    >{{
+                      t('admin.generic.add', { type: t('admin.generic.media') })
+                    }}</UButton
                   >
                   <UButton
                     icon="i-material-symbols-insert-text"
                     color="secondary"
                     @click="addText(item.c, item.writeup)"
                     :disabled="disableModifyBlocks || publishing"
-                    >Add Text</UButton
+                    >{{
+                      t('admin.generic.add', { type: t('admin.generic.text') })
+                    }}</UButton
                   >
                 </div>
 
@@ -644,7 +670,11 @@ function deleteContent(
                       :ui="{ content: 'font-numbers' }"
                     />
                     <h2 class="font-semibold">
-                      {{ c.type === 'media' ? 'Media' : 'Text' }} Block
+                      {{
+                        t('admin.generic.block', {
+                          type: t(`admin.generic.${c.type}`),
+                        })
+                      }}
                     </h2>
                     <UButton
                       class="ml-auto"
@@ -652,7 +682,7 @@ function deleteContent(
                       color="error"
                       @click="deleteContent(item.writeup, item.c, c.content)"
                       :disabled="disableModifyBlocks || publishing"
-                      >Delete Block</UButton
+                      >{{ t('admin.deleteBlock.action') }}</UButton
                     >
                   </div>
                   <AdminPostMediaForm

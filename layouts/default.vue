@@ -33,7 +33,7 @@ if (runtimeConfig.public.enableNewsletter) {
         <UButton
           :to="$localePath('/admin')"
           icon="i-material-symbols-admin-panel-settings"
-          >To Admin
+          >{{ $t('admin.toAdmin') }}
         </UButton>
       </div>
     </AuthState>

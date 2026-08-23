@@ -104,7 +104,7 @@ onMounted(() => {
     <UAlert
       v-if="post && !post.visible"
       icon="i-material-symbols-visibility-off-outline"
-      title="Post is invisible to normal users"
+      :title="$t('admin.invisible')"
     />
 
     <!-- always show first element before key points-->

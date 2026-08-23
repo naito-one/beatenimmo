@@ -14,6 +14,7 @@ defineProps<{
       {{ media.description }}
     </p>
     <div
+      v-if="media.pathname"
       class="relative h-0 bg-cover bg-center pb-[100%] md:pb-[75%]"
       :style="`background-image: url(/media/${media.pathname})`"
       :aria-label="
@@ -33,6 +34,12 @@ defineProps<{
         <source :src="`/media/${media.pathname}`" />
       </video>
     </div>
+    <!-- skeleton for a media -->
+    <USkeleton
+      v-else
+      class="h-0 w-full rounded-xl bg-neutral-300 pb-[100%] md:pb-[75%]"
+    />
+
     <div
       :class="
         banner.class +

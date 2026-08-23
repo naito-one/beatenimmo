@@ -6,6 +6,7 @@ withDefaults(
   }>(),
   { controls: true },
 )
+const { t } = useI18n()
 
 const isVideo = ref(false)
 </script>
@@ -14,7 +15,7 @@ const isVideo = ref(false)
   <div
     class="relative h-0 overflow-hidden rounded-md bg-cover bg-center pb-[100%]"
     :style="`background-image: url(/media/${pathname})`"
-    aria-label="A Media"
+    :aria-label="t('admin.generic.media')"
     aria-roledescription="img"
   >
     <video

@@ -41,6 +41,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       title: res ? 'Warning' : 'Success',
       description: res || 'The form has been submitted.',
       color: res ? 'warning' : 'success',
+      icon: res
+        ? 'i-material-symbols-warning-outline'
+        : 'i-material-symbols-check-circle-outline',
     })
     if (!res) {
       emit('success')
@@ -51,6 +54,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       description:
         'Sorry, an error occured while submitting your form. Please call us instead, or try again later.',
       color: 'error',
+      icon: 'i-material-symbols-error-outline',
     })
     console.error(e)
     console.log(event.data)

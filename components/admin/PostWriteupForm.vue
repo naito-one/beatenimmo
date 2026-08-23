@@ -72,7 +72,12 @@ defineExpose({ validate })
     class="flex w-full flex-col gap-4"
   >
     <!-- title -->
-    <UFormField :label="$t('tooltips.postWriteup.title')" name="title" required>
+    <UFormField
+      :label="$t('tooltips.postWriteup.title')"
+      :description="$t('notes.postWriteup.title')"
+      name="title"
+      required
+    >
       <UInput
         type="text"
         v-model="state.title"
@@ -83,7 +88,7 @@ defineExpose({ validate })
     <!-- description -->
     <UFormField
       :label="$t('tooltips.postWriteup.description')"
-      description="Only visible in search engine results"
+      :description="$t('notes.postWriteup.description')"
       name="description"
       required
     >
@@ -95,7 +100,12 @@ defineExpose({ validate })
       />
     </UFormField>
     <!-- price -->
-    <UFormField :label="$t('tooltips.postWriteup.price')" name="price" required>
+    <UFormField
+      :label="$t('tooltips.postWriteup.price')"
+      :description="$t('notes.postWriteup.price')"
+      name="price"
+      required
+    >
       <UInput
         type="text"
         v-model="state.price"
@@ -133,7 +143,11 @@ defineExpose({ validate })
         class="font-numbers flex"
       />
     </UFormField>
-    <UFormField :label="$t('tooltips.postWriteup.crushes')" name="crushes">
+    <UFormField
+      :label="$t('tooltips.postWriteup.crushes')"
+      :description="$t('notes.postWriteup.crushes')"
+      name="crushes"
+    >
       <USelectMenu
         multiple
         v-model="state.crushes"

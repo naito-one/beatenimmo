@@ -8,7 +8,7 @@ const schema = computed(() =>
     .string()
     .trim()
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/g, {
-      message: t('validation.slug'),
+      error: t('admin.validation.slug'),
     }),
 )
 
@@ -38,8 +38,8 @@ const validate = _debounce(() => {
 <template>
   <UModal
     :close="{ onClick: () => emit('close', false) }"
-    title="Add Post"
-    description="Add Post"
+    :title="t('admin.addPost.action')"
+    :description="t('admin.addPost.action')"
     :ui="{ footer: 'justify-end', description: 'hidden' }"
   >
     <template #body>
@@ -68,9 +68,13 @@ const validate = _debounce(() => {
     </template>
     <template #footer>
       <div class="flex gap-2">
-        <UButton color="neutral" label="Cancel" @click="emit('close', false)" />
         <UButton
-          label="Confirm"
+          color="neutral"
+          :label="t('admin.generic.cancel')"
+          @click="emit('close', false)"
+        />
+        <UButton
+          :label="t('admin.generic.confirm')"
           :disabled="!output"
           @click="emit('close', output as string)"
         />

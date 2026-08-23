@@ -6,6 +6,7 @@ definePageMeta({
   middleware: ['authenticated'],
 })
 
+const { t } = useI18n()
 const toast = useToast()
 const overlay = useOverlay()
 
@@ -37,11 +38,19 @@ async function addPost(slug: false | string) {
 
   try {
     await $fetch(`/api/posts`, { method: 'post', body: added })
-    toast.add({ title: 'New Post created' })
+    toast.add({
+      title: t('admin.addPost.added.title'),
+      color: 'success',
+      icon: 'i-material-symbols-check-circle-outline',
+    })
     await navigateTo(localePath(`/admin/posts/${slug}`))
   } catch (e) {
     console.error(e)
-    toast.add({ title: 'Failed to create Post', color: 'error' })
+    toast.add({
+      title: t('admin.addPost.error.title'),
+      color: 'error',
+      icon: 'i-material-symbols-error-outline',
+    })
   }
 }
 </script>
@@ -50,23 +59,27 @@ async function addPost(slug: false | string) {
   <div class="flex flex-col items-center gap-4 p-4">
     <DevOnly>
       <div class="w-3/4 rounded-xl border border-neutral-200 bg-white p-4">
-        <h2 class="mb-2 text-xl font-semibold">Debug actions</h2>
+        <h2 class="mb-2 text-xl font-semibold">{{ t('admin.debug.name') }}</h2>
         <UFieldGroup>
-          <UButton @click="clear()" color="secondary">Clear DB</UButton>
-          <UButton @click="seed()" color="secondary"> Seed DB</UButton>
+          <UButton @click="clear()" color="secondary">{{
+            t('admin.debug.clear')
+          }}</UButton>
+          <UButton @click="seed()" color="secondary">{{
+            t('admin.debug.seed')
+          }}</UButton>
         </UFieldGroup>
       </div>
     </DevOnly>
 
     <div class="w-3/4 rounded-xl border border-neutral-200 bg-white p-4">
-      <h2 class="mb-2 text-xl font-semibold">Posts</h2>
+      <h2 class="mb-2 text-xl font-semibold">{{ t('admin.generic.posts') }}</h2>
       <AdminPostTable ref="table"></AdminPostTable>
       <UButton
         icon="i-material-symbols-post-add"
         color="secondary"
         class="mx-auto mt-4 flex"
         @click="modal.open().then(addPost)"
-        >Add Post</UButton
+        >{{ t('admin.addPost.action') }}</UButton
       >
     </div>
   </div>

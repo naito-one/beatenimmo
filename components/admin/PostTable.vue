@@ -5,7 +5,7 @@ import superjson from 'superjson'
 import type { Column } from '@tanstack/vue-table'
 
 const localPath = useLocalePath()
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 
 const toast = useToast()
 const overlay = useOverlay()
@@ -13,37 +13,37 @@ const overlay = useOverlay()
 const modal = overlay.create(ConfirmModal)
 const posts: Ref<Post[]> = ref([])
 
-const columns: TableColumn<Post>[] = [
+const columns = computed<TableColumn<Post>[]>(() => [
   {
     accessorKey: 'id',
-    header: ({ column }) => getHeader(column, 'ID'),
+    header: ({ column }) => getHeader(column, t('tooltips.post.id')),
   },
   {
     accessorKey: 'slug',
-    header: ({ column }) => getHeader(column, 'Slug'),
+    header: ({ column }) => getHeader(column, t('tooltips.post.slug')),
   },
   {
     accessorKey: 'type',
-    header: ({ column }) => getHeader(column, 'Type'),
+    header: ({ column }) => getHeader(column, t('tooltips.post.type')),
   },
   {
     accessorKey: 'visible',
-    header: ({ column }) => getHeader(column, 'Visible'),
+    header: ({ column }) => getHeader(column, t('tooltips.post.visible')),
   },
   {
     accessorKey: 'createdAt',
-    header: ({ column }) => getHeader(column, 'Created'),
+    header: ({ column }) => getHeader(column, t('tooltips.post.created')),
     cell: ({ row }) =>
       (row.getValue('createdAt') as Date).toLocaleString(locale.value),
   },
   {
     accessorKey: 'order',
-    header: ({ column }) => getHeader(column, 'Top Order'),
+    header: ({ column }) => getHeader(column, t('admin.generic.topOrder')),
   },
   {
     id: 'action',
   },
-]
+])
 
 function getDropdownActions(post: Post): DropdownMenuItem[][] {
   return [
@@ -66,20 +66,20 @@ function getDropdownActions(post: Post): DropdownMenuItem[][] {
     ],*/
     [
       {
-        label: 'Edit',
+        label: t('admin.generic.edit'),
         icon: 'i-material-symbols-edit-square-outline',
         onSelect: () => {
           navigateTo(localPath(`/admin/posts/${post.slug}`))
         },
       },
       {
-        label: 'Delete',
+        label: t('admin.deletePost.action'),
         icon: 'i-material-symbols-delete-outline',
         color: 'error',
         onSelect: async () => {
           const shouldDelete = await modal.open({
-            title: `Confirm deleting ${post.slug}`,
-            description: 'This action cannot be undone.',
+            title: t('admin.deletePost.confirm.title', { post: post.slug }),
+            description: t('admin.deletePost.confirm.description'),
           })
           if (shouldDelete) {
             try {
@@ -91,14 +91,16 @@ function getDropdownActions(post: Post): DropdownMenuItem[][] {
               triggerTableUpdate()
               await updateInDb()
               toast.add({
-                title: `Post Successfully deleted`,
+                title: t('admin.deletePost.success.title'),
                 color: 'success',
+                icon: 'i-material-symbols-check-circle-outline',
               })
             } catch (e) {
               console.error(e)
               toast.add({
-                title: `Failed to deleted Post`,
+                title: t('admin.deletePost.error.title'),
                 color: 'error',
+                icon: 'i-material-symbols-error-outline',
               })
             }
           }

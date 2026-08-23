@@ -14,15 +14,16 @@ async function logout() {
       class="fixed top-0 left-0 z-20 flex h-16 w-full items-center gap-4 bg-white p-4 shadow"
     >
       <img src="/img/logo-square.svg" :alt="config.name" class="h-full" />
-      <span class="font-semibold">{{ config.name }} Admin Panel</span>
+      <span class="font-semibold">{{ $t('admin.adminPanel', { site: config.name}) }}</span>
 
       <UButton :to="$localePath('/')" icon="i-material-symbols-web"
-        >To Website
+        >{{ $t('admin.toWebsite') }}
       </UButton>
       <AuthState v-slot="{ loggedIn, user }">
-        <span v-if="loggedIn" class="ml-auto">Welcome, {{ user?.name }}</span>
-        <UButton v-if="loggedIn" @click="logout">Logout</UButton>
+        <span v-if="loggedIn" class="ml-auto">{{ $t('admin.welcome', { name:  user?.name}) }}</span>
+        <UButton v-if="loggedIn" @click="logout">{{ $t('admin.generic.logout') }}</UButton>
       </AuthState>
+      <LanguageSelector inline></LanguageSelector>
     </header>
     <slot />
   </main>

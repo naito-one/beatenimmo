@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AccordionItem } from '@nuxt/ui'
-import type { BlobObject } from '@nuxthub/core'
+import type { BlobObject } from '@nuxthub/core/blob'
 
 const props = defineProps<{
   currentPathname?: string
@@ -9,6 +9,7 @@ const props = defineProps<{
 }>()
 
 const toast = useToast()
+const { t } = useI18n()
 
 const open = ref(false)
 const tab = ref('other')
@@ -20,23 +21,23 @@ const usedInCurrent: Ref<BlobObject[]> = ref([])
 const usedInOther: Ref<BlobObject[]> = ref([])
 const usedElsewhere: Ref<BlobObject[]> = ref([])
 
-const items: AccordionItem[] = [
+const items = computed<AccordionItem[]>(() => [
   {
-    label: 'Used in current post writeup',
+    label: t('admin.mediaChooser.current'),
     value: 'current',
     icon: 'i-material-symbols-table-eye',
   },
   {
-    label: 'Used in another writeup of this post',
+    label: t('admin.mediaChooser.other'),
     value: 'other',
     icon: 'i-material-symbols-backup-table',
   },
   {
-    label: 'Used elsewhere on the website or unused',
+    label: t('admin.mediaChooser.elsewhere'),
     value: 'elsewhere',
     icon: 'i-material-symbols-database',
   },
-]
+])
 
 function computeCategories(allMedias: BlobObject[]) {
   const otherWriteupsMedias = props.allWriteupsMedias.filter(
@@ -94,10 +95,11 @@ async function uploadImage() {
   uploading.value = true
 
   try {
+    // as unknown because of exceede comparison stack
     const newMedia = (await $fetch('/api/media', {
       method: 'post',
       body: new FormData(form.value),
-    })) as BlobObject
+    })) as unknown as BlobObject
     allMedias.value.push(newMedia)
     computeCategories(allMedias.value)
     tab.value = 'elsewhere'
@@ -109,9 +111,12 @@ async function uploadImage() {
     })
   } catch (e) {
     toast.add({
-      title: 'Error',
-      description: 'Could not upload media: ' + e.data?.message,
+      title: t('admin.mediaChooser.uploadMedia.error.title'),
+      description: t('admin.mediaChooser.uploadMedia.error.description', {
+        err: (e as any).data?.message,
+      }),
       color: 'error',
+      icon: 'i-material-symbols-error-outline',
     })
     console.error(e)
   } finally {
@@ -130,13 +135,17 @@ function chooseMedia(pathname: string) {
 <template>
   <UModal
     v-model:open="open"
-    title="Choose Media File"
-    description="Choose Media File"
+    :title="t('admin.mediaChooser.action')"
+    :description="t('admin.mediaChooser.action')"
     :ui="{ content: 'max-w-5/6', description: 'hidden' }"
   >
-    <UButton>{{ currentPathname ? 'Replace Media' : 'Choose Media' }}</UButton>
+    <UButton>{{
+      currentPathname
+        ? t('admin.mediaChooser.replace')
+        : t('admin.mediaChooser.choose')
+    }}</UButton>
     <template #body>
-      <h2 class="mb-2 font-bold">Upload new media</h2>
+      <h2 class="mb-2 font-bold">{{ t('admin.mediaChooser.upload') }}</h2>
       <form
         @submit.prevent="uploadImage"
         class="mb-4 flex items-end gap-4"
@@ -147,11 +156,11 @@ function chooseMedia(pathname: string) {
           type="submit"
           icon="i-material-symbols-upload-file"
           :loading="uploading"
-          >Upload</UButton
+          >{{ t('admin.mediaChooser.uploadMedia.action') }}</UButton
         >
       </form>
 
-      <h2 class="font-bold">Select existing media</h2>
+      <h2 class="font-bold">{{ t('admin.mediaChooser.existing') }}</h2>
       <UAccordion :items="items" v-model:model-value="tab">
         <template #body="{ item }">
           <ul class="grid grid-cols-8 gap-2">
@@ -170,7 +179,7 @@ function chooseMedia(pathname: string) {
               />
             </li>
             <li class="col-span-8 hidden first:block">
-              There are currently no media in this list
+              {{ t('admin.mediaChooser.noMedia') }}
             </li>
           </ul>
         </template>

@@ -44,7 +44,9 @@ const stateItems = computed(() => [
     value: 'reserved',
   },
   {
-    label: t(`tooltips.post.states.${state.type === 'buy' ? 'sold' : 'rented'}`),
+    label: t(
+      `tooltips.post.states.${state.type === 'buy' ? 'sold' : 'rented'}`,
+    ),
     value: 'sold',
   },
 ])
@@ -117,6 +119,7 @@ defineExpose({ validate })
     <!-- relativeValue -->
     <UFormField
       :label="$t('tooltips.post.relativeValue')"
+      :description="$t('notes.post.relativeValue')"
       name="relativeValue"
       :required="true"
     >
@@ -201,6 +204,7 @@ defineExpose({ validate })
     <!-- constructionYear -->
     <UFormField
       :label="$t('tooltips.post.constructionYear')"
+      :description="$t('notes.post.constructionYear')"
       name="constructionYear"
     >
       <UInput
@@ -213,6 +217,7 @@ defineExpose({ validate })
     <!-- renovationYear -->
     <UFormField
       :label="$t('tooltips.post.renovationYear')"
+      :description="$t('notes.post.renovationYear')"
       name="renovationYear"
     >
       <UInput

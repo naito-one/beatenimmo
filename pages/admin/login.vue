@@ -7,17 +7,20 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 
 const { loggedIn, fetch: refreshSession } = useUserSession()
 const localePath = useLocalePath()
+const { t } = useI18n()
 
 if (loggedIn.value) {
   navigateTo(localePath('/admin'))
 }
 
-const schema = z.object({
-  email: z.string().email('Invalid email'),
-  password: z.string().min(8, 'Must be at least 8 characters'),
-})
+const schema = computed(() =>
+  z.object({
+    email: z.string().email(t('admin.validation.email')),
+    password: z.string().min(8, t('admin.validation.password')),
+  }),
+)
 
-type Schema = z.output<typeof schema>
+type Schema = z.output<typeof schema.value>
 
 const state = reactive<Partial<Schema>>({
   email: undefined,
@@ -35,16 +38,18 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       await refreshSession()
       await navigateTo(localePath('/admin'))
       toast.add({
-        title: 'Success',
-        description: 'You have been logged in.',
+        title: t('admin.login.logged.title'),
+        description: t('admin.login.logged.description'),
         color: 'success',
+        icon: 'i-material-symbols-check-circle-outline',
       })
     })
     .catch(() =>
       toast.add({
-        title: 'Error',
-        description: 'Bad credentials.',
+        title: t('admin.login.error.title'),
+        description: t('admin.login.error.description'),
         color: 'error',
+        icon: 'i-material-symbols-error-outline',
       }),
     )
 }
@@ -66,7 +71,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <UInput v-model="state.password" type="password" />
       </UFormField>
 
-      <UButton type="submit"> Login </UButton>
+      <UButton type="submit">{{ t('admin.login.action') }}</UButton>
     </UForm>
   </div>
 </template>

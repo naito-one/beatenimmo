@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import z from 'zod'
 import _debounce from 'lodash/debounce'
+const { t } = useI18n()
 
-const schema = z
-  .string()
-  .trim()
-  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/g, {
-    message:
-      'Slug must contain only lower case letters, numbers and hyphens, and cannot start or end with a hyphen',
-  })
-  .min(1)
+const schema = computed(() =>
+  z
+    .string()
+    .trim()
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/g, {
+      message: t('validation.slug'),
+    }),
+)
 
-const error: Ref<z.ZodError<string> | undefined> = ref(undefined)
+const error: Ref<string | undefined> = ref(undefined)
 const slug: Ref<string | undefined> = ref(undefined)
 const suffix = '-' + useSlugSuffix()
 const output: Ref<string | undefined> = ref(undefined)
@@ -21,10 +22,10 @@ const emit = defineEmits<{ (e: 'close', slug: false | string): void }>()
 const validate = _debounce(() => {
   setTimeout(() => {
     const val = slug.value?.toLowerCase().trim().replace(' ', '-')
-    const res = schema.safeParse(val + suffix)
+    const res = schema.value.safeParse(val + suffix)
     if (!res.success) {
       output.value = undefined
-      error.value = res.error
+      error.value = JSON.parse(res.error.message)[0].message
     } else {
       output.value = res.data
       error.value = undefined
@@ -47,7 +48,7 @@ const validate = _debounce(() => {
         :label="$t('tooltips.post.slug')"
         name="slug"
         :required="true"
-        :error="error?.formErrors.formErrors.join(', ')"
+        :error="error"
       >
         <UInput
           type="text"

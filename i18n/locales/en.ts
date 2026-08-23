@@ -99,4 +99,7 @@ export default {
     description:
       'We are preparing some juicy new projects for you to look at. Please visit us again soon!',
   },
+  validation: {
+    slug: 'Unique name must contain only lower case letters, numbers and hyphens, and cannot start or end with a hyphen',
+  },
 }

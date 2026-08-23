@@ -99,4 +99,7 @@ export default {
     description:
       'Wir bereiten spannende neue Angebote für Sie vor. Schauen Sie bald wieder vorbei!',
   },
+  validation: {
+    slug: 'Individueller Name darf nur Kleinbuchstaben, Zahlen und Bindestriche enthalten und darf weder mit einem Bindestrich beginnen noch enden',
+  },
 }

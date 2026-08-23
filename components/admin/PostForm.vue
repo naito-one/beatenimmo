@@ -80,7 +80,12 @@ defineExpose({ validate })
     class="grid grid-cols-3 gap-4"
   >
     <!-- slug -->
-    <UFormField :label="$t('tooltips.post.slug')" name="slug" required>
+    <UFormField
+      :label="$t('tooltips.post.slug')"
+      :description="$t('notes.post.slug')"
+      name="slug"
+      required
+    >
       <UInput
         type="text"
         v-model="state.slug"
@@ -109,7 +114,11 @@ defineExpose({ validate })
       />
     </UFormField>
     <!-- visible -->
-    <UFormField :label="$t('tooltips.post.visible')" name="visible">
+    <UFormField
+      :label="$t('tooltips.post.visible')"
+      :description="$t('notes.post.visible')"
+      name="visible"
+    >
       <USwitch
         v-model="state.visible"
         :ui="{ root: 'flex' }"

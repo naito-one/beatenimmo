@@ -61,6 +61,9 @@ export default {
   },
   notes: {
     post: {
+      slug: 'Cannot be changed',
+      visible:
+        'Turn on to publish to the public website. If turned off, only you can see the post',
       relativeValue: 'Used when ordering by price, never displayed',
       constructionYear:
         'Free field, for example you can write a range or a list',

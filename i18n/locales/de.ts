@@ -61,6 +61,9 @@ export default {
   },
   notes: {
     post: {
+      slug: 'Kann nicht geändert werden',
+      visible:
+        'Aktivieren, um auf der öffentlichen Website zu veröffentlichen. Bei Deaktivierung können nur Sie das Inserat sehen',
       relativeValue:
         'Wird beim Sortieren nach Preis verwendet, wird nie angezeigt',
       constructionYear:

@@ -110,6 +110,20 @@ export default {
         'Oder senden Sie uns eine Nachricht mit Ihren Kontaktdaten – wir melden uns schnellstmöglich bei Ihnen!',
       defaultMessage: 'Ich interessiere mich für weitere Informationen zu',
     },
+    form: {
+      warning: {
+        title: 'Warnung',
+      },
+      success: {
+        title: 'Erfolg',
+        description: 'Das Formular wurde übermittelt',
+      },
+      error: {
+        title: 'Fehler',
+        description:
+          'Es tut uns leid, beim Übermitteln des Formulars ist ein Fehler aufgetreten. Bitte rufen Sie uns stattdessen an oder versuchen Sie es später erneut.',
+      },
+    },
   },
   newsletter: {
     modal: {
@@ -120,6 +134,11 @@ export default {
     title: 'Aktuell keine Immobilien verfügbar!',
     description:
       'Wir bereiten spannende neue Angebote für Sie vor. Schauen Sie bald wieder vorbei!',
+  },
+  validation: {
+    nonempty: 'Bitte füllen Sie dieses Feld aus',
+    email: 'Bitte geben Sie eine gültige E-Mail-Adresse ein',
+    locales: 'Bitte wählen Sie mindestens eine Sprache aus',
   },
   admin: {
     adminPanel: '{site} Admin-Bereich',

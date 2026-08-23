@@ -1,17 +1,27 @@
 import { z } from 'zod'
+import { coercedString } from './zod'
 
-export default z.object({
-  lastname: z.string().nonempty(),
-  firstname: z.string().nonempty(),
-  email: z.string().nonempty().email(),
-  phone: z.string().nonempty(),
-  locales: z
-    .string()
-    .refine((locale) => ['en', 'de', 'fr'].includes(locale))
-    .array()
-    .min(1, 'Select at least one'),
-  from: z.string().url(),
-  message: z.string(),
-  checkbox1: z.boolean(),
-  checkbox2: z.boolean(),
-})
+export default function getSchema(t: (x: string) => string = (x) => x) {
+  return z.object({
+    lastname: coercedString.pipe(
+      z.string().nonempty({ error: t('validation.nonempty') }),
+    ),
+    firstname: coercedString.pipe(
+      z.string().nonempty({ error: t('validation.nonempty') }),
+    ),
+    email: z.email({ error: t('validation.email') }),
+    phone: coercedString.pipe(
+      z.string().nonempty({ error: t('validation.nonempty') }),
+    ),
+    locales: coercedString
+      .refine((locale) => ['en', 'de', 'fr'].includes(locale))
+      .array()
+      .min(1, { error: t('validation.locales') }),
+    from: z.string().url(),
+    message: coercedString.pipe(
+      z.string().nonempty({ error: t('validation.nonempty') }),
+    ),
+    checkbox1: z.boolean(),
+    checkbox2: z.boolean(),
+  })
+}

@@ -1,7 +1,7 @@
 import bodySchema from '../utils/contactSchema'
 
 export default defineEventHandler(async (event) => {
-  const form = await readValidatedBody(event, bodySchema.parse)
+  const form = await readValidatedBody(event, bodySchema().parse)
 
   if (form.checkbox2 || !form.checkbox1) {
     // silently fail, this is the bot test

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { z } from 'zod'
-import schema from '~/server/utils/contactSchema'
+import getSchema from '~/server/utils/contactSchema'
 import type { FormSubmitEvent } from '@nuxt/ui'
 const { t, locale } = useI18n()
 const url = useRequestURL()
@@ -10,7 +10,8 @@ const props = defineProps<{
 }>()
 const emit = defineEmits<{ (e: 'success'): void }>()
 
-type Schema = z.output<typeof schema>
+const schema = computed(() => getSchema(t))
+type Schema = z.output<typeof schema.value>
 
 const state = reactive<Partial<Schema> & { locales: never[] }>({
   lastname: undefined,
@@ -33,31 +34,39 @@ const localeItems = [
 const toast = useToast()
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   try {
-    const res = await $fetch(`/api/contact`, {
+    const warn = await $fetch(`/api/contact`, {
       method: 'post',
       body: event.data,
     })
     toast.add({
-      title: res ? 'Warning' : 'Success',
-      description: res || 'The form has been submitted.',
-      color: res ? 'warning' : 'success',
-      icon: res
+      title: warn
+        ? t('contact.form.warning.title')
+        : t('contact.form.success.title'),
+      description: warn || t('contact.form.success.description'),
+      color: warn ? 'warning' : 'success',
+      icon: warn
         ? 'i-material-symbols-warning-outline'
         : 'i-material-symbols-check-circle-outline',
     })
-    if (!res) {
+    if (!warn) {
+      state.lastname = undefined
+      state.firstname = undefined
+      state.email = undefined
+      state.phone = undefined
+      state.locales = [locale.value] as never[]
+      state.message = props.defaultMessage
+      state.checkbox1 = false
+      state.checkbox2 = false
       emit('success')
     }
   } catch (e) {
     toast.add({
-      title: 'Error',
-      description:
-        'Sorry, an error occured while submitting your form. Please call us instead, or try again later.',
+      title: t('contact.form.error.title'),
+      description: t('contact.form.error.description'),
       color: 'error',
       icon: 'i-material-symbols-error-outline',
     })
-    console.error(e)
-    console.log(event.data)
+    console.error(e, event.data)
   }
 }
 </script>

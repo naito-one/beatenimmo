@@ -107,6 +107,20 @@ export default {
         'Or send us a message with your contact details and we will get back to you as soon as we can!',
       defaultMessage: 'I would like more information about',
     },
+    form: {
+      warning: {
+        title: 'Warning',
+      },
+      success: {
+        title: 'Success',
+        description: 'The form has been submitted',
+      },
+      error: {
+        title: 'Error',
+        description:
+          'Sorry, an error occurred while submitting your form. Please call us instead, or try again later.',
+      },
+    },
   },
   newsletter: {
     modal: {
@@ -117,6 +131,11 @@ export default {
     title: 'Nothing to show at the moment!',
     description:
       'We are preparing some exciting new projects for you to look at. Please visit us again soon!',
+  },
+  validation: {
+    nonempty: 'Please fill this field',
+    email: 'Please give a valid email address',
+    locales: 'Please select at least one language',
   },
   admin: {
     adminPanel: '{site} Admin Panel',

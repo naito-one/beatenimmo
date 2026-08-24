@@ -23,6 +23,14 @@ const state = reactive<Partial<Schema>>({
   order: postText?.order,
 })
 
+// this is needed mostly because parent will change order, and we would like to emit the up to date object on change
+watchEffect(() => {
+  state.postWriteupId = postText?.postWriteupId
+  state.title = postText?.title
+  state.content = postText?.content
+  state.order = postText?.order
+})
+
 const form = useTemplateRef('form')
 
 async function validate() {

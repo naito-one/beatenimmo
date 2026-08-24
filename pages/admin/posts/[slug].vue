@@ -457,7 +457,9 @@ function addMedia(content: EditableContent[], writeup: EditablePostWriteup) {
     } else {
       postMedias.value.set(id, [added])
     }
-    reorder(content, added, 1)
+    const last =
+      (contentNotDeleted[contentNotDeleted.length - 1]?.content.order || 0) + 1
+    reorder(content, added, last)
     disableModifyBlocks.value = false
   })
 }
@@ -493,7 +495,9 @@ function addText(content: EditableContent[], writeup: EditablePostWriteup) {
     } else {
       postTexts.value.set(id, [added])
     }
-    reorder(content, added, 1)
+    const last =
+      (contentNotDeleted[contentNotDeleted.length - 1]?.content.order || 0) + 1
+    reorder(content, added, last)
     disableModifyBlocks.value = false
   })
 }

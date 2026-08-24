@@ -10,7 +10,7 @@ const localePath = useLocalePath()
 const { t } = useI18n()
 
 if (loggedIn.value) {
-  navigateTo(localePath('/admin'))
+  await navigateTo(localePath('/admin'))
 }
 
 const schema = computed(() =>

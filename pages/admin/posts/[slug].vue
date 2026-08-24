@@ -8,7 +8,7 @@ import { normalizedLocales, type AvailableLocales } from '~/consts'
 
 definePageMeta({
   layout: 'admin-layout',
-  middleware: ['authenticated'],
+  middleware: ['authenticated', 'broken-post-redirect'],
 })
 
 type EditablePostWriteup = Editable<Optional<PostWriteup, 'id'>>
@@ -19,11 +19,11 @@ type EditableContent = Content<EditablePostMedia, EditablePostText>
 
 const { slug } = useRoute().params
 const { locale, t } = useI18n()
-const localePath = useLocalePath()
 const toast = useToast()
 
 const publishing = ref(false)
 
+// guaranteed to exist with middleware
 const { data: post } = await useFetch(`/api/posts/${slug}`, {
   method: 'get',
   transform(res) {
@@ -141,9 +141,7 @@ const forms: {
 
 const disableModifyBlocks = ref(false)
 
-if (!post.value) {
-  navigateTo(localePath('/admin'))
-} else {
+if (post.value) {
   // casting because comparison stack depth is exceeded
   const writeups = (await $fetch(
     `/api/posts/${post.value.id}/postWriteups`,

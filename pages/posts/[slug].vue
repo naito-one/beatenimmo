@@ -33,6 +33,30 @@ function onContact() {
   modal.open({ post: p?.postWriteup?.title ?? 'Unknown' })
 }
 
+useHead({
+  title: p?.postWriteup.title,
+  meta: [
+    {
+      name: 'description',
+      content: `${p?.postWriteup.description} - ${p?.postWriteup.address}`,
+    },
+    {
+      name: 'keywords',
+      content: [
+        ...(p?.postWriteup.crushes || []),
+        p?.postWriteup.price,
+        p?.postWriteup.heatingType,
+        p?.post.constructionYear,
+        p?.post.renovationYear,
+        p?.post.livingArea ? `${p?.post.livingArea} m²` : '',
+        p?.post.terrainArea ? `${p?.post.terrainArea} m²` : '',
+      ]
+        .filter(Boolean)
+        .join(', '),
+    },
+  ],
+})
+
 if (p) {
   const type = p.post.type
 

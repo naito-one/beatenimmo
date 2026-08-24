@@ -667,7 +667,7 @@ function deleteContent(
                         protectedReorder(item.c, c.content, $event)
                       "
                       :disabled="disableModifyBlocks || publishing"
-                      class="font-numbers w-fit"
+                      class="font-numbers w-20"
                       trailing-icon="i-material-symbols-expand-all"
                       :ui="{ content: 'font-numbers' }"
                     />

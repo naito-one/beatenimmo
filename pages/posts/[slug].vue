@@ -33,8 +33,10 @@ function onContact() {
   modal.open({ post: p?.postWriteup?.title ?? 'Unknown' })
 }
 
+const titleLimit = 35;
+
 useHead({
-  title: p?.postWriteup.title,
+  title: (p?.postWriteup.title.length ?? 0) <= titleLimit ? p?.postWriteup.title : `${p?.postWriteup.title.slice(0, titleLimit - 3)}...`,
   meta: [
     {
       name: 'description',

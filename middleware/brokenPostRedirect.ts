@@ -1,15 +1,13 @@
 /**
- * If no post is found using the route's slug param, redirect to about or admin
+ * If no post is found using the route's slug param, redirect to about
  *
  * This is meant as a useful fallback for broken search engine results (posts that have since been removed)
  *
- * Meant to be used on /posts/[slug] and /admin/posts/[slug] (for cleanliness)
+ * Meant to be used on /posts/[slug]
  */
 export default defineNuxtRouteMiddleware(async (to) => {
   const localePath = useLocalePath()
   const { $i18n } = useNuxtApp()
-
-  const isAdminRoute = to.path.startsWith('/admin/')
 
   const slug = ref(to.params['slug'])
   let hasPost = false
@@ -18,6 +16,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
   } catch (e) {}
 
   if (!hasPost) {
-    return navigateTo(localePath(isAdminRoute ? '/admin' : '/about'))
+    return navigateTo(localePath('/about'))
   }
 })

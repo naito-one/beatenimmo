@@ -10,8 +10,8 @@ function localePath(
   config: PublicRuntimeConfig,
 ): string {
   const isDefaultLocale = config.i18n.defaultLocale === locale
-  const prefexExceptDefaultStrat =
-    config.i18n.strategy === 'prefix_except_default'
+  // FIXME: we used to be able to get the strategy. Hard code for now
+  const prefexExceptDefaultStrat = true // config.i18n.strategy === 'prefix_except_default'
   return `/${isDefaultLocale && prefexExceptDefaultStrat ? '' : locale + '/'}posts/${slug}`
 }
 
@@ -25,7 +25,6 @@ export default defineSitemapEventHandler(async () => {
   const posts = (await superjson.parse(
     (await $fetch('/api/posts?sorting=latest')) as unknown as string,
   )) as Post[]
-  console.log(posts)
 
   if (!posts || !posts.length) {
     return []

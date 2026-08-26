@@ -36,6 +36,8 @@
           "binding": "DB",
           "database_name": "beatenimmo-preview",
           "database_id": "0301684b-4356-40ca-8ed8-d3e8e8ac4680",
+          "migrations_table": "_hub_migrations",
+          "migrations_dir": ".output/server/db/migrations/sqlite/",
         },
       ],
       "r2_buckets": [

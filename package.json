@@ -7,6 +7,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "deploy": "npx wrangler d1 migrations apply DB --remote --config wrangler.jsonc && npx wrangler deploy",
+    "version": "npx wrangler d1 migrations apply DB --remote --env preview --config wrangler.jsonc && npx wrangler versions upload --env preview",
     "postinstall": "nuxt prepare",
     "db:generate": "nuxt db generate"
   },

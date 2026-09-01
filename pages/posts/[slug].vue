@@ -144,7 +144,7 @@ function scrollToCurrent(behavior: 'smooth' | 'instant' = 'smooth') {
 */
 </script>
 <template>
-  <Sorting :current-slug="p?.post.slug" v-if="allPosts.length > 1"></Sorting>
+  <Sorting v-if="allPosts.length > 1"></Sorting>
   <Pagination
     v-if="allPosts.length > 1"
     :current="currentPostIndex"

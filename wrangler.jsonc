@@ -1,22 +1,26 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "beatenimmo",
-  "compatibility_date": "2026-08-26",
   "compatibility_flags": ["nodejs_compat"],
-  "observability": {
-    "logs": {
-      "enabled": true,
-      "invocation_logs": true,
-    },
-  },
-  "send_metrics": false,
 
-  // Production environment configuration (default)
+  "vars": {
+    "NUXT_CONTACT_TO": "info@beatenimmo.ch",
+  },
+
+  "routes": [
+    {
+      "pattern": "beatenimmo.ch",
+      "custom_domain": true,
+    },
+  ],
+  "preview_urls": true,
+
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "beatenimmo",
       "database_id": "27060a87-f117-4410-8180-9639097a18c2",
+      "preview_database_id": "0301684b-4356-40ca-8ed8-d3e8e8ac4680",
       "migrations_table": "_hub_migrations",
       "migrations_dir": ".output/server/db/migrations/sqlite/",
     },
@@ -25,27 +29,14 @@
     {
       "binding": "BLOB",
       "bucket_name": "beatenimmo",
+      "preview_bucket_name": "beatenimmo-preview",
     },
   ],
-
-  // Preview environment configuration (overrides production D1 and R2)
-  "env": {
-    "preview": {
-      "d1_databases": [
-        {
-          "binding": "DB",
-          "database_name": "beatenimmo-preview",
-          "database_id": "0301684b-4356-40ca-8ed8-d3e8e8ac4680",
-          "migrations_table": "_hub_migrations",
-          "migrations_dir": ".output/server/db/migrations/sqlite/",
-        },
-      ],
-      "r2_buckets": [
-        {
-          "binding": "BLOB",
-          "bucket_name": "beatenimmo-preview",
-        },
-      ],
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true,
     },
   },
+  "send_metrics": false,
 }

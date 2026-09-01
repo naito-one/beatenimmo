@@ -33,35 +33,46 @@
         />beatenberg.ch</a
       >
     </section>
-    <section class="rounded-xl border border-neutral-200 bg-white p-4">
-      <h2 class="mb-4 text-xl font-bold">Wer sind wir?</h2>
-      <p class="mb-4">
-        Wir sind ein Paar mit einer Leidenschaft für Immobilien.
-      </p>
-      <p class="mb-4">
-        Seit über 20 Jahren sind wir im Immobilienbereich der Region Interlaken
-        tätig. Unter anderem haben wir Wohnungen und Häuser besessen, die wir an
-        Touristen, die in der Region zu Besuch waren, vermietet haben
-      </p>
-      <p class="mb-4">
-        Wir haben stets die Entwicklung des lokalen Marktes genau verfolgt und
-        verfügen daher über fundierte Expertise.
-      </p>
-      <p class="mb-4">
-        Corinne ist im Immobilienbereich des Kantons Jura aktiv, wo sie mit
-        einer Immobilienagentur zusammenarbeitet, die seit 1986 im Kanton
-        etabliert ist.
-      </p>
-      <p class="mb-4">
-        Wir haben Beatenberg 2016 entdeckt und kommen so oft wie möglich
-        hierher. Wir haben uns in diesen Ort verliebt.
-      </p>
-      <p class="mb-4">
-        Unser Interesse an Immobilien und unsere Expertise haben uns dazu
-        motiviert, unsere Dienstleistungen den Eigentümern der Gemeinde und der
-        umliegenden Region anzubieten.
-      </p>
-    </section>
+
+    <div class="flex flex-col gap-4 lg:flex-row">
+      <img
+        class="h-[400px] w-full shrink-0 self-center rounded-xl object-cover object-[50%_25%] sm:h-96 lg:h-auto lg:w-2/5 lg:self-stretch"
+        src="/img/corinne-fabrice.jpg"
+        alt="Foto von Corinne & Fabrice Winkelmann, BeatenIMMO"
+      />
+
+      <section class="rounded-xl border border-neutral-200 bg-white p-4">
+        <h2 class="mb-4 text-xl font-bold">Wer sind wir?</h2>
+        <p class="mb-4">
+          Wir sind ein Paar mit einer Leidenschaft für Immobilien.
+        </p>
+        <p class="mb-4">
+          Seit über 20 Jahren sind wir im Immobilienbereich der Region
+          Interlaken tätig. Unter anderem haben wir Wohnungen und Häuser
+          besessen, die wir an Touristen, die in der Region zu Besuch waren,
+          vermietet haben
+        </p>
+        <p class="mb-4">
+          Wir haben stets die Entwicklung des lokalen Marktes genau verfolgt und
+          verfügen daher über fundierte Expertise.
+        </p>
+        <p class="mb-4">
+          Corinne ist im Immobilienbereich des Kantons Jura aktiv, wo sie mit
+          einer Immobilienagentur zusammenarbeitet, die seit 1986 im Kanton
+          etabliert ist.
+        </p>
+        <p class="mb-4">
+          Wir haben Beatenberg 2016 entdeckt und kommen so oft wie möglich
+          hierher. Wir haben uns in diesen Ort verliebt.
+        </p>
+        <p class="mb-4">
+          Unser Interesse an Immobilien und unsere Expertise haben uns dazu
+          motiviert, unsere Dienstleistungen den Eigentümern der Gemeinde und
+          der umliegenden Region anzubieten.
+        </p>
+      </section>
+    </div>
+
     <section class="rounded-xl border border-neutral-200 bg-white p-4">
       <h2 class="mb-4 text-xl font-bold">Was bieten wir an?</h2>
 

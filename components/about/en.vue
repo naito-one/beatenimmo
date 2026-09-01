@@ -31,32 +31,42 @@
         />beatenberg.ch</a
       >
     </section>
-    <section class="rounded-xl border border-neutral-200 bg-white p-4">
-      <h2 class="mb-4 text-xl font-bold">Who are we?</h2>
-      <p class="mb-4">We are a couple with a passion for real estate.</p>
-      <p class="mb-4">
-        For over 20 years, we have been active in the real estate sector in the
-        Interlaken region. Among other things, we have owned apartments and
-        houses that we rented to tourists visiting the area.
-      </p>
-      <p class="mb-4">
-        We have always paid close attention to the development of the local
-        market, giving us strong expertise.
-      </p>
-      <p class="mb-4">
-        Corinne is active in the real estate market of the canton of Jura, where
-        she collaborates with a real estate agency established since 1986 in the
-        canton.
-      </p>
-      <p class="mb-4">
-        We discovered Beatenberg in 2016 and visit as often as possible. We fell
-        in love with it.
-      </p>
-      <p class="mb-4">
-        Our interest in real estate and our expertise have led us to offer our
-        services to property owners in the municipality and its surroundings.
-      </p>
-    </section>
+
+    <div class="flex flex-col gap-4 lg:flex-row">
+      <img
+        class="h-[400px] w-full shrink-0 self-center rounded-xl object-cover object-[50%_25%] sm:h-96 lg:h-auto lg:w-2/5 lg:self-stretch"
+        src="/img/corinne-fabrice.jpg"
+        alt="Photo of Corinne & Fabrice Winkelmann, BeatenIMMO"
+      />
+
+      <section class="rounded-xl border border-neutral-200 bg-white p-4">
+        <h2 class="mb-4 text-xl font-bold">Who are we?</h2>
+        <p class="mb-4">We are a couple with a passion for real estate.</p>
+        <p class="mb-4">
+          For over 20 years, we have been active in the real estate sector in
+          the Interlaken region. Among other things, we have owned apartments
+          and houses that we rented to tourists visiting the area.
+        </p>
+        <p class="mb-4">
+          We have always paid close attention to the development of the local
+          market, giving us strong expertise.
+        </p>
+        <p class="mb-4">
+          Corinne is active in the real estate market of the canton of Jura,
+          where she collaborates with a real estate agency established since
+          1986 in the canton.
+        </p>
+        <p class="mb-4">
+          We discovered Beatenberg in 2016 and visit as often as possible. We
+          fell in love with it.
+        </p>
+        <p class="mb-4">
+          Our interest in real estate and our expertise have led us to offer our
+          services to property owners in the municipality and its surroundings.
+        </p>
+      </section>
+    </div>
+
     <section class="rounded-xl border border-neutral-200 bg-white p-4">
       <h2 class="mb-4 text-xl font-bold">What do we offer?</h2>
 

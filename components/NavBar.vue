@@ -9,7 +9,7 @@
         <NuxtLinkLocale
           to="/"
           :class="`flex grow items-center justify-center gap-2 px-3 ${$route.name?.toString().includes('post') || $route.name?.toString().includes('index') ? 'text-white' : ''}`"
-          ><UIcon name="i-material-symbols-gite" />
+          ><UIcon class="hidden xs:block" name="i-material-symbols-gite" />
           <span class="leading-none">{{ $t('pages.buy.title') }}</span>
         </NuxtLinkLocale>
       </li>
@@ -29,7 +29,7 @@
           exact-active-class="text-white"
           to="/about"
           class="flex grow items-center justify-center gap-2 px-3"
-          ><UIcon name="i-material-symbols-face" />
+          ><UIcon class="hidden xs:block" name="i-material-symbols-face" />
           <span class="leading-none">{{ $t('pages.about.title') }}</span>
         </NuxtLinkLocale>
       </li>
@@ -38,7 +38,7 @@
           exact-active-class="text-white"
           to="/contact"
           class="flex grow items-center justify-center gap-2 px-3"
-          ><UIcon name="i-material-symbols-real-estate-agent" />
+          ><UIcon class="hidden xs:block" name="i-material-symbols-real-estate-agent" />
           <span class="leading-none">{{ $t('pages.contact.title') }}</span>
         </NuxtLinkLocale>
       </li>

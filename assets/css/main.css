@@ -14,11 +14,11 @@
   --color-blue-900: oklch(27.954% 0.05393 257.59);
   --color-blue-950: oklch(22.036% 0.03771 257.17);
 
-
   --font-sans: 'Raleway', sans-serif;
   --font-numbers: 'Fira Sans', sans-serif;
 
   --radius-3xl: 1.25rem;
+  --breakpoint-xs: 25rem;
 }
 
 @import '@nuxt/ui';
